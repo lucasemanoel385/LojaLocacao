@@ -1,0 +1,44 @@
+
+<body>
+    <header><h2>Cadastro de item</h2>
+    <hr>
+    </header>  
+        <form id="register" [formGroup]="itemContract" (ngSubmit)="submitItem()">
+        <section>
+            <label>
+                <span>Nome do item:</span>
+                <input type="text" placeholder="Nome do item" formControlName="name">
+            </label>
+            <label>
+                <span>Quantidade:</span>
+                <input type="text" placeholder="Unidades do item" formControlName="amount">
+            </label>
+            <label>
+                <span>Valor:</span>
+                <input type="text" placeholder="Valor do item" formControlName="value">
+            </label>
+            <label>
+                <span>Categoria</span>
+                <datalist id="category">
+                    @for (item of category; track $index) {
+                        <option value="{{item}}"></option>
+                    }
+                </datalist>
+                <input list="category" placeholder="Selecione a Categoria" formControlName="category">
+            </label>
+        </section>
+        <hr>
+        <section>
+            <label class="img__item">
+                <input (change)="pegaImg($event.target, this.choose)" style="display: none;" type="file" accept="image/*">
+                <span #choose></span>
+            </label>
+        </section>
+        
+        </form>
+
+<button form="register" type="submit">Cadastro</button>
+</body>
+
+
+

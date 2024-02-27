@@ -1,0 +1,73 @@
+<div>
+    <h2>Cadastro de clientes</h2>
+    <form id="register" #formRegister="ngForm" (ngSubmit)="submitForm(formRegister)">
+        <label for="">
+            Nome completo:
+            <input 
+            placeholder="Escreva o nome do cliente. Sophia Bandeira..."
+            type="text" 
+            name="inputName" 
+            #name="ngModel" 
+            [ngModel]="name.value" 
+            required/>
+        @if (name.touched && name.invalid) {
+            <p><strong>Nome incompleto ou vazio</strong></p>
+        }
+        </label>
+        <label for="">
+            CPF:
+            <input placeholder="123.456.789-2" type="text" name="inputCpf" #cpf="ngModel" [ngModel]="cpf.value" required mask="000.000.000.0||000.000.000-00"/>
+            @if (cpf.touched && cpf.invalid) {
+                <p><strong>CPF incompleto ou vazio</strong></p>
+            }
+        </label>
+       <label for="">
+            RG:
+            <input placeholder="12.234.567-8" type="text" name="inputRG" #rg="ngModel" [ngModel]="rg.value" required minlength="10" maxlength="10"/>
+            @if (rg.touched && rg.invalid) {
+                <p><strong>RG incompleto ou vazio</strong></p>
+            }
+        </label>
+        <label for="">
+            Data Nascimento:
+            <input type="date" name="inputDateBirth" #dateBirth="ngModel" [ngModel]="dateBirth.value" required/>
+            @if (dateBirth.touched && dateBirth.invalid) {
+                <p><strong>Data de nascimento vazio</strong></p>
+            }
+        </label>
+        <label for="">
+            Rua:
+            <input placeholder="Itapimirim, 123" type="text" name="inputAddress" #street="ngModel" [ngModel]="street.value" required/>
+            @if (street.touched && street.invalid) {
+                <p><strong>Campo rua vazio</strong></p>
+            }
+        </label>
+        <label for="">
+            Cidade:
+            <input placeholder="Belo Horizonte" type="text" name="inputCity" #city="ngModel" [ngModel]="city.value" required/>
+            @if (city.touched && city.invalid) {
+                <p><strong>Campo cidade vazio</strong></p>
+            }
+        </label>
+        <label for="">
+            Bairro:
+            <input placeholder="Savassi" type="text" name="inputDistrict" #district="ngModel" [ngModel]="district.value" required/>
+            @if (district.touched && district.invalid) {
+                <p><strong>Campo bairro vazio</strong></p>
+            }
+        </label>
+        <label for="phone">
+            Celular:
+            <input placeholder="(31) 9 8512-4578" type="tel" #cpf name="inputPhone" #phone="ngModel" [ngModel]="phone.value" required mask="(00) 0 0000-0000"/>
+            @if (phone.touched && phone.invalid) {
+                <p><strong>Campo celular vazio</strong></p>
+            }
+        </label>
+        <label for="">
+            E-mail:
+            <input placeholder="teste@gmail.com" type="email" name="inputEmail" #email="ngModel" [ngModel]="email.value"/>
+        </label>
+    </form>
+    <button form="register" [disabled]="!formRegister.valid">Cadastrar</button>
+</div>
+

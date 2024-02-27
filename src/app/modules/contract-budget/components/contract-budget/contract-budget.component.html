@@ -1,0 +1,97 @@
+<div class="content">
+    <h2>Orçamento/Contrato</h2>
+    <!--<label for="">
+        <p>Nome:</p>
+            <input type="text" id="teste" required name="filtro" [(ngModel)]="filtro" #nosme>
+            <div class="teste">
+                @for (item of lista | filterPipe : filtro; track item) {
+                    <option></option>
+                }
+            </div>
+    </label>-->
+    <form id="contractForm" [formGroup]="contractForm" (ngSubmit)="submit()">
+        <div class="data-contract">
+            <div class="input-style">
+                <input id="cpf" list="browsers" formControlName="cpf" type="text" mask="000.000.000-00||000.000.000-0" required>
+                <datalist style="display: none;" id="browsers">
+                    <!--@for (item of lista | filterPipe : filtro; track item) {   
+                        <option>{{item}}</option>
+                    }-->
+                </datalist>
+                <label for="cpf">CPF</label>
+                @if (contractForm.get('cpf')?.touched && contractForm.get('cpf')?.invalid) {
+                    <p class="balloon"><strong>Cpf vazio ou invalido</strong></p>
+                }
+            </div>
+            <div class="input-style-date">
+                <input type="date" id="dateOf" formControlName="dateOf" required>
+                <label for="dateOf">Data do evento:</label>
+                @if (contractForm.get('dateOf')?.touched && contractForm.get('dateOf')?.invalid) {
+                    <p><strong>Data evento vazio</strong></p>
+                }
+            </div>
+
+            <div class="input-style-date">
+                <input id="dateUntil" type="date" formControlName="dateUntil" required>
+                <label for="dateUntil">Até:</label>
+                @if (contractForm.get('dateUntil')?.touched && contractForm.get('dateUntil')?.invalid) {
+                    <p><strong>Data evento vazio</strong></p>
+                }
+            </div>
+            
+            <div class="input-style">
+                <input id="tel" type="tel" formControlName="contactPhone" mask="(00) 0 0000-0000" required>
+                <label for="tel" value="">
+                    Telefone para contato:</label>
+                    @if (contractForm.get('contactPhone')?.touched && contractForm.get('contactPhone')?.invalid) {
+                        <p><strong>Telefone de contato vazio</strong></p>
+                    }
+            </div>
+    
+        </div>
+        <hr>
+
+        <div class="data-itens" >
+            <table #id>
+                <tr>
+                    <th>Id</th>
+                    <th>item</th>
+                    <th>Quantidade</th>
+                    <th>Valor</th>
+                </tr>
+                @for(item of items; track item; let is = $index) {
+                    <tr [formGroup]="item" id="{{is}}">
+                        <td>{{is}}</td>
+                        <td class="item"><img src="../../../../../assets/Captura de tela 2023-04-06 182727.png" width="70px" alt="">
+                        <div class="input">
+                            <input (keyup)="filter($event);" (focus)="botaLista($event, is)" (focusout)="tiraLista($event)" type="text" id="{{is}}item" formControlName="name" required><label for="{{is}}item">Item</label>
+                            <ul id="{{is}}list">
+                                @for (item of lista | filterPipe : filtro; track item; let i = $index) {
+                                    <li (click)="setValueInput(is, item);index = filtro; filtro = '';">{{item}}</li>
+                                }
+                            </ul>
+                        </div>
+                        </td>
+                        <td><input id="{{is}}amount" type="number" formControlName="amount" min="0" required><label for="{{is}}amount">Quantidade</label></td>
+                        <td><input id="{{is}}value" type="number" formControlName="value" readonly><label for="{{is}}value">Valor</label></td>
+                        <td><button class="btn-delete" (click)="clearTr(is)">X</button></td>
+                    </tr> 
+                }
+            </table>
+            <div class="value-contract">
+                <div>
+                    <p>Valor Itens: <strong>R$item</strong></p>
+                    <hr/>
+                    <p>Desconto: <strong>R$Desconto</strong></p>
+                    <hr/>
+                    <p>Valor Total: <strong>R$Total</strong></p>
+                </div>
+   
+                
+            </div>
+        </div>
+        <button type="button" (click)="addItens()">AddItem</button>
+        <button type="submit" [disabled]="!contractForm.valid">Cadastrar contrato</button>
+    </form>
+    
+</div>

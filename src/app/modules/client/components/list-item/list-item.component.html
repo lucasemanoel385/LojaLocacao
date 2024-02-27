@@ -1,0 +1,31 @@
+
+<body>
+    <header><h2>Items</h2></header>
+    <main>
+        <label><input type="search" placeholder="Pesquisar item"><button><span>Pesquisar</span></button></label>
+        <button><a [routerLink]="['/item/register']">Criar item</a></button>
+        <section>
+            <table #table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                    </tr>
+                </thead>
+
+                @for (item of getListItems$(); track item) {
+
+                    <tr #tr>
+                        <td>1</td>
+                        <td>{{item.nome}}</td>
+                        <td>12121</td>
+                        <td><button>Editar</button></td>
+                        <td><button >X</button></td>
+                    </tr> 
+                }
+            </table>
+        </section>
+    </main>
+</body>
+
