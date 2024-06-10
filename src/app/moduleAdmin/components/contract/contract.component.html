@@ -1,0 +1,5 @@
+<div>
+    <label for="budget">Contrato - Cláusulas</label>
+    <textarea #clauses class="fontHelvetica" id="budget" cols="30" rows="10">{{ getCompany()?.clauses }}</textarea>
+    <button class="btn-update" (click)="saveClauses(clauses.value)">Salvar</button>
+</div>

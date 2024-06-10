@@ -1,0 +1,32 @@
+<div class="contractsMonth">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4>Contratos reservados <strong style="color: #e76e70;">MÊS</strong></h4>
+        <input #date style="width: 7rem;" class="inputGrey" value={{contractsMonth()}} type="date" (change)="contractsMonthChange(date.value);">
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id.Contrato</th>
+                <th>Cliente</th>
+                <th>Data reserva</th>
+                <th>Data entrega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (getContractsMonthList(); as listContractMonth) {
+                @for (item of listContractMonth; track item; let i = $index) {
+                    <tr>
+                        <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['orcamento','edit', item.id]">{{ item.id }}</a></td>
+                        <td style="width: 500px; text-align: start;">{{ item.nameClient }}</td>
+                        <td>{{ item.dateReserve | formatDatePipe}}</td>
+                        <td>{{ item.dateFinal | formatDatePipe}}</td>
+                    </tr>
+                } @empty {
+                    <strong class="empty_if">Nenhum contrato reservado no mês.</strong>
+                }
+            } @else {
+                <strong class="empty_if">Carregando...</strong>
+            }
+        </tbody>
+    </table>
+</div>

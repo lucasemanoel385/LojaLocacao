@@ -1,0 +1,19 @@
+.span_button, .error_api, .success_api {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.error_api {
+    color: red;
+}
+
+.error_api, .success_api {
+    font-weight: 600;
+    
+}
+
+.success_api {
+    color: rgb(29, 151, 29);
+}

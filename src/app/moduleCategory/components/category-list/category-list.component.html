@@ -1,0 +1,37 @@
+<h2>Categorias</h2>
+<app-list-table-layout (outputSearch)="searchCategory($event)" routeLink="register" nameCreate="Criar categoria" placeHolder="Encontrar categoria">
+    <table class="table" #table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Categoria</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (getListCategory(); as categories) {
+                @for (category of categories; track $index) {
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.category }}</td>
+                        <td><a [routerLink]="['edit', category.id]"><button class="btn-edit"><span class="material-symbols-sharp">
+                            edit
+                            </span></button></a></td>
+                        <td><button (click)="idCategory = category.id; this.modalDelete.showModal()" style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete"><span class="material-symbols-sharp">
+                            delete
+                            </span></button></td>
+                    </tr> 
+                }
+            }
+        </tbody>
+    </table>
+    <dialog #modalDelete style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+        <h4>Deseja mesmo excluir?</h4>
+        <button style="margin: 0 10px;" class="btn-add" (click)="deleteCategory(this.modalDelete)">Sim</button>
+        <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
+    </dialog>
+    <div>
+         <button class="btn-page">1</button>
+    </div>
+</app-list-table-layout>

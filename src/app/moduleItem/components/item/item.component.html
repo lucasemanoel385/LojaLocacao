@@ -1,0 +1,65 @@
+<div style="display: flex; align-items: center;">
+    <app-back-history/>
+    <h2>{{ tittle() }}</h2>
+</div>
+    <div class="principal">
+        <div style="display: flex;">
+            <form id="register" [formGroup]="itemContract" enctype="multipart/form-data" >
+                <section>
+                    <label class="label_form_data">
+                        <span>Cód. Produto:</span>
+                        <input type="number" placeholder="Nome do item" formControlName="cod" required>
+                    </label>
+                    <label class="label_form_data">
+                        <span>Nome do produto:</span>
+                        <input type="text" placeholder="Nome do item" formControlName="name" required>
+                    </label>
+                    <label class="label_form_data">
+                        <span>Quantidade:</span>
+                        <input type="text" placeholder="Unidades do item" formControlName="amount" required>
+                    </label>
+                    <label class="label_form_data">
+                        <span>Valor:</span>
+                        <input type="text" placeholder="100,20 ou 1000,30" formControlName="value" required>
+                    </label>
+                    <label class="label_form_data">
+                        <span>Valor da reposição:</span>
+                        <input type="text" placeholder="100,20 ou 1000,30" formControlName="replacementValue" required>
+                    </label>
+                    <label class="label_form_data">
+                        <span>Categoria</span>
+                        <datalist id="category">
+                            @for (item of getCategorys(); track $index) {
+                                <option value="{{item.category}}"></option>
+                            }
+                        </datalist>
+                        <input list="category" placeholder="Selecione a Categoria" formControlName="category" required>
+                    </label>
+                </section>
+            </form>
+                <hr>
+            <form [formGroup]="formImg" (submit)="submitItem()" enctype="multipart/form-data">
+                <section>
+                        <label class="img__item">
+                            <input style="display: none;" type="file" name="imagem" (change)="onFileSelected($event, choose)" formControlName="imagem" required>
+                            <span #choose>Choose Image</span>
+                        </label>
+                </section>
+            </form>
+        </div>
+        @if ( getItemError$() ) {
+            <span class="error_api">{{ getItemError$() }}</span>
+        } @else {
+            <span class="success_api">{{ getItemMsgSucess$() }}</span>
+        }
+        <span class="span_button">
+            <button class="btn_add" (click)="submitItem()" form="register" type="submit" [disabled]="!itemContract.valid">{{ buttonSubmit() }}</button>
+        </span>
+    </div>
+
+
+    
+
+
+
+

@@ -1,0 +1,22 @@
+:host {
+
+    ul {
+        display: flex;
+        gap: 35px;
+        background-color: grey;
+        border-radius: 5px;
+        
+        li {
+            padding: 15px;
+            cursor: pointer;
+        }
+    }
+
+    .active {
+        background-color: whitesmoke;
+        box-shadow: 2px -1px 7px -1px rgba(0,0,0,0.35);
+    }
+    
+
+    
+}

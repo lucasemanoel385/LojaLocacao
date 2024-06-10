@@ -1,0 +1,85 @@
+<div class="layout-dashboard">
+    <!-- START DATA ANALYTICS -->
+    <div class="layout-board">
+        <a href="">
+            <div class="box" style="background-color: #0090d9;">
+                <span>ORÇAMENTOS EFETIVADOS NO MÊS</span>
+                <span class="number-box">0</span>
+            </div>
+        </a>
+        <a href="">
+            <div class="box" style="background-color: rgb(36, 191, 139);">
+                <span>ORÇAMENTOS RESERVADOS NO MÊS</span>
+                <span class="number-box">0</span>
+            </div>
+        </a>
+        <a href="">
+            <div class="box" style="background-color: red;">
+                <span>ORÇAMENTOS VENCIDOS NO MÊS</span>
+                <span class="number-box">0</span>
+            </div>
+        </a>
+    </div>
+    <!-- END DATA ANALYTICS -->
+    <div class="today">
+        <app-scheduling class="scheduling"/>
+        
+        <!-- START CONTAINER TASKS -->
+        <div class="tasks">
+            <h4>Tarefas</h4>
+            <table class="table" #tableTasks>
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (getTaskList(); as tasks) {
+                        @for (task of tasks; track task) {
+                            <tr>
+                                <td>{{ task.description }}</td>
+                                <!--<td><span class="check material-symbols-sharp">
+                                    check
+                                    </span></td>-->
+                                <td><span (click)="idTask = task.id; this.modalDeleteTasks.showModal()" class="delete material-symbols-sharp">
+                                    close
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <dialog class="dialog_delete" #modalDeleteTasks style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+                    <h4>Deseja mesmo excluir?</h4>
+                    <button style="margin: 0 10px;" class="btn_add" (click)="deleteTask(modalDeleteTasks);">Sim</button>
+                    <button class="btn-delete" (click)="this.modalDeleteTasks.close()">Não</button>
+            </dialog>
+            <dialog class="dialog_tasks" #modalTasks>
+                <div>
+                    <h2>Nova Tarefa</h2>
+                    <form [formGroup]="tasksForm">
+                        <label>
+                            <span>Descrição:</span>
+                            <input class="description inputGrey" type="text" formControlName="description" required>
+                        </label>
+                        <div class="btns">
+                            <button (click)="submitTasks()" type="submit" [disabled]="!tasksForm.valid" class="btn-update">Salvar</button>
+                            <button class="btn-delete" (click)="closeDialog(modalTasks)">Fechar</button>
+                        </div>
+                    </form>
+      
+                </div>
+            </dialog>
+            <button class="btn_add" (click)="this.modalTasks.showModal()">Adicionar Tarefa</button>
+        </div>
+        <!-- END CONTAINER TASKS -->
+    </div>
+    
+    <app-contract-for-month class="contract"/>
+            <!-- START CONTAINER SCHEDULES -->
+            
+    <!-- START MODAL DELETE-->
+
+    <!-- END MODAL DELETE-->
+</div>

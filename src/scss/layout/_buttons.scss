@@ -1,0 +1,103 @@
+.btn-update {
+    margin-top: 1em;
+    width: 11em;
+    height: 3em;
+    background: #0aa699;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+
+     &:hover {
+        background-color: #008b7f;
+    }
+
+     &:disabled {
+        background: grey;
+        cursor: default;
+    }
+    
+}
+
+.btn-back {
+    margin-top: 1em;
+    width: 5em;
+    height: 3em;
+    background: #d4d4d4;
+    color: rgb(65, 65, 65);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+
+     &:hover {
+        background-color: #b4b4b4;
+    }
+    
+}
+
+.btn_add {
+    
+    margin-top: 1em;
+    width: 11em;
+    height: 3em;
+    background: #0090d9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+
+     &:hover {
+        background-color: #0486c7;
+    }
+
+     &:disabled {
+        background: grey;
+        cursor: default;
+    }
+
+}
+
+.btn-delete {
+    margin-top: 1em;
+    width: 11em;
+    height: 3em;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+
+     &:hover {
+        background-color: rgb(222, 14, 14);
+    }
+
+     &:disabled {
+        background: grey;
+        cursor: default;
+    }
+}
+
+.btn-edit {
+    
+    width: 3em;
+    height: 2.5em;
+    background: rgb(197, 196, 196);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+
+     &:hover {
+        background-color: rgb(170, 166, 166);
+    }
+}
+
+.btn-contract {
+    width: 19%;
+    margin: 0 10px;
+}

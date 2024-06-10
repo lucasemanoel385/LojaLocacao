@@ -4,8 +4,8 @@ body {
     
 }
 body { 
-    margin: 0; font-family: 
-    Roboto, "Helvetica Neue", sans-serif; 
+    margin: 0; 
+    font-size: 18px;
     background: var(--black);
 }
 
@@ -20,8 +20,9 @@ h1, h2, h3, a {
 
 p {
     color: var(--grey);
-    font-size: 16px;
-    margin: 16px 0;
+    font-size: 18px;
+  
+    margin: 0;
 }
 
 ul {

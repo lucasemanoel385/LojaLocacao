@@ -1,0 +1,5 @@
+<div>
+    <label for="budget">Orçamento - Observação padrão</label>
+    <textarea #observations class="fontHelvetica" id="budget" cols="30" rows="10">{{getCompany()?.observation}}</textarea>
+    <button class="btn-update" (click)="saveObservation(observations.value)">Salvar</button>
+</div>

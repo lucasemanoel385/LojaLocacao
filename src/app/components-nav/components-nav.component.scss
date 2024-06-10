@@ -1,0 +1,51 @@
+:host {
+    height: 100%;
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        height: 95vh;
+        top: 1.5rem;
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            margin-top: 6rem;
+            width: 100%;
+            a:last-child {
+                position: absolute;
+                bottom: 2rem;
+            }
+
+            a {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                gap: 10px;
+                color: grey;
+                transition: all 0.2s ease;
+        
+                &:hover {
+                    color: white;
+                    
+                }
+                
+                span {
+                    transition: all 0.1s ease;
+                }
+        
+                h3 {
+                    font-size: 19px;
+                    font-weight: normal;
+                }
+            }
+        }
+        
+    }
+
+
+}
+   

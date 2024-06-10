@@ -1,0 +1,27 @@
+:host {
+    div {
+        display: flex; 
+        flex-direction: column;
+        padding: 1.5em;
+        gap: 10px;
+    }
+
+    textarea {
+        width: 45%;
+        border: 1px solid rgb(225, 225, 225);
+        border-radius: 10px;
+        padding: 1em;
+        transition: 0.2s all ease;
+
+        &:hover {
+            border: 1px solid rgb(199, 199, 199);
+            background-color: rgb(231, 231, 231);
+        }
+
+        &:focus {
+            border: 1px solid rgb(0, 213, 255);
+            background-color: rgb(231, 231, 231);
+            outline: 0;
+        }
+    }
+}

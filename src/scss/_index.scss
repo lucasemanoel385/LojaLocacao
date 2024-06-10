@@ -1,2 +1,7 @@
 @use 'reset';
 @use 'layout';
+
+:host {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    //Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+}

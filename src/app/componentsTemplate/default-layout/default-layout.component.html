@@ -1,0 +1,11 @@
+<main>
+    <section #nav [style]="displayMenu()" class="container-nav">
+        <app-components-nav/>
+    </section>
+    <span class="menu"><img #img (click)="swapImg(this.nav)" [src]="srcImg()" alt=""></span>
+    <section class="container-content">
+        <div>
+            <ng-content></ng-content>
+        </div>
+    </section>
+</main>

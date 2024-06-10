@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { ItemComponent } from '../../../client/components/item/item.component';
+
+import { ItemComponent } from '../../../../moduleItem/components/item/item.component';
+import { DefaultLayoutComponent } from '../../../../componentsTemplate/default-layout/default-layout.component';
 
 @Component({
   selector: 'app-item-register',
   standalone: true,
-  imports: [DashboardComponent, ItemComponent],
+  imports: [ItemComponent, DefaultLayoutComponent],
   templateUrl: './item-register.component.html',
   styleUrl: './item-register.component.scss'
 })

@@ -1,0 +1,141 @@
+<div style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center;">    
+        <app-back-history/>
+        <h2>Orçamento</h2>
+    </div>
+
+    <div style="display: flex; justify-content: end; width: 18%; height: 20px;" class="alert alert-info">
+        <b>Status:&nbsp;</b>{{status()}}</div>
+</div>
+<div class="layout">
+    <form id="contractForm" [formGroup]="contractForm" (ngSubmit)="submit()">
+        <div class="data-contract">
+            <div class="input-client">
+                <input 
+                id="cpf" 
+                type="text"
+                formControlName="client"
+                required
+                (keyup)="filterClient($event)"
+                (focus)="listClient($event)"
+                (focusout)="removeListClient($event)">
+                <ul class="ul-menu" id="filterCpf">
+                    @for (item of listClients(); track $index) {
+                        <li (click)="setValueClient(item.id, item.cpfCnpj, item.name)"><span style="padding: 0.5em;" class="li-items">{{ item.cpfCnpj | cpfCnpj }} - {{ item.name }}</span></li>
+                    }
+                </ul>
+                <label for="cpf">Cliente</label>
+                @if (contractForm.get('cpf')?.touched && contractForm.get('cpf')?.invalid) {
+                    <p class="balloon"><strong>Cpf vazio ou invalido</strong></p>
+                }
+            </div>
+            <div class="input-style-date">
+                <label for="dateOf">Data inicio:</label>
+                <input #dateOf type="date" id="dateOf" formControlName="dateOf" required>
+                
+                @if (contractForm.get('dateOf')?.touched && contractForm.get('dateOf')?.invalid) {
+                    <p><strong>Data reserva vazio</strong></p>
+                }
+            </div>
+    
+            <div class="input-style-date">
+                <label for="dateUntil">Data final:</label>
+                <input id="dateUntil" type="date" formControlName="dateUntil" required>
+            
+                @if (contractForm.get('dateUntil')?.touched && contractForm.get('dateUntil')?.invalid) {
+                    <p><strong>Data reserva vazio</strong></p>
+                }
+            </div>
+            
+            <div class="input-phone">
+                <input id="tel" type="tel" formControlName="contactPhone" mask="(00) 0 0000-0000" required>
+                <label for="tel" value="">
+                    Telefone para contato:</label>
+                    @if (contractForm.get('contactPhone')?.touched && contractForm.get('contactPhone')?.invalid) {
+                        <p><strong>Telefone de contato vazio</strong></p>
+                    }
+            </div>
+    
+            <div class="input-style">
+                <input id="discount" type="number" formControlName="discount" placeholder="Desconto em %" (focusout)="discount()" >
+                <label for="discount">
+                    Desconto:</label>
+            </div>
+            <div class="input-style">
+                <input id="seller" type="text" formControlName="seller" required>
+                <label for="seller" value="">
+                    Vendedor:</label>
+                    @if (contractForm.get('seller')?.touched && contractForm.get('seller')?.invalid) {
+                        <p><strong>Campo vendedor vazio</strong></p>
+                    }
+            </div>
+    
+        </div>
+    
+        <div class="data-itens" >
+            <div class="table">
+                <table #id>
+                    <tr>
+                        <th>Id</th>
+                        <th>Item</th>
+                        <th>Quantidade</th>
+                        <th>Valor</th>
+                        <th>Total</th>
+                    </tr>
+                    @for(item of items; track item; let is = $index) {
+                        <tr [formGroup]="item" id="{{is}}">
+                            <td>{{is}}</td>
+                            <td class="item"><img id="{{is}}img" src="../../../../assets/Image_not_available.png" width="100px" style="aspect-ratio: 4/3;" alt="">
+                            <div class="input_item">
+                                <input style="width: 100%;" (keyup)="filterItem($event, is);" (focus)="botaLista($event, is)" (focusout)="tiraLista($event, is)" type="text" id="{{is}}item" formControlName="name" placeholder="Insira nome do item" required>
+                                <ul id="{{is}}list" class="ul-menu">
+                                    @for (ite of listFilter; track ite; let i = $index) {
+                                        
+                                        <li (click)="setValueInput(is, ite);"><span class="li-items"><img src="{{ite.imagem}}" width="70px">{{ite.cod}} - {{ite.name}}</span></li>
+                                        
+                                        
+                                    }
+                                </ul>
+                            </div>
+                            </td>
+                            <td><input style="width: 80%;" id="{{is}}amount" type="number" formControlName="amount" min="0" placeholder="Quantidade" required (focusout)="setValueTotal(is)"></td>
+                            <td><input style="width: 80%;" id="{{is}}value" type="number" formControlName="value" placeholder="0" readonly ></td>
+                            <td><span id="{{is}}total">{{ '0.00' | currency : 'BRL' }}</span></td>
+                            <td><button style="height: 3.5em; width: 4.3em; margin-top: 0;" class="btn-delete" (click)="clearTr(is)"><span class="material-symbols-sharp">
+                                delete
+                                </span></button></td>
+                        </tr> 
+                    }
+                </table>
+                <button class="btn_add" type="button" (click)="addItens()">AddItem</button>
+            </div>
+
+        </div>
+        <div style="display: flex; flex-direction: row; width: 100%;">
+            <div class="annotations">
+                <label for="observation">Orçamento - Observação orçamento/contrato:</label>
+                <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="observation" cols="30" rows="10" formControlName="observation" maxlength="200"></textarea>
+            </div>
+            <div class="annotations">
+                <label for="annotations">Anotações:</label>
+                <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="annotations" cols="30" rows="10" formControlName="annotations" maxlength="200"></textarea>
+            </div>
+            <div class="all-values">
+                <b class="alert">Total Itens:&nbsp;<span> {{totalItem() | currency : "BRL"}}</span></b>
+                <b class="alert alert-danger">Total de Desconto:&nbsp;<span> {{totalDiscount() | currency : "BRL"}}</span></b>
+                <b class="alert alert-success">Total Geral:&nbsp;<span> {{grandTotal() | currency : "BRL"}}</span></b>
+            </div>
+        </div>
+        @if (getCreateContractError()) {
+            <span class="error_api">{{getCreateContractError()}}</span>
+        } @else {
+            <span class="success_api">{{getContractMsgSucess()}}</span>
+        }
+        
+        <div class="buttonsControl" #buttonsControl>
+            <ng-content></ng-content>
+            <button class="btn-update btn-contract" type="submit" [disabled]="!contractForm.valid">{{ buttonCreate }}</button>
+        </div>
+    </form>
+</div>
+

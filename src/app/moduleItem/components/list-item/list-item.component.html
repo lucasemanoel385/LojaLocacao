@@ -1,0 +1,51 @@
+<h2>Produtos</h2>
+<app-list-table-layout (outputSearch)="searchItem($event)" routeLink="register" nameCreate="Criar item" placeHolder="Encontrar item">
+    <table class="table" #table>
+        <thead>
+            <tr>
+                <th>Cód.</th>
+                <th></th>
+                <th>nome</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th>Val. Reposição</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+
+        @for (item of getListItems$(); track item; let i = $index) {
+            <tr #tr>
+                <td style="width: 100px;">{{item.cod}}</td>
+                <td style="width: 120px;"><img style="aspect-ratio: 16/15;
+                    width: 100%;" src="{{item.imagem}}" alt=""></td>
+                <td style="width: 400px;">{{item.name}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.value | currency : "BRL"}}</td>
+                <td>{{item.replacementValue | currency : "BRL"}}</td>
+                <td><button [routerLink]="['edit', item.id]" class="btn-edit"><span class="material-symbols-sharp">
+                    edit
+                    </span></button></td>
+                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" 
+                    class="btn-delete" 
+                    (click)="idProductDelete = item.id; this.modalDelete.showModal()">
+                    <span class="material-symbols-sharp">
+                    delete
+                    </span></button></td>
+            </tr> 
+        }
+    </table>
+    <dialog #modalDelete style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+        <h4>Deseja mesmo excluir?</h4>
+        <button style="margin: 0 10px;" class="btn_add" (click)="deleteProduct(this.modalDelete)">Sim</button>
+        <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
+    </dialog>
+    <div>
+        @for (page of paging(); track $index) {
+            <button class="btn-page" (click)="pageNumber(page-1)">{{page}}</button>
+        }
+    </div>
+</app-list-table-layout>
+
+
+

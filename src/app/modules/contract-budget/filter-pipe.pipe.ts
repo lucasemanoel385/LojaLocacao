@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Item } from '../../moduleItem/interface/Item';
 
 @Pipe({
   name: 'filterPipe',
@@ -6,13 +7,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipePipe implements PipeTransform {
 
-  transform(lista: string[], filtro: string) {
+  transform(lista: Item[] | null, filtro: string) {
 
+    
     if(filtro) {
       filtro = filtro.toUpperCase();
-      return lista.filter(a => a.toUpperCase().indexOf(filtro) >= 0);
+      let listItem;
+      if(lista) {
+        const item: Item[] = lista.filter(a => a.name.toUpperCase().indexOf(filtro) >= 2);
+        listItem = item;
+      }
+      return listItem as Item[];
     } else {
-      return filtro;
+      return lista;
     }
   }
 } 

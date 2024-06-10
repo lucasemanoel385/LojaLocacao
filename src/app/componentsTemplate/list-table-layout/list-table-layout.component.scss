@@ -1,0 +1,56 @@
+
+:host {
+    width: 100%;
+    height: 100%;
+
+    section {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        
+
+        div {
+            display: flex;
+            justify-content: end;
+            
+            button {
+                margin: 10px 2px;
+                width: 30px;
+            }
+        }
+        
+    }
+    
+    label {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        gap: 10px;
+        input {
+            height: 100%;
+        }
+    }
+
+    @media (max-width: 733px) {
+        
+        section{
+            overflow-x: auto;
+        }
+
+        .layout {
+            padding: 1em;
+        }
+
+        .btn_add {
+            width: 100px;
+        }
+
+    }
+
+}
+
+
+
+
+

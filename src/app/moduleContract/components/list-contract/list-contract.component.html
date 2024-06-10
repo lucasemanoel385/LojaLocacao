@@ -1,0 +1,56 @@
+<h2>Oraçmentos / Contratos</h2>
+<app-list-table-layout (outputSearch)="searchContract($event)" routeLink="register" nameCreate="Criar orçamento" placeHolder="Encontrar orçamento">
+    <table class="table" #table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CPF/CNPJ</th>
+                <th>Cliente</th>
+                <th>Data Reserva</th>
+                <th>Data Retorno</th>
+                <th>Vendedor</th>
+                <th>Celular</th>
+                <th>Situação</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+    
+        @for (contract of getListContract$(); track $index) {
+            <tr #tr>
+                <td style="width: 50px;">{{ contract.id }}</td>
+                <td style="width: 150px;">{{ contract.cpf | cpfCnpj }}</td>
+                <td style="width: 250px; text-align: start;">{{ contract.nameClient }}</td>
+                <td style="width: 150px;">{{ contract.dateReserve | formatDatePipe}}</td>
+                <td style="width: 150px;">{{ contract.dateFinal | formatDatePipe }}</td>
+                <td style="width: 150px;">{{ contract.seller }}</td>
+                <td style="width: 150px;">{{ contract.phone | phone}}</td>
+                @switch (contract.situation) {
+                    @case ("ORCAMENTO") {
+                        <td style="width: 150px;">Orçamento</td>
+                    } @case ("RESERVADO") {
+                        <td style="width: 150px;">Reservado</td>
+                    }
+                }
+                <td><button [routerLink]="['edit', contract.id]" class="btn-edit"><span class="material-symbols-sharp">
+                    edit
+                    </span></button></td>
+                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="this.modalDelete.showModal(); idContractDelete = contract.id"><span class="material-symbols-sharp">
+                    delete
+                    </span></button></td>
+            </tr> 
+        }
+    </table>
+    <dialog #modalDelete style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+        <h4>Deseja mesmo excluir o contrato?</h4>
+        <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(this.modalDelete)">Sim</button>
+        <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
+    </dialog>
+    <div>
+        
+            <button class="btn-page">1</button>
+        
+    </div>
+</app-list-table-layout>
+
+

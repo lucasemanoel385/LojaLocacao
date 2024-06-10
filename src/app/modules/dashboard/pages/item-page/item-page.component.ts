@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { ItemComponent } from '../../../client/components/item/item.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { ListItemComponent } from '../../../client/components/list-item/list-item.component';
+import { ItemComponent } from '../../../../moduleItem/components/item/item.component';
+
+import { ListItemComponent } from '../../../../moduleItem/components/list-item/list-item.component';
+import { DefaultLayoutComponent } from '../../../../componentsTemplate/default-layout/default-layout.component';
 
 @Component({
   selector: 'app-item-page',
   standalone: true,
-  imports: [ItemComponent, DashboardComponent, ListItemComponent],
+  imports: [DefaultLayoutComponent, ListItemComponent],
   templateUrl: './item-page.component.html',
   styleUrl: './item-page.component.scss'
 })
