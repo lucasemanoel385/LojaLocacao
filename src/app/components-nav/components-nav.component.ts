@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { LoginService } from '../moduleLogin/service/login.service';
 
 @Component({
   selector: 'app-components-nav',

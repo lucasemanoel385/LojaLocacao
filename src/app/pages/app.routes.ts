@@ -92,5 +92,4 @@ export const routesStore: Routes = [
                 path: 'admin/edit/accounting',
                 component: TemplateAdminComponent
             }
- 
 ];
