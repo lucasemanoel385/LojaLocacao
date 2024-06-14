@@ -1,12 +1,12 @@
 :host {
 
-    ul {
+    nav {
         display: flex;
         gap: 35px;
         background-color: grey;
         border-radius: 5px;
         
-        li {
+        a {
             padding: 15px;
             cursor: pointer;
         }

@@ -71,7 +71,11 @@ export const routesStore: Routes = [
                 path: 'category/register',
                 component: CreateCategoryComponent
             },
-    
+            {
+                path: 'admin/edit',
+                pathMatch: 'full',
+                redirectTo: 'admin/edit/data'
+            },
             {
                 path: 'admin/edit',
                 component: TemplateAdminComponent,

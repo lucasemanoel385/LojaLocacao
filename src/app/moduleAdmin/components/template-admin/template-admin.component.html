@@ -1,10 +1,10 @@
 <div style="background-color: whitesmoke;">
-    <ul>
-        <li #data="routerLinkActive" routerLinkActive="active" [routerLink]="['../','data']"><a>Dados da empresa</a></li>
-        <li #budget="routerLinkActive" routerLinkActive="active" [routerLink]="['../','budget']"><a>Orçamento</a></li>
-        <li #contract="routerLinkActive" routerLinkActive="active" [routerLink]="['../','contract']"><a>Contrato</a></li>
-        <li #accounting="routerLinkActive" routerLinkActive="active" [routerLink]="['../','accounting']"><a>Contabilidade</a></li>
-    </ul>
+    <nav>
+        <a #data="routerLinkActive" routerLinkActive="active" [routerLink]="['../','data']">Dados da empresa</a>
+        <a #budget="routerLinkActive" routerLinkActive="active" [routerLink]="['../','budget']">Orçamento</a>
+        <a #contract="routerLinkActive" routerLinkActive="active" [routerLink]="['../','contract']">Contrato</a>
+        <a #accounting="routerLinkActive" routerLinkActive="active" [routerLink]="['..','accounting']">Contabilidade</a>
+    </nav>
 
         @defer (when data.isActive) {
             <app-company-data id="data"></app-company-data>

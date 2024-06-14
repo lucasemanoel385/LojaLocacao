@@ -75,6 +75,7 @@ export class DataCompanyService {
     return this.#http.get<GetDataCompany>(`${this.#url()}data-company`, { responseType: 'json' }).pipe(shareReplay(),
     tap((res) => {
       res.imagem = ImgBuffer.prototype.base64ToArrayBuffer(res.imagem);
+      this.#setGetCompany.set(res);
     }),shareReplay(),
     catchError( (error: HttpErrorResponse) => {
   
