@@ -20,6 +20,7 @@ import { LoginComponent } from './moduleLogin/components/login/login.component';
 import { LoginPageComponent } from './pages/login/loginPage.component';
 import { PageSPAComponent } from './pages/page-spa/page-spa.component';
 import { HomeDashboardComponent } from './modules/dashboard/pages/home-dashboard/home-dashboard.component';
+import { authorizationGuard } from './guard/authorization.guard';
 
 
 
@@ -37,83 +38,8 @@ export const routes: Routes = [
     {
         path: 'store',
         component: PageSPAComponent,
-        children: [
-            {
-                path: 'dashboard',
-                component: LayoutDashboardComponent
-            },
-            {
-                path: 'clients',
-                component: ListClientComponent
-            },
-            {
-                path: 'clients/register',
-                component: FormRegisterClientComponent,
-            },
-            {
-                path: 'clients/edit/:id',
-                component: EditClientComponent,
-            },
-            {
-                path: 'orcamento',
-                component: ListContractComponent
-            },
-            {
-                path: 'orcamento/register',
-                component : RegisterContractComponent,
-            },
-            {
-                path: 'orcamento/edit/:id',
-                component: ContractDetailsComponent
-            },
-            {
-                path: 'item',
-                component: ListItemComponent,
-            },
-            {
-                path: 'item/register',
-                component: ItemComponent
-            },
-            {
-                path: 'item/edit/:id',
-                component: EditItemComponent
-            },
-            {
-                path: 'category',
-                component: CategoryListComponent
-            },
-            {
-                path: 'category/edit/:id',
-                component: EditCategoryComponent
-            },
-            {
-                path: 'category/register',
-                component: CreateCategoryComponent
-            },
-    
-            {
-                path: 'admin/edit',
-                component: TemplateAdminComponent,
-            },
-            {
-                path: 'admin/edit/data',
-                component: TemplateAdminComponent
-            },
-            {
-                path: 'admin/edit/budget',
-                component: TemplateAdminComponent
-            },
-            {
-                path: 'admin/edit/contract',
-                component: TemplateAdminComponent
-            },
-            {
-                path: 'admin/edit/accounting',
-                component: TemplateAdminComponent
-            }
-      
-            
-        ]
+        canMatch: [authorizationGuard],
+        loadChildren: () => import('./pages/app.routes').then((r) => r.routesStore),
     },
     
     {

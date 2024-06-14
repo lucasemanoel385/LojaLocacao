@@ -41,7 +41,7 @@
                                 <!--<td><span class="check material-symbols-sharp">
                                     check
                                     </span></td>-->
-                                <td><span (click)="idTask = task.id; this.modalDeleteTasks.showModal()" class="delete material-symbols-sharp">
+                                <td [ngStyle]="{'display': authorization === true ? 'table-cell' : 'none'}"><span (click)="idTask = task.id; this.modalDeleteTasks.showModal()" class="delete material-symbols-sharp">
                                     close
                                     </span>
                                 </td>
@@ -50,7 +50,7 @@
                     }
                 </tbody>
             </table>
-            <dialog class="dialog_delete" #modalDeleteTasks style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+            <dialog class="dialog_delete" #modalDeleteTasks>
                     <h4>Deseja mesmo excluir?</h4>
                     <button style="margin: 0 10px;" class="btn_add" (click)="deleteTask(modalDeleteTasks);">Sim</button>
                     <button class="btn-delete" (click)="this.modalDeleteTasks.close()">Não</button>
@@ -71,7 +71,7 @@
       
                 </div>
             </dialog>
-            <button class="btn_add" (click)="this.modalTasks.showModal()">Adicionar Tarefa</button>
+            <button [ngStyle]="{'display': authorization === true ? 'block' : 'none'}" class="btn_add" (click)="this.modalTasks.showModal()">Adicionar Tarefa</button>
         </div>
         <!-- END CONTAINER TASKS -->
     </div>

@@ -3,9 +3,10 @@ import { provideRouter, withComponentInputBinding, withRouterConfig } from '@ang
 
 import { routes } from './app.routes';
 import { provideNgxMask } from 'ngx-mask';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { tokenJWTInterceptor } from './interceptor/token-jwt.interceptor';
 
 registerLocaleData(localePt);
 
@@ -16,7 +17,7 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always'
       }
     )),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([tokenJWTInterceptor])),
     provideNgxMask(),
     { provide: LOCALE_ID, useValue: 'pt-Br' }
   ]

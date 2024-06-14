@@ -2,12 +2,12 @@
 <main>
     <article>
         <h3>Login</h3>
-        <form>
+        <form [formGroup]="loginForm">
             <label>Usuario:</label>
-            <input type="text" class="inputGrey" required>
+            <input type="text" class="inputGrey" formControlName="login" autocomplete="username" required>
             <label>Senha:</label>
-            <input type="password" class="inputGrey" required>
-            <button class="btn-update">Acessar</button>
+            <input type="password" class="inputGrey" formControlName="password" autocomplete="current-password" required>
+            <button class="btn-update" type="submit" (click)="submitLogin()" [disabled]="!loginForm.valid">Acessar</button>
         </form>
     </article>
 </main>

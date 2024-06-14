@@ -40,6 +40,8 @@ export class LayoutDashboardComponent implements OnInit {
 
   public idTask!: number;
 
+  authorization = sessionStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
+
   public deleteTask(modalDelete: HTMLDialogElement) {
 
     this.#serviceDashBoard.httpDeleteTaskId$(this.idTask).pipe(

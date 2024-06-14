@@ -2,7 +2,8 @@
 
     <img src="../../assets/logopequeno.png" width="100px" alt="">
     <nav>
-        <a [routerLink]="['']"
+        <a [routerLink]="['dashboard']"
+        routerLinkActive="active"
         ariaCurrentWhenActive="page">
         <span class="material-symbols-sharp">
             dashboard
@@ -10,6 +11,7 @@
             <h3>Dashboard</h3>
         </a>
         <a [routerLink]="['clients']"
+        routerLinkActive="active"
         ariaCurrentWhenActive="page">
         <span class="material-symbols-sharp">
             person
@@ -17,6 +19,7 @@
         <h3>Clientes</h3>
         </a>
         <a [routerLink]="['orcamento']"
+        routerLinkActive="active"
         ariaCurrentWhenActive="page">
         <span class="material-symbols-sharp">
             contract
@@ -24,6 +27,7 @@
         <h3>Contratos</h3>
         </a>
         <a [routerLink]="['item']" 
+        routerLinkActive="active"
         ariaCurrentWhenActive="page">
         <span class="material-symbols-sharp">
             database
@@ -31,6 +35,7 @@
         <h3>Produtos</h3>
         </a>
         <a [routerLink]="['category']" 
+        routerLinkActive="active"
         ariaCurrentWhenActive="page">
         <span class="material-symbols-sharp">
             category
@@ -38,13 +43,14 @@
         <h3>Categoria</h3>
         </a>
         <a [routerLink]="['admin/edit/data']" 
-        ariaCurrentWhenActive="page">
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page" [style.display]="authorization">
         <span class="material-symbols-sharp">
             admin_panel_settings
             </span>
         <h3>Administração</h3>
         </a>
-        <a href="">
+        <a (click)="logout()">
             <span class="material-symbols-sharp">
             logout
             </span>

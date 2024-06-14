@@ -1,9 +1,23 @@
 :host {
     height: 100%;
+    width: 100%;
+
+    .active {
+        background-color: whitesmoke;
+        border-radius: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+
+        &:hover {
+            background-color: #afafaf;
+        }
+    }
 
     .sidebar {
+        width: 100%;
         display: flex;
         flex-direction: column;
+        align-items: center;
         position: relative;
         height: 95vh;
         top: 1.5rem;
@@ -21,16 +35,18 @@
             }
 
             a {
+                width: 100%;
                 display: flex;
                 align-items: center;
                 text-align: center;
+                margin-left: 10px;
                 gap: 10px;
                 color: grey;
                 transition: all 0.2s ease;
-        
+                cursor: pointer;
+                
                 &:hover {
                     color: white;
-                    
                 }
                 
                 span {
