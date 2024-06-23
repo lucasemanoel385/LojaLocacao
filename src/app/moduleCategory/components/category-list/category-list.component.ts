@@ -22,15 +22,18 @@ export class CategoryListComponent implements OnInit {
   #serviceCategory = inject(CategoryItemService);
 
   public getListCategory = this.#serviceCategory.getListCategory;
+  public getDeleteMsgError = this.#serviceCategory.getDeleteCategoryError;
 
-  idCategory!: number;
+  idCategory!: any;
+  indexTableList!: any;
 
   public deleteCategory(modalDelete: HTMLDialogElement) {
     this.#serviceCategory.httpDeleteCategory(this.idCategory).pipe(
       concatMap(() => this.#serviceCategory.httpGetListCategory())
-    ).subscribe();
-
-    modalDelete.close();
+    ).subscribe(res => modalDelete.close());
+    setTimeout(() => {
+      this.getDeleteMsgError.set(null);
+    }, 5000)
   }
 
   searchCategory(search: string) {

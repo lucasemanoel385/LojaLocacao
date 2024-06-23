@@ -105,7 +105,6 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
   }*/
 
   editContract(res: ContractId) {
-
     var listItens: itensList[] = [];
 
     /*this.items.forEach((i) => {
@@ -139,7 +138,7 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
     let indice = 0;
 
     res.items.forEach((i) => {
-     
+     console.log(i);
       this.addItens();
       this.setValueInputEdit(indice, i)
       indice ++;
@@ -372,13 +371,14 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
         total: i.get('total')?.value
       }
       listItens.push(list);
-      console.log(listItens);
+      
     })
+    console.log(this.idClient)
+    if (this.contractId) {
 
-    if (this.idContract) {
       const contract: ContractEdit = {
-        contractId: Number(this.idContract),
-        clientId: this.idClient,
+        contractId: Number(this.contractId.id),
+        clientId: this.contractId.client.id,
         dateOf: this.contractForm.get('dateOf')?.value,
         dateUntil: this.contractForm.get('dateUntil')?.value,
         discount: this.contractForm.get('discount')?.value as number,
@@ -407,7 +407,7 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
         annotations: this.contractForm.get('annotations')?.value as string,
       }
   
-      this.#apiServiceContract.httpCreateContract(contract).subscribe(res => this.#router.navigate(['orcamento', 'edit', res.id]));
+      this.#apiServiceContract.httpCreateContract(contract).subscribe(res => this.#router.navigate(['store/orcamento', 'edit', res.id]));
 
 
     }

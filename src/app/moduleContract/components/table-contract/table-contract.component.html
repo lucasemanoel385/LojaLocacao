@@ -30,7 +30,7 @@
                 }
             </div>
             <div class="input-style-date">
-                <label for="dateOf">Data inicio:</label>
+                <label for="dateOf">Data da retirada:</label>
                 <input #dateOf type="date" id="dateOf" formControlName="dateOf" required>
                 
                 @if (contractForm.get('dateOf')?.touched && contractForm.get('dateOf')?.invalid) {
@@ -39,7 +39,7 @@
             </div>
     
             <div class="input-style-date">
-                <label for="dateUntil">Data final:</label>
+                <label for="dateUntil">Data da entrega:</label>
                 <input id="dateUntil" type="date" formControlName="dateUntil" required>
             
                 @if (contractForm.get('dateUntil')?.touched && contractForm.get('dateUntil')?.invalid) {
@@ -98,7 +98,7 @@
                                 </ul>
                             </div>
                             </td>
-                            <td><input style="width: 80%;" id="{{is}}amount" type="number" formControlName="amount" min="0" placeholder="Quantidade" required (focusout)="setValueTotal(is)"></td>
+                            <td><input style="width: 80%;" id="{{is}}amount" type="number" formControlName="amount" min="1" placeholder="Quantidade" required (focusout)="setValueTotal(is)"></td>
                             <td><input style="width: 80%;" id="{{is}}value" type="number" formControlName="value" placeholder="0" readonly ></td>
                             <td><span id="{{is}}total">{{ '0.00' | currency : 'BRL' }}</span></td>
                             <td><button style="height: 3.5em; width: 4.3em; margin-top: 0;" class="btn-delete" (click)="clearTr(is)"><span class="material-symbols-sharp">

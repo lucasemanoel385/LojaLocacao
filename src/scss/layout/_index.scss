@@ -3,6 +3,8 @@
 @use 'fontFamily';
 @use 'alerts';
 @use 'sucessError';
+@use 'dialog';
+
 .layout {
     width: 100%;
    
@@ -28,7 +30,7 @@
 
         td, tr {
             border: 1px solid rgb(224, 224, 224);
-            border-top: 0;
+           
         }
 
         tr, table {
@@ -39,13 +41,14 @@
         
         tr {
             width: 95%;
+            border-top: 0;
         }
 
         td{
             word-break: keep-all;
             text-align: center;
             box-sizing: border-box;
-            border-top: 0;
+            
             border-bottom: 0;
             padding: 15px;
             font-size: 16px;
@@ -59,17 +62,22 @@
     
 }
 
-.dialog_delete {
-    border: 0; 
-    box-shadow: 0 0 2em rgb(0 0 0 / .3); 
-    text-align: center;
+.box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
     border-radius: 10px;
-
-    button {
-        outline: 0;
+    gap: 1em;
+    .number-box { 
+        top: 20px;
+        font-size: 25px;
     }
-}
 
-.dialog_delete::backdrop {
-    background-color: rgb(0 0 0 / .5);
+    span {
+        font-size: 17px;
+        color: #fff;
+    }
 }

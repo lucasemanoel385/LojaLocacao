@@ -9,6 +9,7 @@ import { ContractItens } from '../interface/contractItens.interface';
 import { ImgBuffer } from '../../moduleItem/service/imgBuffer';
 import { ContractEdit } from '../interface/contractEdit.interface';
 import { ChangeSituation } from '../interface/changeSituation.interface';
+import { PaymentsList } from '../interface/PaymentsList';
 
 
 @Injectable({
@@ -54,6 +55,23 @@ export class ContractServiceService {
     return this.#setContractMsgSucess;
   }
 
+  #setContractPaymentMsgSucess = signal<String | null>(null);
+  get getContractPaymentMsgSucess() {
+    return this.#setContractPaymentMsgSucess;
+  }
+
+  #setContractPaymentMsgError = signal<String | null>(null);
+  get getContractPaymentMsgError() {
+    return this.#setContractPaymentMsgError;
+  }
+
+  
+  #setContractPayment = signal<PaymentsList[] | null>(null);
+  get getContractPayment() {
+    return this.#setContractPayment;
+  }
+
+
   #setContractCreateError = signal<ContractList | null>(null);
   get getContractCreateError() {
     return this.#setContractCreateError;
@@ -78,6 +96,8 @@ export class ContractServiceService {
 
   public httpGetContractId(id: number): Observable<ContractId>{
     
+    this.#setContractId.set(null);
+
     return this.#http.get<ContractId>(`${this.#url()}contrato/${id}`).pipe(shareReplay(), 
     tap( (res) => {
       res.items = res.items.map((i) => {
@@ -141,6 +161,36 @@ export class ContractServiceService {
       this.#setContractMsgSucess.set("Contrato reservado com sucesso");}),
     catchError( (error: HttpErrorResponse) => {
       this.#setContractCreateError.set(error.error);
+      return throwError(() => error);
+    }))
+  }
+
+  public httpPaymentsContract$(id: string, payment: any): Observable<any>{
+  
+    this.#setContractPaymentMsgError.set(null);
+    this.#setContractPaymentMsgSucess.set(null);
+    this.#setContractPayment.set(null);
+
+    return this.#http.patch<any>(`${this.#url()}contrato/payment/${id}`, payment ).pipe(shareReplay(),
+    tap( (res) => {
+      this.#setContractPayment.set(res);
+      this.#setContractPaymentMsgSucess.set("Pagamento salvo com sucesso!!!");
+    }),
+    catchError( (error: HttpErrorResponse) => {
+      this.#setContractPaymentMsgError.set(error.error);
+      return throwError(() => error);
+    }))
+  }
+
+  
+  public httpGetPaymentsContract$(id: string): Observable<PaymentsList[]>{
+  
+    return this.#http.get<PaymentsList[]>(`${this.#url()}contrato/payment/${id}`).pipe(shareReplay(),
+    tap( (res) => {
+      this.#setContractPayment.set(res);
+    }),
+    catchError( (error: HttpErrorResponse) => {
+      this.#setContractPaymentMsgError.set(error.error);
       return throwError(() => error);
     }))
   }

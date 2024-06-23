@@ -16,7 +16,7 @@
 
         @for (item of getListItems$(); track item; let i = $index) {
             <tr #tr>
-                <td style="width: 100px;">{{item.cod}}</td>
+                <td style="width: 100px;"><a [routerLink]="['edit', item.id]">{{item.cod}}</a></td>
                 <td style="width: 120px;"><img style="aspect-ratio: 16/15;
                     width: 100%;" src="{{item.imagem}}" alt=""></td>
                 <td style="width: 400px;">{{item.name}}</td>
@@ -28,7 +28,7 @@
                     </span></button></td>
                 <td><button style="height: 2.5em; width: 3em; margin-top: 0;" 
                     class="btn-delete" 
-                    (click)="idProductDelete = item.id; this.modalDelete.showModal()">
+                    (click)="idProductDelete = item.id; deleteRowTableList = i; this.modalDelete.showModal()">
                     <span class="material-symbols-sharp">
                     delete
                     </span></button></td>

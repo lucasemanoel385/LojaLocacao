@@ -200,6 +200,7 @@ export class ProductService {
   }
 
   public httpDeleteItem$(id: number): Observable <any>{
+
     return this.#http.delete(`${this.#url()}item/${id}`).pipe(
       shareReplay(),
       catchError( (error: HttpErrorResponse) => {

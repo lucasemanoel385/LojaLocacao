@@ -8,10 +8,6 @@
         background-color: whitesmoke;
         padding: 1rem;
         height: 100%;
-        
-    }
-
-    .schedules {
         width: 100%;
     }
 
@@ -31,68 +27,8 @@
         font-size: 20px;
     }
 
-    .dialog-layout-dashboard {
-        background: #d9dde2;
-        width: 50%;
-        height: 60%;
-        border: none;
-        box-shadow: 0 0 2em rgb(0 0 0 / .3);
-        border-radius: .5rem;
-
-        .dialog_scheduling {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100%;
-            width: 100%;
-        }
-
-        h2 {
-            padding-bottom: 1em;
-        }
-    }
-
-    .btns_dialog {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        width: 40rem;
-        gap: 2rem;
-
-        button {
-            outline: 0;
-        }
-        
-    }
-
     .dialog-layout-dashboard::backdrop {
         background-color: rgb(0 0 0 / .5);
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        width: 50%;
-        gap: 1rem;
-        box-sizing: border-box;
-
-        label {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            text-align: start;
-
-            span {
-                width: 7rem;
-            }
-
-        }
     }
 
     .validation{
@@ -109,36 +45,13 @@
 
     @media (max-width: 733px) {
 
-        .dialog-layout-dashboard, .dialog_delete {
-            width: 85%;
-            overflow-x: hidden;
-        }
-
-        .dialog-layout-dashboard, .dialog_delete {
-            width: 85%;
-            overflow-x: hidden;
-
-            div {
-                width: 100%;
-            }
-
-            #schedules {
-                width: 100%;
-            }
-
-            .btns_dialog {
-                display: flex;
-                flex-direction: row;
-                gap: 1rem;
-            }
-        }
-
         .table {
             min-width: 500px;
             max-width: 100%;
         }
 
         .schedules {
+            
             overflow-x: auto;
         }
     }

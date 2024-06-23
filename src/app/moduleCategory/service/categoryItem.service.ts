@@ -46,7 +46,7 @@ export class CategoryItemService {
 
   #setDeleteCategoryError = signal<string | null>(null);
   get getDeleteCategoryError() {
-    return this.#setDeleteCategoryError.asReadonly();
+    return this.#setDeleteCategoryError;
   }
 
   public httpCreateCategory(category: string): Observable<CategoryCreate> {
@@ -97,7 +97,7 @@ export class CategoryItemService {
     
     return this.#http.delete(`${this.#url()}categoria/${id}`).pipe(shareReplay(),
     catchError( (error: HttpErrorResponse) => {
-      this.#setDeleteCategoryError.set(error.error.message);
+      this.#setDeleteCategoryError.set(error.error);
       return throwError(() => error);
     }))
   }

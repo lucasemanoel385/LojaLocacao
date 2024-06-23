@@ -1,0 +1,134 @@
+<div class="layout__accounting"> 
+    <section class="values">
+        <div class="values__box">
+            <div class="box" style="background-color: #0090d9;">
+                <span>VALOR BRUTO MÊS</span>
+                <span class="number-box">{{ getDataAccounting()?.sumPaymentsMonth | currency: 'BRL' }}</span>
+            </div>
+           
+            <div class="box" style="background-color: rgb(36, 191, 139);">
+                <span>VALOR LIQUIDO MÊS</span>
+                <span class="number-box">{{ valueLiquidMonth() | currency: 'BRL' }}</span>
+            </div>
+           
+            <div class="box" style="background-color: red;">
+                <span>VALOR DESPESAS MÊS</span>
+                <span class="number-box">{{ getDataAccounting()?.valueExpensesMonth | currency: 'BRL' }}</span>
+            </div>
+        </div>
+    </section>
+    <div class="month">
+        <input #date type="date" class="inputGrey" value={{today()}} (change)="ExpensesMonth(date.value)">
+    </div>
+    <div class="layout__accounting-sections">
+        <section class="inputs">
+            <h3>Dados Anual</h3>
+            <table class="table">
+                <th>
+                    Descrição
+                </th>
+                <th>
+                    Valor
+                </th>
+                <tr>
+                    <td>
+                        Valor bruto <strong>ANUAL</strong>
+                    </td>
+                    <td>
+                        {{ getDataAccounting()?.sumPaymentsYear | currency: 'BRL' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Valor das depesas <strong>ANUAL</strong>
+                    </td>
+                    <td>
+                        {{ getDataAccounting()?.valueExpensesYear| currency: 'BRL' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Valor liquido <strong>ANUAL</strong>
+                    </td>
+                    <td>
+                        {{ valueLiquidYear() | currency: 'BRL' }}
+                    </td>
+                </tr>
+            </table>
+            <!--<div class="inputs__information">
+                <p>Orçamentos mensal: 10</p>
+                <p>Orçamentos reservados: 20</p>
+                <p>Valor bruto <strong>anual</strong>: R$ 100,00</p>
+                <p>Valor liquido <strong>anual</strong>: R$ 50,00</p>
+            </div>-->
+        </section>
+        <div class="vertical"></div>
+        <section class="expenses">
+            <h3>Saídas</h3>
+            <table class="table" style="margin: 1em;">
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Data</th>
+                @for (expenses of getDataAccounting()?.expensesList; track expenses; let i = $index) {
+                    <tr>
+                        <td>{{expenses.description}}</td>
+                        <td>{{expenses.value | currency : 'BRL'}}</td>
+                        <td>{{expenses.date | formatDatePipe}}</td>
+                        <td>
+                            <button style="height: 2em; width: 3em; margin-top: 0;" class="btn-delete" (click)="modalDelete.showModal(); deleteExpenseId = expenses.id; deleteRowTableIndex = i"><span class="material-symbols-sharp">
+                                delete
+                                </span></button>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <dialog #modalDelete class="dialog_delete">
+                <h4>Deseja mesmo excluir?</h4>
+                <button style="margin: 0 10px; outline: 0;" class="btn_add" (click)="clearTr(modalDelete)">Sim</button>
+                <button class="btn-delete" style="outline: 0;" (click)="modalDelete.close()">Não</button>
+            </dialog>
+            <button class="btn_add" (click)="modalExpenses.showModal()">Adicionar despesa</button>
+            
+        </section>
+        <dialog class="dialog" #modalExpenses>
+            <div class="dialog_layout">
+                <div class="dialog_title">
+                    <h2>Novo Agendamento</h2>
+                </div>
+                <div class="dialog_content">
+                    <form id="schedules" [formGroup]="expensesForm">
+                        <label>
+                            <span>Descrição:</span>
+                            <input class="inputGrey" type="text" formControlName="description" required>
+                        </label>
+                        <label>
+                            <span>Value:</span>
+                            <input class="description inputGrey" type="number" formControlName="value" min="1" required>
+                        </label>
+                        
+                            <label>
+                                <span>Data:</span>
+                                <input class="inputGrey" type="date" formControlName="date" required>
+        
+                            </label>
+                            <!--@if (getCreateScheduling()) {
+                                <strong class="validation" style="color: rgb(61, 148, 61); font-size: 16px;">{{ getCreateScheduling() }}</strong>
+                            } @else {
+                                <strong class="validation" style="color: red; font-size: 16px;">{{ getSchedulingListError() }}</strong>
+                            }-->
+                       
+        
+                        <div class="dialog_btns">
+                            <button type="submit" (click)="submitExpenses()" [disabled]="!expensesForm.valid" class="btn-update">Salvar</button>
+                            <button class="btn-delete" (click)="closeDialog(modalExpenses)">Fechar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="dialog_footer">
+                </div>
+            </div>
+            
+        </dialog>
+    </div>
+    
+</div>

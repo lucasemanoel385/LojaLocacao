@@ -5,6 +5,8 @@ import { DataCompany } from '../interface/dataCompany.interface';
 import { Observable, catchError, shareReplay, tap, throwError } from 'rxjs';
 import { ImgBuffer } from '../../../moduleItem/service/imgBuffer';
 import { GetDataCompany } from '../interface/getDataCompany.interface';
+import { RegisterExepenses } from '../interface/RegisterExpenses.interface';
+import { DataAccouting } from '../interface/DataAccouting.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,11 @@ export class DataCompanyService {
     return this.#setGetCompany.asReadonly();
   }
 
+  #setGetAccouting = signal<DataAccouting | null>(null);
+  get getAccouting() {
+    return this.#setGetAccouting.asReadonly();
+  }
+
   #setMsgError = signal<String | null>(null);
   get getMsgError() {
     return this.#setMsgError;
@@ -27,6 +34,16 @@ export class DataCompanyService {
   #setMsgSucess = signal<String | null>(null);
   get getMsgSucess() {
     return this.#setMsgSucess;
+  }
+
+  #setMsgErrorExpenses = signal<String | null>(null);
+  get getMsgErrorExpenses() {
+    return this.#setMsgErrorExpenses;
+  }
+
+  #setMsgSucessExpenses = signal<String | null>(null);
+  get getMsgSucessExpenses() {
+    return this.#setMsgSucessExpenses;
   }
 
   public httpUpdateDataCompany$(item: DataCompany, img: any): Observable <any> {
@@ -84,4 +101,47 @@ export class DataCompanyService {
     })
     );
   }
+
+  
+  public httpGetDataAccouting$(month: string): Observable <DataAccouting> {
+    
+    //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
+    return this.#http.get<DataAccouting>(`${this.#url()}data-company/accounting/${month}`, { responseType: 'json' }).pipe(shareReplay(),
+    tap((res) => {
+      this.#setGetAccouting.set(res);
+    }),shareReplay(),
+    catchError( (error: HttpErrorResponse) => {
+      console.log(error.error.message)
+      return throwError(() => error);
+    })
+    );
+  }
+
+  public httpRegisterExpenses$(expenses: RegisterExepenses): Observable <any> {
+    
+    //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
+    return this.#http.post<any>(`${this.#url()}data-company/accounting/expenses`, expenses).pipe(shareReplay(),
+    tap((res) => {
+      this.#setMsgSucessExpenses.set("Despesa salva com sucesso!!")
+    }),shareReplay(),
+    catchError( (error: HttpErrorResponse) => {
+      console.log(error.error.message)
+      return throwError(() => error);
+    })
+    );
+  }
+
+  public httpDeleteExpenses$(id: number): Observable <any> {
+    
+    //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
+    return this.#http.delete<any>(`${this.#url()}data-company/accounting/expenses/${id}`).pipe(shareReplay(),
+    tap((res) => {
+    }),shareReplay(),
+    catchError( (error: HttpErrorResponse) => {
+      console.log(error.error.message)
+      return throwError(() => error);
+    })
+    );
+  }
+
 }

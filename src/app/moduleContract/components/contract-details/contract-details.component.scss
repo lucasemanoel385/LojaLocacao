@@ -1,0 +1,92 @@
+:host {
+    width: 100%;
+    height: 100%;
+
+    .dialog_content {
+        align-items: start;
+        padding: 1em;
+        form {
+            width: 100%;
+            flex-direction: row;
+            table {
+                width: 100%;
+                margin: 1rem 0;
+            }
+        }
+    }
+
+    /*.dialogPayment {
+        background: rgb(233, 233, 233);
+        width: 40%;
+        height: 20em;
+        border: 0;
+        outline: 0;
+        padding: 0;
+        border-radius: 5px;
+        box-sizing: border-box;
+        overflow: hidden;
+        
+
+        .layout__dialog {
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5em;
+        }
+        
+        .title {
+            background-color: whitesmoke;
+            width: 100%;
+            height: 3em;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+
+            h4 {
+                margin: 0;
+                font-weight: 400;
+                font-size: 22px;
+                letter-spacing: 1px;
+                color: #818181;
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            background-color: whitesmoke;
+            height: 50%;
+            padding: 2em;
+            box-sizing: border-box;
+        
+            h4 {
+                margin: 0;
+                font-weight: 400;
+                font-size: 18px;
+                letter-spacing: 1px;
+                color: #818181;
+            }
+
+            .table {
+                display: flex;
+                border: 1px solid rgb(233, 233, 233);
+                width: 100%;
+                padding: 0.5em;
+                gap: 1em;
+                text-align: center;
+                align-items: center;
+
+                input {
+                   background-color: whitesmoke;
+                   border: 1px solid rgb(233, 233, 233);
+                   height: 3em;
+                }
+            }
+
+        }
+    }*/
+
+}

@@ -39,14 +39,6 @@ export class SchedulingComponent implements OnInit {
     dateScheduling: ['']
   })
 
-  private httpSchedulingCreate(scheduling: Scheduling) {
-    
-    return this.#serviceDashBoard.httpCreateScheduling$(scheduling).pipe(
-      concatMap(() => 
-        this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay))
-    ).subscribe();
-  }
-
   public schedulerDay(value: string) {
     this.dateScheduleDay = value;
     this.#serviceDashBoard.httpGetScheduling$(value).subscribe();
@@ -70,9 +62,12 @@ export class SchedulingComponent implements OnInit {
     this.schedulesForm.get('time')?.setValue(time[1]);
     this.schedulesForm.get('dateScheduling')?.setValue(time[0]);
 
-    this.httpSchedulingCreate(this.schedulesForm.value as Scheduling);
+    this.#serviceDashBoard.httpCreateScheduling$(this.schedulesForm.value as Scheduling).pipe(
+      concatMap(() => 
+        this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay))
+    ).subscribe(res => this.schedulesForm.reset());
 
-    this.schedulesForm.reset()
+    
 
   }
 

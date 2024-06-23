@@ -1,30 +1,30 @@
-<div class="layout-dashboard">
+<div class="layout_dashboard">
     <!-- START DATA ANALYTICS -->
-    <div class="layout-board">
-        <a href="">
+    <div class="layout_dashboard-box">
+        
             <div class="box" style="background-color: #0090d9;">
                 <span>ORÇAMENTOS EFETIVADOS NO MÊS</span>
-                <span class="number-box">0</span>
+                <span class="number-box">{{getDataBudgetMonth()?.countContractMonth}}</span>
             </div>
-        </a>
-        <a href="">
+      
+   
             <div class="box" style="background-color: rgb(36, 191, 139);">
                 <span>ORÇAMENTOS RESERVADOS NO MÊS</span>
-                <span class="number-box">0</span>
+                <span class="number-box">{{getDataBudgetMonth()?.countContractMonthReserve}}</span>
             </div>
-        </a>
-        <a href="">
+
             <div class="box" style="background-color: red;">
                 <span>ORÇAMENTOS VENCIDOS NO MÊS</span>
                 <span class="number-box">0</span>
             </div>
-        </a>
+
     </div>
     <!-- END DATA ANALYTICS -->
-    <div class="today">
-        <app-scheduling class="scheduling"/>
-        
-        <!-- START CONTAINER TASKS -->
+    <div class="layout_dashboard-main">
+        <div class="layout_dashboard-cl1">
+            <app-scheduling class="scheduling"/>
+            <app-contract-for-month class="contract"/>
+        </div>
         <div class="tasks">
             <h4>Tarefas</h4>
             <table class="table" #tableTasks>
@@ -50,33 +50,47 @@
                     }
                 </tbody>
             </table>
+    
+            <!--Start Dialogs-->
             <dialog class="dialog_delete" #modalDeleteTasks>
                     <h4>Deseja mesmo excluir?</h4>
                     <button style="margin: 0 10px;" class="btn_add" (click)="deleteTask(modalDeleteTasks);">Sim</button>
                     <button class="btn-delete" (click)="this.modalDeleteTasks.close()">Não</button>
             </dialog>
-            <dialog class="dialog_tasks" #modalTasks>
-                <div>
-                    <h2>Nova Tarefa</h2>
-                    <form [formGroup]="tasksForm">
-                        <label>
-                            <span>Descrição:</span>
-                            <input class="description inputGrey" type="text" formControlName="description" required>
-                        </label>
-                        <div class="btns">
-                            <button (click)="submitTasks()" type="submit" [disabled]="!tasksForm.valid" class="btn-update">Salvar</button>
-                            <button class="btn-delete" (click)="closeDialog(modalTasks)">Fechar</button>
+            <dialog class="dialog" #modalTasks>
+                <div class="dialog_layout">
+                    <div class="dialog_title">
+                        <h2>Nova Tarefa</h2>
+                    </div>    
+                        <div class="dialog_content">
+                            <form [formGroup]="tasksForm">
+                                <label>
+                                    <span>Descrição:</span>
+                                    <textarea name="description" class="description inputGrey" style="height: 5em;" formControlName="description" required></textarea>
+                                </label>
+                                <div class="dialog_btns">
+                                    <button (click)="submitTasks()" type="submit" [disabled]="!tasksForm.valid" class="btn-update">Salvar</button>
+                                    <button class="btn-delete" (click)="closeDialog(modalTasks)">Fechar</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-      
+                    <div class="dialog_footer"></div>
+          
+                    
                 </div>
+                
             </dialog>
+            <!--End Dialogs-->
             <button [ngStyle]="{'display': authorization === true ? 'block' : 'none'}" class="btn_add" (click)="this.modalTasks.showModal()">Adicionar Tarefa</button>
         </div>
-        <!-- END CONTAINER TASKS -->
     </div>
+  
     
-    <app-contract-for-month class="contract"/>
+    <!-- START CONTAINER TASKS -->
+
+    
+    <!-- END CONTAINER TASKS -->
+    
             <!-- START CONTAINER SCHEDULES -->
             
     <!-- START MODAL DELETE-->

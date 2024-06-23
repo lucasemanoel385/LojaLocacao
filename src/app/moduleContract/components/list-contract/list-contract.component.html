@@ -16,9 +16,9 @@
             </tr>
         </thead>
     
-        @for (contract of getListContract$(); track $index) {
+        @for (contract of getListContract$(); track contract; let i = $index) {
             <tr #tr>
-                <td style="width: 50px;">{{ contract.id }}</td>
+                <td style="width: 50px;"><a [routerLink]="['edit', contract.id]">{{ contract.id }}</a></td>
                 <td style="width: 150px;">{{ contract.cpf | cpfCnpj }}</td>
                 <td style="width: 250px; text-align: start;">{{ contract.nameClient }}</td>
                 <td style="width: 150px;">{{ contract.dateReserve | formatDatePipe}}</td>
@@ -35,13 +35,13 @@
                 <td><button [routerLink]="['edit', contract.id]" class="btn-edit"><span class="material-symbols-sharp">
                     edit
                     </span></button></td>
-                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="this.modalDelete.showModal(); idContractDelete = contract.id"><span class="material-symbols-sharp">
+                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="this.modalDelete.showModal(); idContractDelete = contract.id; indexRowTable = i"><span class="material-symbols-sharp">
                     delete
                     </span></button></td>
             </tr> 
         }
     </table>
-    <dialog #modalDelete style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+    <dialog #modalDelete class="dialog_delete">
         <h4>Deseja mesmo excluir o contrato?</h4>
         <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(this.modalDelete)">Sim</button>
         <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>

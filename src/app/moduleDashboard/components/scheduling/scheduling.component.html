@@ -38,39 +38,44 @@
         <button style="margin: 0 10px; outline: 0;" class="btn_add" (click)="deleteScheduler(modalDeleteScheduling)">Sim</button>
         <button class="btn-delete" style="outline: 0;" (click)="this.modalDeleteScheduling.close()">Não</button>
     </dialog>
-    <dialog class="dialog-layout-dashboard" #modalSchedules>
-        <div class="dialog_scheduling">
-            <h2>Novo Agendamento</h2>
-            <form id="schedules" [formGroup]="schedulesForm">
-                <label>
-                    <span>Nome:</span>
-                    <input class="inputGrey" type="text" formControlName="name" required>
-                </label>
-                <label>
-                    <span>Descrição:</span>
-                    <input class="description inputGrey" type="text" formControlName="description" required>
-                </label>
-                
+    <dialog class="dialog" #modalSchedules>
+        <div class="dialog_layout">
+            <div class="dialog_title">
+                <h2>Novo Agendamento</h2>
+            </div>
+            <div class="dialog_content">
+                <form id="schedules" [formGroup]="schedulesForm">
                     <label>
-                        <span>Horário:</span>
-                        <input class="inputGrey" type="datetime-local" formControlName="dateScheduling" required>
-
+                        <span>Nome:</span>
+                        <input class="inputGrey" type="text" formControlName="name" required>
                     </label>
-                    @if (getCreateScheduling()) {
-                        <strong class="validation" style="color: rgb(61, 148, 61); font-size: 16px;">{{ getCreateScheduling() }}</strong>
-                    } @else {
-                        <strong class="validation" style="color: red; font-size: 16px;">{{ getSchedulingListError() }}</strong>
-                    }
-               
-
-                <div class="btns_dialog" style="box-sizing: border-box;">
-                    <button type="submit" (click)="submitSchedules(modalSchedules)" [disabled]="!schedulesForm.valid" class="btn-update">Salvar</button>
-                    <button class="btn-delete" (click)="closeDialog(modalSchedules)">Fechar</button>
-                </div>
-
-            </form>
- 
+                    <label>
+                        <span>Descrição:</span>
+                        <input class="description inputGrey" type="text" formControlName="description" required>
+                    </label>
+                    
+                        <label>
+                            <span>Horário:</span>
+                            <input class="inputGrey" type="datetime-local" formControlName="dateScheduling" required>
+    
+                        </label>
+                        @if (getCreateScheduling()) {
+                            <strong class="validation" style="color: rgb(61, 148, 61); font-size: 16px;">{{ getCreateScheduling() }}</strong>
+                        } @else {
+                            <strong class="validation" style="color: red; font-size: 16px;">{{ getSchedulingListError() }}</strong>
+                        }
+                   
+    
+                    <div class="dialog_btns">
+                        <button type="submit" (click)="submitSchedules(modalSchedules)" [disabled]="!schedulesForm.valid" class="btn-update">Salvar</button>
+                        <button class="btn-delete" (click)="closeDialog(modalSchedules)">Fechar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="dialog_footer">
+            </div>
         </div>
+        
     </dialog>
     <button class="btn_add" (click)="this.modalSchedules.showModal()">Adicionar agendamento</button>
 </div>

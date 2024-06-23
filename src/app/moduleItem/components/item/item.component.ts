@@ -49,6 +49,8 @@ export class ItemComponent implements OnChanges, OnInit {
   public getItemError$ = this.#apiServiceItem.getItemError;
   public getItemMsgSucess$ = this.#apiServiceItem.getItemSucess;
 
+
+  isReadOnlyCodItem = signal(false);
   selectedFile: File | undefined;
 
   onFileSelected(event: any, spanImg: HTMLSpanElement): void {
@@ -68,10 +70,12 @@ export class ItemComponent implements OnChanges, OnInit {
   }
 
   @ViewChild('choose') spanImg!: ElementRef;
+  @ViewChild('cod') codItem!: ElementRef;
 
   public getItemId = this.#apiServiceItem.getItemId;
 
   editItem() {
+    this.isReadOnlyCodItem.set(true);
     var data = this.getItemId() as Item;
     console.log(data)
     this.itemContract.patchValue({
@@ -80,7 +84,7 @@ export class ItemComponent implements OnChanges, OnInit {
       value: data.value.toString().replace('.',','),
       replacementValue: data.replacementValue.toString().replace('.',','),
       amount: data.amount.toString(),
-      category: data.category.nome,
+      category: data.category.name,
     })
    
     this.spanImg.nativeElement.innerHTML = `<img width = '100%' height = '100%' src='${data.imagem}'>`;
@@ -141,6 +145,11 @@ export class ItemComponent implements OnChanges, OnInit {
       console.log(this.itemContract.value, this.selectedFile)
       this.#apiServiceItem.httpUpdateItem$(item, this.selectedFile).subscribe();
 
+      setTimeout(() => {
+        this.getItemError$.set(null);
+        this.getItemMsgSucess$.set(null);
+      }, 5000)
+
     } else if (this.buttonSubmit() === "Cadastrar") {
       const item: ItemCreate = {
         cod: Number(this.itemContract.get('cod')?.value),
@@ -156,7 +165,7 @@ export class ItemComponent implements OnChanges, OnInit {
       setTimeout(() => {
         this.getItemError$.set(null);
         this.getItemMsgSucess$.set(null);
-      }, 3000)
+      }, 5000)
     }
    };
    

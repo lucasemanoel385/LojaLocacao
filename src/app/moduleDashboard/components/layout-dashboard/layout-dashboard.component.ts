@@ -20,6 +20,7 @@ export class LayoutDashboardComponent implements OnInit {
   ngOnInit(): void {
  
     this.#serviceDashBoard.httpGetTasks$().subscribe();
+    this.#serviceDashBoard.httpGetBudgetsForMonth$(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR').slice(0,7)).subscribe();
   }
 
   #serviceDashBoard = inject(DashBoardService);
@@ -31,6 +32,12 @@ export class LayoutDashboardComponent implements OnInit {
     modal.close();
 
   }
+
+  // START BOX
+
+  public getDataBudgetMonth = this.#serviceDashBoard.getDataBudgetMonth;
+
+  // END BOX
 
   // START TASKS
 

@@ -30,16 +30,17 @@ export class ListContractComponent implements OnInit {
     
     console.log(formatDate("2024,5,25", 'dd-MM-yyyy', 'pt-BR'));
     this.#apiServiceContract.httpGetContracts().subscribe();
-
+    
   }
 
   idContractDelete!: number;
+  indexRowTable!: number;
 
   deleteContract(modal: HTMLDialogElement) {
     this.#apiServiceContract.httpDeleteContractId(this.idContractDelete).pipe(
-      concatMap(() => this.#apiServiceContract.httpGetContracts())
     ).subscribe(() => modal.close());
     
+    this.getListContract$()?.splice(this.indexRowTable,1)
   }
 
   searchContract(search: string) {

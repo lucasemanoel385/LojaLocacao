@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject, signal } from '@angular/core';
 import { DashBoardService } from '../../service/dash-board.service';
 import { formatDate } from '@angular/common';
 import { concatMap } from 'rxjs';
@@ -18,6 +18,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ContractForMonthComponent implements OnInit {
 
+  @Input() contractMonth!: string;
 
   #serviceDashBoard = inject(DashBoardService);
 

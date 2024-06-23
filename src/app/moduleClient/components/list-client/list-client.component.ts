@@ -26,8 +26,10 @@ export class ListClientComponent implements OnInit{
   #serviceClient = inject(ClientService);
 
   public getListClient = this.#serviceClient.getListClient;
+  public getDeleteMsgError = this.#serviceClient.getClientDeleteError;
 
   public idClient!: number;
+  indexRowTable!: number;
 
   public searchClient(search: any) {
     this.#serviceClient.httpGetClient(search).subscribe();
@@ -37,9 +39,12 @@ export class ListClientComponent implements OnInit{
 
     this.#serviceClient.httpDeleteClientId(this.idClient).pipe(
       concatMap( () => this.#serviceClient.httpGetClient())
-      ).subscribe();
+      ).subscribe(res => modalClient.close());
 
-    modalClient.close();
+      setTimeout(() => {
+        this.getDeleteMsgError.set(null);
+      }, 5000)
+  
   }
 
 }

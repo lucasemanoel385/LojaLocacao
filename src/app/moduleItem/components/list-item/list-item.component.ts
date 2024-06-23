@@ -2,9 +2,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, OnChanges, OnDestroy, O
 import { CommonModule } from '@angular/common';
 
 import { RouterLink } from '@angular/router';
-import { concatMap } from 'rxjs';
+import { catchError, concatMap, pipe, throwError } from 'rxjs';
 import { ListTableLayoutComponent } from '../../../componentsTemplate/list-table-layout/list-table-layout.component';
 import { ProductService } from '../../service/product.service';
+
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -54,16 +56,15 @@ export class ListItemComponent implements OnInit{
   }
 
   idProductDelete!: number;
+  deleteRowTableList!: number;
 
   deleteProduct(modalDelete: HTMLDialogElement) {
-
-    //table.deleteRow(tr.rowIndex)
  
     this.#apiServiceItem.httpDeleteItem$(this.idProductDelete).pipe(
-      concatMap(() => this.#apiServiceItem.httpGetItems$())).
-      subscribe();
-
-    modalDelete.close();
+      ).
+      subscribe(res => modalDelete.close());
+      
+      this.getListItems$()?.splice(this.deleteRowTableList,1);
   }
 
   searchI = signal('');

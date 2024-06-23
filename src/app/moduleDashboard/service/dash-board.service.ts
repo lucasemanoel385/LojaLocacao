@@ -7,6 +7,7 @@ import { Task } from '../interface/task.interface';
 import { ContractItens } from '../../moduleContract/interface/contractItens.interface';
 import { ContractList } from '../../moduleContract/interface/contractList.interface';
 import { ContractId } from '../../moduleContract/interface/contractId.interface';
+import { DataContractDashBoard } from '../interface/dataContractDashBoard.interface copy';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,11 @@ export class DashBoardService {
   #setListContractMonth = signal<ContractList[] | null>(null);
   get getListContractMonth() {
     return this.#setListContractMonth.asReadonly();
+  }
+
+  #setDataBudgetMonth = signal<DataContractDashBoard | null>(null);
+  get getDataBudgetMonth() {
+    return this.#setDataBudgetMonth.asReadonly();
   }
 
   // START APISCHEDULING
@@ -42,6 +48,16 @@ export class DashBoardService {
 
     return this.#http.get<ContractList[]>(`${this.#url()}contrato/contractMonth/${month}`).pipe(shareReplay(), 
     tap((res) => this.#setListContractMonth.set(res)),
+    catchError( (error: HttpErrorResponse) => {
+      this.#setSchedulingError.set(error.error);
+      return throwError(() => error);
+    }))
+  }
+
+  public httpGetBudgetsForMonth$(month: string): Observable<DataContractDashBoard> {
+
+    return this.#http.get<DataContractDashBoard>(`${this.#url()}contrato/budgets/${month}`).pipe(shareReplay(), 
+    tap((res) => this.#setDataBudgetMonth.set(res)),
     catchError( (error: HttpErrorResponse) => {
       this.#setSchedulingError.set(error.error);
       return throwError(() => error);

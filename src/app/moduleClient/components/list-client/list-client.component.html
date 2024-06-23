@@ -15,7 +15,7 @@
             @if (getListClient(); as listClients) {
                 @for (client of listClients; track $index) {
                     <tr>
-                        <td class="table_td_id">{{ client.id }}</td>
+                        <td class="table_td_id"><a [routerLink]="['edit', client.id]">{{ client.id }}</a></td>
                         <td>{{ client.name }}</td>
                         <td>{{ client.cpfCnpj | cpfCnpj}}</td>
                         <td class="table_td_phone">{{client.celular | phone}}</td>
@@ -33,6 +33,9 @@
     </table>
     <dialog class="dialog_delete" #modalDelete>
         <h4>Deseja mesmo excluir?</h4>
+        @if ( getDeleteMsgError() ) {
+            <span class="error_api">{{ getDeleteMsgError() }}</span>
+        } 
         <button style="margin: 0 10px;" class="btn_add" (click)="deleteClient(this.modalDelete)">Sim</button>
         <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
     </dialog>

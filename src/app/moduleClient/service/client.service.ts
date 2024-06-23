@@ -39,7 +39,7 @@ export class ClientService {
 
   #setClientDeleteError = signal<string | null>(null);
   get getClientDeleteError() {
-    return this.#setClientDeleteError.asReadonly();
+    return this.#setClientDeleteError;
   }
 
   #setClientMsgSucess = signal<String | null>(null);
@@ -108,9 +108,12 @@ export class ClientService {
   }
 
   public httpDeleteClientId(id: number): Observable<any>{
+    
+    this.#setClientError.set(null);
+
     return this.#http.delete(`${this.#url()}cliente/${id}`).pipe(shareReplay(),
     catchError( (error: HttpErrorResponse) => {
-      this.#setClientDeleteError.set(error.error.message);
+      this.#setClientDeleteError.set(error.error);
       return throwError(() => error);
     } ))
   }

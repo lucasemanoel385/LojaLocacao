@@ -4,26 +4,22 @@
     box-sizing: border-box;
     position: relative;
 
-    .layout-dashboard {
+    .layout_dashboard {
         display: flex;
         flex-direction: column;
         gap: 3rem;
     }
 
-    .layout-board {
+    .layout_dashboard-box {
         display: flex; 
         justify-content: space-between;
-    }
 
-    a {
-        width: 30%;
-    }
-
+        
     .box {
         display: flex;
         flex-direction: column;
         height: 100%;
-        width: 100%;
+        width: 30%;
         padding: 10px;
         box-sizing: border-box;
         border-radius: 10px;
@@ -39,13 +35,25 @@
         }
     }
 
-    .today {
+      
+    }
+
+    .layout_dashboard-main {
+        display: flex;
+        width: 100%;
+        gap: 3em;
+    }
+
+    .layout_dashboard-cl1 {
         display: flex;
         justify-content: space-between;
+        flex-direction: column;
+        gap: 3em;
+        width: 66.5%;
     }
 
     .scheduling, .contract{
-        width: 68.5%;
+        width: 100%;
         height: 100%;
     }
 
@@ -55,10 +63,7 @@
         background-color: whitesmoke;
         padding: 1rem;
         height: 100%;
-    }
-
-    .tasks {
-        width: 27%;
+        width: 30%;
     }
 
     .table {
@@ -77,81 +82,16 @@
         cursor: pointer;
       }
 
-    .check {
+    /*.check {
         font-size: 20px;
         color: #fff;
         background-color: green;
         border-radius: 0.5rem;
         cursor: pointer;
-    }
+    }*/
 
     h4 {
         font-size: 20px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        width: 50%;
-        gap: 1rem;
-        box-sizing: border-box;
-
-        label {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            text-align: start;
-
-            span {
-                width: 7rem;
-            }
-
-        }
-    }
-
-    .dialog_tasks {
-        background: #d9dde2;
-        width: 30%;
-        height: 25%;
-        border: none;
-        box-shadow: 0 0 2em rgb(0 0 0 / .3);
-        border-radius: .5rem;
-
-        div {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100%;
-            width: 100%;
-            
-            form {
-                width: 80%;
-            }
-        }
-
-        h2 {
-            padding-bottom: 1em;
-        }
-
-        .btns {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-
-            button {
-                outline: 0;
-            }
-        }
-    }
-
-    .dialog_tasks::backdrop {
-        background-color: rgb(0 0 0 / .5);
     }
 
     .validation{
@@ -161,19 +101,20 @@
 
     @media (max-width: 733px) {
 
-        .layout-board{
+        .layout_dashboard-box{
             display: flex;
             flex-direction: column;
             gap: 1em;
 
-            a {
+            .box {
                 width: 100%;
             }
         }
 
-        .today{
+        .layout_dashboard-cl1, .layout_dashboard-main{
             flex-direction: column;
             gap: 3em;
+            width: 100%;
         }
 
         .scheduling, .contract{

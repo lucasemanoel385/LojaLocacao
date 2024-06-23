@@ -16,7 +16,7 @@
             @if (getContractsMonthList(); as listContractMonth) {
                 @for (item of listContractMonth; track item; let i = $index) {
                     <tr>
-                        <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['orcamento','edit', item.id]">{{ item.id }}</a></td>
+                        <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['../','orcamento','edit', item.id]">{{ item.id }}</a></td>
                         <td style="width: 500px; text-align: start;">{{ item.nameClient }}</td>
                         <td>{{ item.dateReserve | formatDatePipe}}</td>
                         <td>{{ item.dateFinal | formatDatePipe}}</td>

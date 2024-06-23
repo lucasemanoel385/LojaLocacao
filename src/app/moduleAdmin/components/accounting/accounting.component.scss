@@ -1,0 +1,85 @@
+:host{
+    height: 100%;
+    padding: 2em;
+
+    .layout__accounting {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+    }
+
+    .vertical {
+        max-width: 100%;
+        border-left: 1px solid grey;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .inputs, .expenses {
+        width: 50%;
+        margin: 0em 5em;
+        max-height: 500px;
+    }
+
+    .inputs {
+        display: flex;
+        flex-direction: column;
+
+        .inputs__information {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        table {
+            margin: 0;
+        }
+
+        td, th {
+            text-align: start;
+        }
+    }
+
+    .expenses, .inputs {
+        overflow-y: visible;
+        overflow-x: hidden;
+    }
+
+    .expenses::-webkit-scrollbar-thumb {
+        background-color: rgb(175, 175, 175);
+        border-radius: 20px;
+
+      }
+
+    .expenses::-webkit-scrollbar {
+        width: 5px;  
+             /* width of the entire scrollbar */
+    }
+
+    .layout__accounting-sections {
+        display: flex;
+    }
+
+    .values {
+        display: flex;
+        justify-content: center;
+    }
+
+    .values__box {
+        display: flex;
+        gap: 2.5em;
+        width: 85%;
+    }
+
+    .month {
+        display: flex;
+        justify-content: center;
+
+        input {
+            width: 111px;
+            height: 20px;
+            margin: 1.5em 5em;
+        }
+    }
+    
+
+}

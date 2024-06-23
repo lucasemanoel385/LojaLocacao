@@ -38,9 +38,10 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
     if(changes['tittleCategory'].currentValue) {
       this.tittle.set(changes['tittleCategory'].currentValue);
       this.buttonSubmit.set(changes['buttonSave'].currentValue);
+      this.idUpdateCategory.set(changes['idCategory'].currentValue);
+      this.#serviceCategory.httpGetCategoryId(changes['idCategory'].currentValue).subscribe((res) => this.editCategory(res));
     }
-    this.idUpdateCategory.set(changes['idCategory'].currentValue);
-    this.#serviceCategory.httpGetCategoryId(changes['idCategory'].currentValue).subscribe((res) => this.editCategory(res));
+
   }
 
   #serviceCategory = inject(CategoryItemService);

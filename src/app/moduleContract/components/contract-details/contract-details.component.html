@@ -1,5 +1,3 @@
-
-
 <app-table-contract buttonCreate="Salvar" [contractId]="getContractId()">
     <button #buttonReserve style="background-color: #1f3853;" class="btn-update btn-contract" type="button" (click)="modalReserve.showModal()">{{buttonSituation()}}</button>
     <button #invoice style="background-color: #1f3853; display: none;" class="btn-update btn-contract" type="button" (click)="paymentFuture(modalInvoice)">Lançar pagamentos</button>
@@ -13,19 +11,87 @@
         </div>
       
     </dialog>
-    <dialog #modalInvoice style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center; width: 20%;">
-        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1em;">
-            <h4>Lançar pagamento</h4>
-            <p>Valor total do contrato: {{valueTotalContract() | currency: 'BRL'}}</p>
-            <p>Valor pago: {{valuePay() | currency: 'BRL'}}</p>
-            <p>Valor a pagar: {{amountToPay() | currency: 'BRL'}}</p>
-            <input #valuePayment style="width: 60%; text-align: center;" class="inputGrey" type="number" min="0">
+    <dialog #modalInvoice class="dialog">
+        <div class="dialog_layout">
+            <div class="dialog_title">
+                <h2>Pagamento</h2>
+            </div>
+            <div style="display: flex; justify-content: space-around;">
+                <p>Parcelas</p>
+                <p>Valor Total: {{valueTotalContract() | currency: 'BRL'}}</p>
+                <p>Valor Pago: {{amountToPay() | currency: 'BRL'}}</p>
+            </div>
+            <div class="dialog_content">
+                <form [formGroup]="paymentForm">
+
+                
+                <table class="table">
+                    @for (payment of payments; track payment; let i = $index) {
+                    <tr [formGroup]="payment">
+                        <td>
+                            <input #value class="inputGrey" type="number" placeholder="R$100,20" formControlName="paymentValue" (focusout)="attValuePaid(value)">
+                        </td>
+                        <td>
+                            <input class="inputGrey" type="date" formControlName="datePayment">
+                        </td>
+                        <td>
+                            <button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete" (click)="clearTr(i)"><span class="material-symbols-sharp">
+                                delete
+                                </span></button>
+                        </td>
+                    </tr>
+                    }
+                </table>
+                </form>
+                <button class="btn_add" type="button" (click)="addItens()">Add. parcela</button>
+                <!--<div class="table">
+
+                    <input #valuePayment class="inputGrey" type="number" min="0">
+                    <input #valuePayment class="inputGrey" type="date" min="0">
+                    X
+                </div>-->
+                @if (getContractPaymentError()) {
+                    <span class="error_api">{{getContractPaymentError()}}</span>
+                } @else {
+                    <span class="success_api">{{getContractPaymentSucess()}}</span>
+                }
+                <div class="dialog_btns">
+                    <button class="btn_add" type="button" (click)="payment(modalInvoice)">Salvar</button>
+                    <button class="btn-delete" type="button" (click)="modalInvoice.close(); this.getContractPaymentError.set(null);  this.getContractPaymentSucess.set(null)">Não</button>
+                </div>
+            </div>    
+            <div class="dialog_footer"></div>
+        </div>
+
+        <!--<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1em;">
+            <h4>Parcelas</h4>
+            <div style="display: flex; justify-content: space-evenly;width: 100%;">
+                
+                <p>Valor total do contrato: {{valueTotalContract() | currency: 'BRL'}}</p>
+                <p>Valor pago: {{valuePay() | currency: 'BRL'}}</p>
+                <p>Valor a pagar: {{amountToPay() | currency: 'BRL'}}</p>
+            </div>
+            <div style="display: flex; gap: 1.5em;">
+                <table> 
+                    <tr>
+                        <td>
+                            <input #valuePayment style="width: 60%; text-align: center;" class="inputGrey" type="number" placeholder="R$" min="0">
+                        </td>
+                        <td>
+                            <input #valuePayment style="width: 60%; text-align: center;" class="inputGrey" type="date" min="0">
+                        </td>
+                    </tr>
+                </table>
+                
+                
+            </div>
+      
         </div>
 
         <div style="display: flex; gap: 10px; text-align: center; justify-content: center;margin: 1em 0;">
             <button class="btn_add" type="button" (click)="payment(modalInvoice, valuePayment)">Salvar</button>
             <button class="btn-delete" type="button" (click)="modalInvoice.close()">Não</button>
-        </div>
+        </div>-->
 
     </dialog>
 </app-table-contract>

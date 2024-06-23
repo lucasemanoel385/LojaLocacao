@@ -8,7 +8,7 @@
                 <section>
                     <label class="label_form_data">
                         <span>Cód. Produto:</span>
-                        <input type="number" placeholder="Nome do item" formControlName="cod" required>
+                        <input id="codItem" type="number" placeholder="Nome do item" formControlName="cod" required [readOnly]="isReadOnlyCodItem()">
                     </label>
                     <label class="label_form_data">
                         <span>Nome do produto:</span>
