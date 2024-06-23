@@ -1,4 +1,4 @@
-/*import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -22,4 +22,4 @@ export class PaginatorListComponent implements MatPaginatorIntl {
   }
 
 
-}*/
+}
