@@ -9,7 +9,6 @@ export interface ContractId {
     dateOf: Date,
     dateUntil: Date,
     discount: number,
-    phone: string,
     payment: PaymentsList[]
     seller: string,
     items: ContractItens[],

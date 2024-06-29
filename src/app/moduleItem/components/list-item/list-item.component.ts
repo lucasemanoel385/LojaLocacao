@@ -7,6 +7,8 @@ import { ListTableLayoutComponent } from '../../../componentsTemplate/list-table
 import { ProductService } from '../../service/product.service';
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PagiantorList } from '../../../componentsTemplate/paginator/paginator-list/paginator-list.component';
 
 
 
@@ -14,27 +16,28 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-list-item',
   standalone: true,
-  imports: [CommonModule, RouterLink, ListTableLayoutComponent],
+  imports: [CommonModule, RouterLink, ListTableLayoutComponent, MatPaginatorModule,
+    PagiantorList
+  ],
   templateUrl: './list-item.component.html',
   styleUrl: './list-item.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntl}],
 })
-export class ListItemComponent implements OnInit{
- 
- 
+export class ListItemComponent implements OnInit, OnDestroy{
+
+
   #apiServiceItem = inject(ProductService);
 
   //o $ é uma convenção pra dizer que ele é um observable
   public getListItems$ = this.#apiServiceItem.getItemList;
-  getListItemPage = this.#apiServiceItem.getItemListPage;
-  
-  numberPage = 0;
+  public getListItemPage$ = this.#apiServiceItem.getItemListPage;
 
-  paging(): number[] {
-    let numeros: number[] = [];
-    numeros = Array.from({ length: this.#apiServiceItem.getItemListPage }, (_, index) => index + 1);
-    return numeros;
-  }
+  // paging(): number[] {
+  //   let numeros: number[] = [];
+  //   numeros = Array.from({ length: this.#apiServiceItem.getItemListPage }, (_, index) => index + 1);
+  //   return numeros;
+  // }
 
   /*deleteItem(table: HTMLTableElement, tr: HTMLTableRowElement, id: number) {
     table.deleteRow(tr.rowIndex)
@@ -45,14 +48,10 @@ export class ListItemComponent implements OnInit{
   }*/
 
   ngOnInit(): void {
-    this.#apiServiceItem.httpGetItems$(this.numberPage).subscribe();
-  }
-
-  pageNumber(pageNumber: number) {
-    console.log(this.searchI());
-    this.numberPage = pageNumber;
-    this.#apiServiceItem.httpGetItems$(this.numberPage, this.searchI()).subscribe();
-  
+    if (this.getListItems$() === null) {
+      console.log("sem cache")
+      this.#apiServiceItem.httpGetItems$().subscribe(res => console.log(res));
+    }
   }
 
   idProductDelete!: number;
@@ -61,6 +60,7 @@ export class ListItemComponent implements OnInit{
   deleteProduct(modalDelete: HTMLDialogElement) {
  
     this.#apiServiceItem.httpDeleteItem$(this.idProductDelete).pipe(
+      concatMap(() => this.#apiServiceItem.httpGetItems$())
       ).
       subscribe(res => modalDelete.close());
       
@@ -72,6 +72,20 @@ export class ListItemComponent implements OnInit{
   searchItem(search: string) {
     this.searchI.set(search);
     this.#apiServiceItem.httpGetItems$(0 ,search).subscribe();
+  }
+
+  numberPage = signal(0);
+
+  handlePageEvent(pageNumber: number) {
+    this.numberPage.set(pageNumber);
+    this.#apiServiceItem.httpGetItems$(pageNumber, this.searchI()).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if(this.searchI() != '' || this.numberPage() != 0) {
+      this.#apiServiceItem.httpGetItems$().subscribe();
+    }
+
   }
 
 }

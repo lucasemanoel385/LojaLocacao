@@ -1,0 +1,141 @@
+:host {
+    
+    body {
+        width: 210mm;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        align-items: center;
+        background-image: url('../../../../assets/logopequeno.png');
+        background-repeat: no-repeat;
+        background-position-y: 300px;
+        page-break-before: always;
+        box-sizing: border-box;
+        
+        h5, span, h3, p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        h3 {
+            margin: 5px;
+            font-size: 18px;
+        }
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+
+        div {
+            text-align: center;
+        }
+    }
+
+    .layout_content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .section_information {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        border: 1px solid rgb(202, 202, 202);
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .content_information {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 50%;
+    }
+
+    .section_products {
+        border: 1px solid rgb(202, 202, 202);
+        padding: 15px;
+    }
+
+    .table {
+        margin: 0;
+        
+        td, tr {
+            border: 1px dashed rgb(99, 99, 99);
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            padding: 1px;
+        }
+
+        td {
+            line-height: 1.5;
+        }
+
+        th {
+            margin: 2px;
+            padding: 2px;
+        }
+    }
+
+    .products_value_obeservation {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+ 
+        padding: 15px 0;
+    }
+
+    .products_observations {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .products_value {
+        display: flex;
+        flex-direction: column;
+        text-align: end; 
+        gap: 5px;
+        width: 40%;
+    }
+
+
+    .clauses {
+        page-break-inside: auto;
+        margin: 10px 0;
+
+
+    }
+
+    .section_signature {
+        display: flex; 
+        justify-content: space-around; 
+        margin-top: 20px; 
+        page-break-inside: avoid;
+    }
+
+    .signature_contract {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        p {
+            font-size: 18px;
+        }
+    }
+
+ 
+
+
+  
+}

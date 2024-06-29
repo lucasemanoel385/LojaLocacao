@@ -18,14 +18,21 @@ export class CompanyDataComponent implements OnInit{
 
   #apiDataCompanyService = inject(DataCompanyService);
 
+  public getDataCompany = this.#apiDataCompanyService.getCompany;
   public getMsgError = this.#apiDataCompanyService.getMsgError;
   public getMsgSucess = this.#apiDataCompanyService.getMsgSucess;
 
   ngOnInit(): void {
-    this.#apiDataCompanyService.httpGetDataCompany$().subscribe((res) => this.updateValueTemplate(res));
+    if(this.getDataCompany() === null) {
+      this.#apiDataCompanyService.httpGetDataCompany$().subscribe((res) => this.updateValueTemplate(res));
+    } else {
+      this.updateValueTemplate(this.getDataCompany() as GetDataCompany);
+    }
+    
   }
 
   updateValueTemplate(res: GetDataCompany) {
+    console.log(res);
     this.dataCompanyForm.setValue({
       reason: res.reason,
       fantasyName: res.fantasyName,
@@ -36,7 +43,8 @@ export class CompanyDataComponent implements OnInit{
       cep: res.cep,
       city: res.city,
       uf: res.uf,
-      phone: res.phone
+      phone1: res.phone1,
+      phone2: res.phone2
     })
 
    
@@ -58,7 +66,8 @@ export class CompanyDataComponent implements OnInit{
     cep: [''],
     city: [''],
     uf: [''],
-    phone: ['']
+    phone1: [''],
+    phone2: ['']
   })
 
   selectedFile: File | undefined;

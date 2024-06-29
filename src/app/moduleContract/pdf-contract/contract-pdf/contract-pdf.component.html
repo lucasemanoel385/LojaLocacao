@@ -1,0 +1,129 @@
+
+ <body #pdfContract>
+    <header>
+        <img src="../../../../assets/logoMarca.png" alt="Rosa de Sarom" width="130px">
+        <div>
+            <h5>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE LOCAÇÃO DE ROUPAS E AFINS</h5>
+            <h3>{{ companyData()?.fantasyName }}</h3>
+        </div>
+        <span>Orç. Contract Num: {{ contract()?.id }}</span>
+    </header>
+    <main class="layout_content">
+        <section class="section_information">
+            <div class="content_information">
+                <p><strong>Contratante: </strong>{{ contract()?.client?.nameReason}}</p>
+                <p><strong>CPF/CNPJ: </strong>{{ contract()?.client?.cpfCnpj | cpfCnpj}}</p>
+                <p><strong>RG/I.Est: </strong>{{ contract()?.client?.rgStateRegistration }}</p>
+            </div>
+            <div class="content_information">
+                <p><strong>Email: </strong>{{ contract()?.client?.email }}</p>
+                <p><strong>Endereço: </strong>{{ contract()?.client?.address?.street }} - 
+                    {{ contract()?.client?.address?.number }} - {{ contract()?.client?.address?.district }} - {{ contract()?.client?.address?.city }} - 
+                    {{ contract()?.client?.address?.uf }}</p>
+                <p><strong>Tel./Cel.: </strong>{{ contract()?.client?.phone1 | phone}} / {{ contract()?.client?.phone2 }}</p>
+            </div>
+        </section>
+        <section class="section_information">
+            <div class="content_information">
+                <p><strong>Contratado: </strong>{{ companyData()?.reason }}</p>
+                <p><strong>CNPJ: </strong>{{ companyData()?.cnpj | cpfCnpj }}</p>
+                <p><strong>Endereço: </strong>{{ companyData()?.street }}, {{ companyData()?.number }} - {{ companyData()?.district }} - {{ companyData()?.city }}</p>
+            </div>
+            <div class="content_information">
+                <p><strong>Nome Fantasia: </strong>{{ companyData()?.fantasyName }}</p>
+                <p><strong>Tel./Cel.: </strong>{{ companyData()?.phone1 | phone}} / {{ companyData()?.phone2 | phone}}</p>
+            </div>
+        </section>
+        <section class="section_information">
+            <div class="content_information">
+                <p><strong>Data Retirada: </strong>{{ contract()?.dateOf | formatDatePipe}}</p>
+                <p><strong>Data Entrega: </strong>{{ contract()?.dateUntil | formatDatePipe}}</p>
+                <p><strong>Vendedor(a): </strong>{{ contract()?.seller }}</p>
+            </div>
+        </section>
+        <section class="section_information">
+            <div class="content_information">
+                <h5>VALORES PAGOS:</h5>
+                @for (payment of contract()?.payment; track $index) {
+                    <p>{{ payment.paymentValue | currency: 'BRL' }} - {{ payment.datePayment | formatDatePipe}}</p>
+                }
+            </div>
+        </section>
+        <section class="section_products">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Código
+                        </th>
+                        <th>
+                            Qtd.
+                        </th>
+                        <th>
+                            Produto
+                        </th>
+                        <th>
+                            Reposição(unid.)
+                        </th>
+                        <th>
+                            Preço(unid.)
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (product of contract()?.items; track $index) {
+                        <tr>
+                            <td>
+                                {{ product.cod }}
+                            </td>
+                            <td>
+                                {{ product.amount }}
+                            </td>
+                            <td style="text-align: start; width: 360px;">
+                                {{ product.name }}
+                            </td>
+                            <td>
+                                {{ product.valueReplacement | currency: 'BRL'}}
+                            </td>
+                            <td>
+                                {{ product.value  | currency: 'BRL'}}
+                            </td>
+                            <td>
+                                {{ product.valueTotal  | currency: 'BRL'}}
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="products_value_obeservation">
+                <div class="products_observations">
+                    <label>Obeservação:</label>
+                    <p [innerHTML]="observation"></p>
+                </div>
+                <div class="products_value">
+                    <p><strong>Desconto:</strong> {{ contract()?.discount | currency: 'BRL'}}</p>
+                    <p><strong>Valor dos Produtos:</strong> {{ contract()?.value | currency: 'BRL'}}</p>
+                    <p><strong>Valor Total:</strong> {{ contract()?.valueTotal | currency: 'BRL'}}</p>
+                </div>
+  
+            </div>
+ 
+        </section>
+        <section class="clauses" [innerHTML]="clauses()">
+        </section>
+        <section #signature class="section_signature">
+                <div class="signature_contract">
+                    <p>Contratada: _________________________</p>
+                    <p>{{ companyData()?.fantasyName }}</p>
+                </div>
+                <div class="signature_contract">
+                    <p>Contratante: _________________________</p>
+                    <p>{{ contract()?.client?.nameReason }} - ({{ contract()?.client?.cpfCnpj | cpfCnpj}})</p>
+                </div>
+        </section>
+
+    </main>
+</body>

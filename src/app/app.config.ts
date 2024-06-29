@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, importProvidersFrom } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,8 +6,9 @@ import { provideNgxMask } from 'ngx-mask';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { tokenJWTInterceptor } from './interceptor/token-jwt.interceptor';
+import { tokenJWTInterceptor } from './config/interceptor/token-jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatNativeDateModule } from '@angular/material/core';
 
 registerLocaleData(localePt);
 
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     )),
     provideHttpClient(withInterceptors([tokenJWTInterceptor])),
     provideNgxMask(),
-    { provide: LOCALE_ID, useValue: 'pt-Br' }, provideAnimationsAsync('noop')
+    { provide: LOCALE_ID, useValue: 'pt-Br' }, provideAnimationsAsync('noop'),
+    importProvidersFrom(MatNativeDateModule)
   ]
 };

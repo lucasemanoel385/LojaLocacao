@@ -1,9 +1,10 @@
 <app-table-contract buttonCreate="Salvar" [contractId]="getContractId()">
+    <button #buttonPrintOut class="btn-back" style="margin: 0;" type="button" (click)="navigateToPrintOut()">Imprmir</button>
     <button #buttonReserve style="background-color: #1f3853;" class="btn-update btn-contract" type="button" (click)="modalReserve.showModal()">{{buttonSituation()}}</button>
     <button #invoice style="background-color: #1f3853; display: none;" class="btn-update btn-contract" type="button" (click)="paymentFuture(modalInvoice)">Lançar pagamentos</button>
-    <dialog #modalReserve style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center; height: 15%;">
-        <div style="display: flex; flex-direction: column; height: 100%; gap: 1.5em; justify-content: center;">
-            <p>Deseja realmente reservar, após a reservar não terá como voltar<br> o status e gerará lançamento de pagamento</p>
+    <dialog #modalReserve class="dialog_delete">
+        <div>
+            <p>Deseja realmente reservar? Após a reserva, não será possível reverter o status e um lançamento de pagamento será gerado</p>
             <div>
                 <button style="margin: 0 10px;" class="btn_add" type="button" (click)="reserve(invoice, buttonReserve, modalReserve)">Reservar</button>
                 <button class="btn-delete" type="button" (click)="modalReserve.close()">Não</button>
@@ -16,8 +17,8 @@
             <div class="dialog_title">
                 <h2>Pagamento</h2>
             </div>
-            <div style="display: flex; justify-content: space-around;">
-                <p>Parcelas</p>
+            <div class="values">
+                <h4>Parcelas:</h4>
                 <p>Valor Total: {{valueTotalContract() | currency: 'BRL'}}</p>
                 <p>Valor Pago: {{amountToPay() | currency: 'BRL'}}</p>
             </div>

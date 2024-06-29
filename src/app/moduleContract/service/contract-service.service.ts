@@ -10,6 +10,8 @@ import { ImgBuffer } from '../../moduleItem/service/imgBuffer';
 import { ContractEdit } from '../interface/contractEdit.interface';
 import { ChangeSituation } from '../interface/changeSituation.interface';
 import { PaymentsList } from '../interface/PaymentsList';
+import { ContractListWithPage } from '../interface/ContractListWIthPage.interface';
+import { Pageable } from '../../moduleItem/interface/Pageable';
 
 
 @Injectable({
@@ -19,6 +21,11 @@ export class ContractServiceService {
 
   #http = inject(HttpClient);
   #url = signal(environment.api);
+
+  #setListContractPage = signal<Pageable | null>(null);
+  get getListContractPage() {
+    return this.#setListContractPage.asReadonly();
+  }
 
   #setListContract = signal<ContractList[] | null>(null);
   get getListContract() {
@@ -78,16 +85,33 @@ export class ContractServiceService {
   }
   
 
-  public httpGetContracts(search?: string): Observable<any> {
+  public httpGetContracts(search?: string, page?: number): Observable<ContractListWithPage> {
 
-    var params;
-    
-    if (search) {
-      params = new HttpParams().set('search', search);
+    var params ;
+  
+    if (page && search) {
+     params = new HttpParams().set('search', search).set('page', page);
+  
+    } else if (search) {
+ 
+     params = new HttpParams().set('search', search);
+    } else {
+ 
+       params = new HttpParams().set('page', page as number);
     }
 
-    return this.#http.get<any>(`${this.#url()}contrato`, {params}).pipe(shareReplay(), 
-    tap( (res) => this.#setListContract.set(res.content)),
+    return this.#http.get<ContractListWithPage>(`${this.#url()}contrato`, {params}).pipe(shareReplay(), 
+    tap( (res) => {
+      this.#setListContract.set(res.content);
+      const page: Pageable = {
+        numberOfElements: res.numberOfElements,
+        totalElements: res.totalElements,
+        totalPages: res.totalPages,
+        size: res.size,
+        number: res.number
+      }
+      this.#setListContractPage.set(page);
+    }),
     catchError( (error: HttpErrorResponse) => {
       this.#setListContractError.set(error.error.message);
       return throwError(() => error);
@@ -108,6 +132,7 @@ export class ContractServiceService {
           imagem: ImgBuffer.prototype.base64ToArrayBuffer(i.imagem),
           name: i.name,
           value: i.value,
+          valueReplacement: i.valueReplacement,
           valueTotal: i.valueTotal
         }
         return itens;

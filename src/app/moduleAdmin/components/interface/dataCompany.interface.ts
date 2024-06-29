@@ -8,5 +8,6 @@ export interface DataCompany {
     cep: string,
     city: string,
     uf: string,
-    phone: string,
+    phone1: string,
+    phone2: string
 }

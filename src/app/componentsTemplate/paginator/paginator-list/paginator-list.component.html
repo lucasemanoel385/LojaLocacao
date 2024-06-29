@@ -1,0 +1,14 @@
+<div>
+    <span>{{rangePage()}}</span>
+    <button [disabled]="checkDisabledPreviousPage()">
+        <span style="font-size: 30px;" (click)="previousPage()"class="material-symbols-sharp">
+            chevron_left
+        </span>
+    </button>
+    <button [disabled]="checkDisabledNextPage()">
+        <span style="font-size: 30px;" (click)="nextPage()"class="material-symbols-sharp">
+            chevron_right
+    </span>
+    </button>
+
+</div>

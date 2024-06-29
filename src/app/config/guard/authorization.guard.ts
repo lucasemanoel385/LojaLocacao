@@ -5,7 +5,7 @@ export const authorizationGuard: CanMatchFn = (route, segments) => {
 
   var router = inject(Router)
 
-  if (!sessionStorage.getItem("tokenJWT")) {
+  if (!localStorage.getItem("tokenJWT")) {
     router.navigate(['../login'])
     return false;
   }

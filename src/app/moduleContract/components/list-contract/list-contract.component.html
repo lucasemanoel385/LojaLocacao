@@ -1,5 +1,5 @@
 <h2>Oraçmentos / Contratos</h2>
-<app-list-table-layout (outputSearch)="searchContract($event)" routeLink="register" nameCreate="Criar orçamento" placeHolder="Encontrar orçamento">
+<app-list-table-layout (outputSearch)="filterContract($event)" routeLink="register" nameCreate="Criar orçamento" placeHolder="Encontrar orçamento">
     <table class="table" #table>
         <thead>
             <tr>
@@ -46,11 +46,10 @@
         <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(this.modalDelete)">Sim</button>
         <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
     </dialog>
-    <div>
-        
-            <button class="btn-page">1</button>
-        
-    </div>
+    <paginator-list [pageable]="getListContractPage()"
+                    (nextPageOutPut)="handlePageEvent($event)"
+                    (previousPageOutPut)="handlePageEvent($event)"
+    />
 </app-list-table-layout>
 
 

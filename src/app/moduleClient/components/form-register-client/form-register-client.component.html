@@ -81,10 +81,24 @@
                 <p><strong>Campo bairro vazio</strong></p>
             }
         </label>
-        <label for="phone">
-            Celular:
-            <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" #cpf name="phone" #phone="ngModel" [ngModel]="phone.value" required mask="(00) 0 0000-0000"/>
-            @if (phone.touched && phone.invalid) {
+        <label for="">
+            UF:
+            <input class="inputGrey" placeholder="MG" type="text" name="uf" #uf="ngModel" [ngModel]="uf.value" required [maxLength]="2"/>
+            @if (uf.touched && uf.invalid) {
+                <p><strong>Campo uf vazio</strong></p>
+            }
+        </label>
+        <label for="phone1">
+            Tel./Celular:
+            <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone1" #phone1="ngModel" [ngModel]="phone1.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
+            @if (phone1.touched && phone1.invalid) {
+                <p><strong>Campo celular vazio</strong></p>
+            }
+        </label>
+        <label for="phone2">
+            Tel./Celular:
+            <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone2" #phone2="ngModel" [ngModel]="phone2.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
+            @if (phone2.touched && phone2.invalid) {
                 <p><strong>Campo celular vazio</strong></p>
             }
         </label>

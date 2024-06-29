@@ -26,11 +26,11 @@ export class LoginPageComponent {
 
   submitLogin() {
     
-    sessionStorage.clear();
+    localStorage.clear();
     this.#serviceLogin.httpLogin$(this.loginForm.value as Login).subscribe(
       res => {
-        sessionStorage.setItem("tokenJWT", res.token);
-        sessionStorage.setItem("role", res.role);
+        localStorage.setItem("tokenJWT", res.token);
+        localStorage.setItem("role", res.role);
         this.#router.navigate(['/store/dashboard']);
       });
 

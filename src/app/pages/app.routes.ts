@@ -13,6 +13,7 @@ import { CategoryListComponent } from '../moduleCategory/components/category-lis
 import { EditCategoryComponent } from '../moduleCategory/components/edit-category/edit-category.component';
 import { CreateCategoryComponent } from '../moduleCategory/components/create-category/create-category.component';
 import { TemplateAdminComponent } from '../moduleAdmin/components/template-admin/template-admin.component';
+import { ContractPdfComponent } from '../moduleContract/pdf-contract/contract-pdf/contract-pdf.component';
 
 
 

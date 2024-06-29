@@ -86,7 +86,7 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
 
   }
 
-  private editCLient(data: any) {
+  private editCLient(data: ClientCreate) {
 
     var yyyy: string = data.dateBirthCompanyFormation[0];
     var MM: string = data.dateBirthCompanyFormation[1];
@@ -110,12 +110,14 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       cpf: data.cpfCnpj,
       rg: data.rgStateRegistration,
       dateBirth: yyyy + "-" + MM + "-" + dd,
-      cep: data.addrees.cep,
-      street: data.addrees.street,
-      city: data.addrees.city,
-      district: data.addrees.district,
-      number: data.addrees.number,
-      phone: data.phone,
+      cep: data.address.cep,
+      street: data.address.street,
+      city: data.address.city,
+      district: data.address.district,
+      uf: data.address.uf,
+      number: data.address.number,
+      phone1: data.phone1,
+      phone2: data.phone2,
       email: data.email,
     })
  
@@ -128,7 +130,8 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       cep: dados.cep,
       street: dados.logradouro,
       city: dados.localidade,
-      district: dados.bairro
+      district: dados.bairro,
+      uf: dados.uf
     })
 
   }
@@ -147,8 +150,10 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
         cep: form.control.get('cep')?.value,
         number: form.control.get('number')?.value,
         city: form.control.get('city')?.value,
+        uf: form.control.get('uf')?.value,
         email: form.control.get('email')?.value,
-        phone: form.control.get('phone')?.value,
+        phone1: form.control.get('phone1')?.value,
+        phone2: form.control.get('phone2')?.value,
         
       }
       this.#serviceClient.httpUpdateClient(client).pipe(

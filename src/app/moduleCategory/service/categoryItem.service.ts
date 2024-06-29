@@ -5,6 +5,7 @@ import { Observable, catchError, share, shareReplay, tap, throwError } from 'rxj
 import { CategoryCreate } from '../interface/categoryCreate.interface';
 import { CategoryList } from '../interface/categoryList.interface';
 import { CategoryPage } from '../interface/categoryPage.interface';
+import { Pageable } from '../../moduleItem/interface/Pageable';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,11 @@ export class CategoryItemService {
     return this.#setCategoryId;
   }
 
+  #setListCategoryPage = signal<Pageable | null>(null);
+  get getListCategoryPage() {
+    return this.#setListCategoryPage.asReadonly();
+  }
+
   #setListCategory = signal<CategoryList[] | null>(null);
   get getListCategory() {
     return this.#setListCategory.asReadonly();
@@ -59,16 +65,33 @@ export class CategoryItemService {
     }))
   }
 
-  public httpGetListCategory(search?: string): Observable<CategoryPage> {
+  public httpGetListCategory(search?: string, page?: number): Observable<CategoryPage> {
 
-    var params;
-    
-    if (search) {
-      params = new HttpParams().set('search', search);
+    var params ;
+  
+    if (page && search) {
+     params = new HttpParams().set('search', search).set('page', page);
+  
+    } else if (search) {
+ 
+     params = new HttpParams().set('search', search);
+    } else {
+ 
+       params = new HttpParams().set('page', page as number);
     }
 
     return this.#http.get<CategoryPage>(`${this.#url()}categoria`, {params}).pipe(shareReplay(),
-    tap( (res) => this.#setListCategory.set(res.content)),
+    tap( (res) => {
+      this.#setListCategory.set(res.content)
+      const page: Pageable = {
+        numberOfElements: res.numberOfElements,
+        totalElements: res.totalElements,
+        totalPages: res.totalPages,
+        size: res.size,
+        number: res.number
+      }
+      this.#setListCategoryPage.set(page);
+    }),
     catchError( (error: HttpErrorResponse) => {
       this.#setListCategoryError.set(error.error.message);
       return throwError(() => error);

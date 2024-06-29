@@ -24,8 +24,11 @@ export class SchedulingComponent implements OnInit {
   public schedulesToday = signal(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR'));
 
   ngOnInit(): void {
-    this.schedulesToday.set(this.schedulesToday());
-    this.#serviceDashBoard.httpGetScheduling$(this.schedulesToday()).subscribe();
+      this.schedulesToday.set(this.schedulesToday());
+    if(this.getSchedulingList() === null) {
+      this.#serviceDashBoard.httpGetScheduling$(this.schedulesToday()).subscribe();
+    }
+
   }
 
   dateScheduleDay = this.schedulesToday();

@@ -9,6 +9,7 @@ import { ItemUpdate } from '../../interface/ItemUpdate';
 import { ItemCreate } from '../../interface/ItemCreate';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
 import { CategoryItemService } from '../../../moduleCategory/service/categoryItem.service';
+import { concat, concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-item',
@@ -37,7 +38,6 @@ export class ItemComponent implements OnChanges, OnInit {
       this.buttonSubmit.set(changes['buttonSave'].currentValue);
       this.#apiServiceItem.httpGetItemId$(changes['idItem'].currentValue).subscribe(() => this.editItem());
     }
-    console.log(changes)
   }
 
   #fb = inject(FormBuilder);
@@ -143,7 +143,9 @@ export class ItemComponent implements OnChanges, OnInit {
         category: this.itemContract.get('category')?.value as string,
       }
       console.log(this.itemContract.value, this.selectedFile)
-      this.#apiServiceItem.httpUpdateItem$(item, this.selectedFile).subscribe();
+      this.#apiServiceItem.httpUpdateItem$(item, this.selectedFile).pipe(
+        concatMap(() => this.#apiServiceItem.httpGetItems$())
+      ).subscribe();
 
       setTimeout(() => {
         this.getItemError$.set(null);
@@ -160,7 +162,9 @@ export class ItemComponent implements OnChanges, OnInit {
         category: this.itemContract.get('category')?.value as string,
       }
 
-      this.#apiServiceItem.httpCreateItem$(item, this.selectedFile).subscribe();
+      this.#apiServiceItem.httpCreateItem$(item, this.selectedFile).pipe(
+        concatMap(() => this.#apiServiceItem.httpGetItems$())
+      ).subscribe();
 
       setTimeout(() => {
         this.getItemError$.set(null);

@@ -1,5 +1,5 @@
 <h2>Categorias</h2>
-<app-list-table-layout (outputSearch)="searchCategory($event)" routeLink="register" nameCreate="Criar categoria" placeHolder="Encontrar categoria">
+<app-list-table-layout (outputSearch)="filterCategory($event)" routeLink="register" nameCreate="Criar categoria" placeHolder="Encontrar categoria">
     <table class="table" #table>
         <thead>
             <tr>
@@ -35,7 +35,9 @@
         <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
 
     </dialog>
-    <div>
-         <button class="btn-page">1</button>
-    </div>
+
+    <paginator-list [pageable]="getListCategoryPage()"
+                    (nextPageOutPut)="handlePageEvent($event)"
+                    (previousPageOutPut)="handlePageEvent($event)"
+    />
 </app-list-table-layout>

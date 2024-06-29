@@ -2,9 +2,9 @@
     <app-back-history/>
     <h2>{{ tittle() }}</h2>
 </div>
-    <div class="principal">
-        <div style="display: flex;">
-            <form id="register" [formGroup]="itemContract" enctype="multipart/form-data" >
+    <div class="layout_main">
+        <div class="layout_content">
+            <form class="form_data" id="register" [formGroup]="itemContract" enctype="multipart/form-data" >
                 <section>
                     <label class="label_form_data">
                         <span>Cód. Produto:</span>
@@ -38,7 +38,7 @@
                 </section>
             </form>
                 <hr>
-            <form [formGroup]="formImg" (submit)="submitItem()" enctype="multipart/form-data">
+            <form class="form_img" [formGroup]="formImg" (submit)="submitItem()" enctype="multipart/form-data">
                 <section>
                         <label class="img__item">
                             <input style="display: none;" type="file" name="imagem" (change)="onFileSelected($event, choose)" formControlName="imagem" required>

@@ -18,6 +18,7 @@ import { FormatDatePipe } from '../../../moduleClient/components/pipes/format-da
 import { ContractEdit } from '../../interface/contractEdit.interface';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { concatMap, tap } from 'rxjs';
 
 
 export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
@@ -35,7 +36,10 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
   styleUrl: './table-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
+export class TableContractComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit{
+  ngAfterViewInit(): void {
+    this.#apiServiceItem.httpGetAllItems$().subscribe();
+  }
 
 
   
@@ -43,12 +47,10 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
     if (changes['contractId'].currentValue) {
       this.editContract(this.contractId as ContractId);
     }
-    console.log(changes)
+    
   }
  
   ngOnInit(): void {
-    this.#apiServiceItem.httpGetAllItems$().subscribe();
-  
     /*console.log(this.contractId)
     this.editContract(this.contractId as ContractId);*/
   }
@@ -128,7 +130,6 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
       client: new CpfCnpjPipe().transform(res.client.cpfCnpj) + ' - ' + res.client.nameReason,
       dateOf: new FormatDatePipe().transformInputDate(res.dateOf),
       dateUntil: new FormatDatePipe().transformInputDate(res.dateUntil),
-      contactPhone: res.phone,
       discount: res.discount,
       seller: res.seller,
       observation: res.observation,
@@ -152,8 +153,6 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
 
     if(valueInput.length >= 4) {
       this.#apiServiceClient.httpGetClientFilter(valueInput).subscribe((res) => this.listClients.set(res.content));
-
-      console.log(this.listClients());
     } else {
       this.listClients.set(null);
     }
@@ -174,7 +173,7 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
         ul.style.display = 'none';
         this.listClients.set(null);
       }
-    }, 150)
+    }, 200)
   }
 
   setValueClient(id: number, cpf: string, name: string) {
@@ -202,7 +201,7 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
     if(valueInput.length > 3) {
       
       list = lista!.filter(a => a.name.toUpperCase().indexOf(valueInput) > -1);
-      console.log(list)
+
     } else {
       list = lista!.filter(a => a.cod.toString().indexOf(valueInput) > -1);
       
@@ -299,7 +298,7 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
         let list!: Item[];
         this.listFilter = list;
       }
-    }, 150)
+    }, 200)
   }
   
   /*arrowSelect(e: KeyboardEvent) {
@@ -315,7 +314,6 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
       client: [''],
       dateOf: [''],
       dateUntil: [],
-      contactPhone: [''],
       discount: [0],
       seller : [''],
       items: this.#fb.array([]),
@@ -382,13 +380,14 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
         dateOf: this.contractForm.get('dateOf')?.value,
         dateUntil: this.contractForm.get('dateUntil')?.value,
         discount: this.contractForm.get('discount')?.value as number,
-        contactPhone : this.contractForm.get('contactPhone')?.value as string,
         items : listItens,
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
       console.log(this.contractForm.value)
-      this.#apiServiceContract.httpEditContract(contract).subscribe();
+      this.#apiServiceContract.httpEditContract(contract).pipe(
+        concatMap(() => this.#apiServiceContract.httpGetContracts())
+      ).subscribe();
 
       setTimeout(() => {
         this.getCreateContractError.set(null);
@@ -400,20 +399,22 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges{
         dateOf: this.contractForm.get('dateOf')?.value,
         dateUntil: this.contractForm.get('dateUntil')?.value,
         discount: this.contractForm.get('discount')?.value as number,
-        contactPhone : this.contractForm.get('contactPhone')?.value as string,
         seller : this.contractForm.get('seller')?.value as string,
         items : listItens,
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
   
-      this.#apiServiceContract.httpCreateContract(contract).subscribe(res => this.#router.navigate(['store/orcamento', 'edit', res.id]));
+      this.#apiServiceContract.httpCreateContract(contract).pipe(
+        tap((res) => {
+         this.#router.navigate(['store/orcamento', 'edit', res.id])
+        }),
+        concatMap(() => this.#apiServiceContract.httpGetContracts())
+      ).subscribe();
 
 
     }
     }
-
-
 
   get items() {
     //Indicamos que dentro do nosso formArray tem controls que são FormGroup

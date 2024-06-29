@@ -1,3 +1,4 @@
+import { GetDataCompany } from './../../../moduleAdmin/components/interface/getDataCompany.interface';
 import { concatMap, pipe } from 'rxjs';
 import { ContractId } from './../../interface/contractId.interface';
 import { style } from '@angular/animations';
@@ -11,30 +12,37 @@ import { ChangeSituation } from '../../interface/changeSituation.interface';
 import { FormArray ,FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormatDatePipe } from '../../../moduleClient/components/pipes/format-date.pipe';
 import { PaymentsList } from '../../interface/PaymentsList';
+import { DataCompanyService } from '../../../moduleAdmin/components/service/data-company.service';
+import { ContractPdfComponent } from '../../pdf-contract/contract-pdf/contract-pdf.component';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 @Component({
   selector: 'app-contract-details',
   standalone: true,
-  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule],
+  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule, ContractPdfComponent],
   templateUrl: './contract-details.component.html',
   styleUrl: './contract-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContractDetailsComponent implements OnInit, OnDestroy {
 
-
- 
   @ViewChild('invoice', {static: true}) invoice!: ElementRef;
   @ViewChild('buttonReserve', {static: true}) buttonReserve!: ElementRef;
+  @ViewChild('pdfContract', {static: false}) pdfContract!: ElementRef;
+  @ViewChild(ContractPdfComponent, {static: false}) pdffContract!: ContractPdfComponent;
  
+  #route = inject(Router);
   #router = inject(ActivatedRoute);
   #apiServiceContract = inject(ContractServiceService);
+  #apiServiceDataCompnay = inject(DataCompanyService);
 
   public getContractId = this.#apiServiceContract.getContractId;
   public getContractPaymentSucess = this.#apiServiceContract.getContractPaymentMsgSucess;
   public getContractPaymentError = this.#apiServiceContract.getContractPaymentMsgError;
   public getContractPayment = this.#apiServiceContract.getContractPayment;
+  public GetDataCompany = this.#apiServiceDataCompnay.getCompany;
 
   idParamContract = signal('');
   valueTotalContract = signal(0);
@@ -49,6 +57,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.idParamContract.set(this.#router.snapshot.params['id']);
+    this.#apiServiceDataCompnay.httpGetDataCompany$().subscribe();
     this.#apiServiceContract.httpGetContractId(Number(this.idParamContract())).subscribe((res) => {
       this.checkSituation(res.contractSituation); 
       this.getPaymentContract(res);
@@ -164,4 +173,11 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
       .subscribe(res => console.log(res));
 
   }
+
+  navigateToPrintOut() {
+
+    this.#route.navigate([`../contract/${this.getContractId()?.id}`])
+
+  }
+
 }

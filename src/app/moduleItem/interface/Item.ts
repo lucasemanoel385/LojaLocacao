@@ -1,4 +1,5 @@
 import { Category } from "./Category";
+import { Pageable } from "./Pageable";
 
 export interface Item {
         id: number,

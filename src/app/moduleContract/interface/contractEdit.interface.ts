@@ -6,7 +6,6 @@ export interface ContractEdit {
     dateOf: any,
     dateUntil: any,
     discount: number,
-    contactPhone: string,
     items: itensList[],
     observation: string,
     annotations: string

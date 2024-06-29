@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
@@ -7,8 +7,8 @@ export const tokenJWTInterceptor: HttpInterceptorFn = (req, next) => {
 
   const router = inject(Router);
 
-  if(sessionStorage.getItem('tokenJWT')) {
-    const token = sessionStorage.getItem('tokenJWT');
+  if(localStorage.getItem('tokenJWT')) {
+    const token = localStorage.getItem('tokenJWT');
   
     const authReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
@@ -18,7 +18,7 @@ export const tokenJWTInterceptor: HttpInterceptorFn = (req, next) => {
       catchError( 
       (error: HttpErrorResponse) => {
         if(error.status === 403) {
-          sessionStorage.clear();
+          localStorage.clear();
           router.navigate(['../login'])
         }
         return throwError(() => error);

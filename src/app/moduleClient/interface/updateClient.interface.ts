@@ -5,7 +5,9 @@ export interface UpdateClient {
     district: string,
     street: string,
     number: string,
+    uf: string,
     email: string,
-    phone: string
+    phone1: string,
+    phone2: string
     
 }

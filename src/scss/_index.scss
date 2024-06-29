@@ -1,7 +1,10 @@
 @use 'reset';
 @use 'layout';
+@use '@angular/material' as mat;
 
 :host {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     //Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+
 }
+

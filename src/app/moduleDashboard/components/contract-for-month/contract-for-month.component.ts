@@ -18,8 +18,6 @@ import { RouterLink } from '@angular/router';
 })
 export class ContractForMonthComponent implements OnInit {
 
-  @Input() contractMonth!: string;
-
   #serviceDashBoard = inject(DashBoardService);
 
   public getContractsMonthList = this.#serviceDashBoard.getListContractMonth;
@@ -28,8 +26,9 @@ export class ContractForMonthComponent implements OnInit {
 
   ngOnInit(): void {
     this.contractsMonth.set(this.contractsMonth());
-   
-    this.#serviceDashBoard.httpGetContractsMonth$(this.contractsMonth().slice(0, 7)).subscribe();
+    if(this.getContractsMonthList() === null) {
+      this.#serviceDashBoard.httpGetContractsMonth$(this.contractsMonth().slice(0, 7)).subscribe();
+    }
   }
 
   dateScheduleDay = this.contractsMonth();

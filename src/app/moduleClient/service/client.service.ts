@@ -7,6 +7,7 @@ import { ClientList } from '../interface/clientList.interface';
 import { ClientPage } from '../interface/clientPage.interface';
 import { Cep } from '../interface/cep.interface';
 import { UpdateClient } from '../interface/updateClient.interface';
+import { Pageable } from '../../moduleItem/interface/Pageable';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class ClientService {
   #http = inject(HttpClient);
   #url = signal(environment.api);
   
+  #setListClientPageable = signal<Pageable | null>(null);
+  get getListClientPageable() {
+    return this.#setListClientPageable.asReadonly();
+  }
 
   #setListClient = signal<ClientList[] | null>(null);
   get getListClient() {
@@ -62,16 +67,33 @@ export class ClientService {
     }))
   }
   
-  public httpGetClient(search?: string): Observable<ClientPage> {
+  public httpGetClient(search?: string, page?: number): Observable<ClientPage> {
 
-    var params;
-    
-    if (search) {
-      params = new HttpParams().set('search', search);
+    var params ;
+  
+    if (page && search) {
+     params = new HttpParams().set('search', search).set('page', page);
+  
+    } else if (search) {
+ 
+     params = new HttpParams().set('search', search);
+    } else {
+ 
+       params = new HttpParams().set('page', page as number);
     }
 
     return this.#http.get<ClientPage>(`${this.#url()}cliente`, {params}).pipe(shareReplay(), 
-    tap( (res) => this.#setListClient.set(res.content)),
+    tap( (res) => {
+      this.#setListClient.set(res.content);
+      const page: Pageable = {
+        numberOfElements: res.numberOfElements,
+        totalElements: res.totalElements,
+        totalPages: res.totalPages,
+        size: res.size,
+        number: res.number
+      }
+      this.#setListClientPageable.set(page);
+    }),
     catchError( (error: HttpErrorResponse) => {
       this.#setListClientError.set(error.error.message);
       return throwError(() => error);
@@ -81,7 +103,11 @@ export class ClientService {
   public httpGetClientFilter(filter: string): Observable<ClientPage> {
 
     return this.#http.get<ClientPage>(`${this.#url()}cliente/filter?search=${filter}`).pipe(shareReplay(), 
-    tap( (res) => this.#setListClient.set(res.content)),
+    tap( (res) => {
+      this.#setListClient.set(res.content)
+
+
+    }),
     catchError( (error: HttpErrorResponse) => {
       this.#setListClientError.set(error.error.message);
       return throwError(() => error);

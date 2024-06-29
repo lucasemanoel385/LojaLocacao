@@ -3,7 +3,8 @@ import { Routes } from '@angular/router';
 import { LoginPageComponent } from './pages/login/loginPage.component';
 import { PageSPAComponent } from './pages/page-spa/page-spa.component';
 
-import { authorizationGuard } from './guard/authorization.guard';
+import { ContractPdfComponent } from './moduleContract/pdf-contract/contract-pdf/contract-pdf.component';
+import { authorizationGuard } from './config/guard/authorization.guard';
 
 
 
@@ -29,7 +30,12 @@ export const routes: Routes = [
         path: 'login',
         component: LoginPageComponent,
     
-    }
+    },
+    {
+        path: 'contract/:id',
+        component: ContractPdfComponent,
+        canMatch: [authorizationGuard],
+    },
 
  
 ];

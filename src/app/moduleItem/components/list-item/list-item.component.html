@@ -1,11 +1,12 @@
 <h2>Produtos</h2>
+
 <app-list-table-layout (outputSearch)="searchItem($event)" routeLink="register" nameCreate="Criar item" placeHolder="Encontrar item">
     <table class="table" #table>
         <thead>
             <tr>
                 <th>Cód.</th>
                 <th></th>
-                <th>nome</th>
+                <th>Nome do Produto</th>
                 <th>Quantidade</th>
                 <th>Valor</th>
                 <th>Val. Reposição</th>
@@ -14,7 +15,7 @@
             </tr>
         </thead>
 
-        @for (item of getListItems$(); track item; let i = $index) {
+        @for (item of getListItems$(); track item.id; let i = $index) {
             <tr #tr>
                 <td style="width: 100px;"><a [routerLink]="['edit', item.id]">{{item.cod}}</a></td>
                 <td style="width: 120px;"><img style="aspect-ratio: 16/15;
@@ -40,11 +41,12 @@
         <button style="margin: 0 10px;" class="btn_add" (click)="deleteProduct(this.modalDelete)">Sim</button>
         <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
     </dialog>
-    <div>
-        @for (page of paging(); track $index) {
-            <button class="btn-page" (click)="pageNumber(page-1)">{{page}}</button>
-        }
-    </div>
+
+    <paginator-list [pageable]="getListItemPage$()"
+                    (nextPageOutPut)="handlePageEvent($event)"
+                    (previousPageOutPut)="handlePageEvent($event)"
+    />
+
 </app-list-table-layout>
 
 

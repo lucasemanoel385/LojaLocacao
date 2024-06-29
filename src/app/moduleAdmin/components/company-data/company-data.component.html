@@ -6,8 +6,6 @@
         </label>
     </div>
 
-
-
 <form [formGroup]="dataCompanyForm" (ngSubmit)="submit()" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">
     <div style="display: flex; flex-wrap: wrap; gap: 4em; justify-content: start; padding: 2em;">
         <div>
@@ -67,9 +65,15 @@
         </div>
         <div>
             <label>
-                Celular
+                Tel./Celular
             </label>
-            <input class="inputGrey" type="tel" formControlName="phone" placeholder="(31) 9 8551-1221" required mask="(00) 0 0000-0000">
+            <input class="inputGrey" type="tel" formControlName="phone1" placeholder="(31) 9 8551-1221" mask="(00) 0 0000-0000|(00) 0000-0000">
+        </div>
+        <div>
+            <label>
+                Tel./Celular
+            </label>
+            <input class="inputGrey" type="tel" formControlName="phone2" placeholder="(31) 9 8551-1221" mask="(00) 0 0000-0000|(00) 0000-0000">
         </div>
     </div>
 

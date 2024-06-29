@@ -1,4 +1,4 @@
-.inputGrey{
+.inputGrey_noneLabel{
     width: 100%;
     height: 2rem;
     outline: 0;
@@ -21,6 +21,41 @@
     &.ng-invalid.ng-touched{
         border-bottom: 2px solid red;
         transition: 0.5s ease-in-out;
+    }
+    
+}
+
+.inputGrey{
+    width: 100%;
+    height: 2rem;
+    outline: 0;
+    border: 0;
+    border-bottom: 2px solid rgb(174, 174, 174);
+   
+    background-color: rgb(238, 238, 238);
+    padding: 5px;
+    transition: all 0.8s ease;
+    box-sizing: border-box;
+    
+    &:hover {
+        background-color: rgb(236, 236, 236);
+    }
+
+    &.ng-invalid.ng-touched{
+        border-bottom: 2px solid red;
+        transition: 0.5s ease-in-out;
+    }
+    &:focus, 
+    &:valid{
+        border-bottom: 2px solid cornflowerblue;
+    }
+
+    // ~ quer dizer que o proximo elemento label
+    //Quando clicar no input ou estiver valido o label sobe 18px
+    &:focus ~ label, 
+    &:valid ~ label {
+        transform: translateY(-25px);
+        font-size: 16px;
     }
     
 }

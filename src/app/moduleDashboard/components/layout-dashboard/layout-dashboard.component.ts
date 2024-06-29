@@ -17,23 +17,8 @@ templateUrl: './layout-dashboard.component.html',
 })
 export class LayoutDashboardComponent implements OnInit {
 
-  ngOnInit(): void {
- 
-    this.#serviceDashBoard.httpGetTasks$().subscribe();
-    this.#serviceDashBoard.httpGetBudgetsForMonth$(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR').slice(0,7)).subscribe();
-  }
-
-  #serviceDashBoard = inject(DashBoardService);
-
-  public closeDialog(modal: HTMLDialogElement) {
-
-    this.getTaskListError.set(null);
-
-    modal.close();
-
-  }
-
   // START BOX
+  #serviceDashBoard = inject(DashBoardService);
 
   public getDataBudgetMonth = this.#serviceDashBoard.getDataBudgetMonth;
 
@@ -45,9 +30,30 @@ export class LayoutDashboardComponent implements OnInit {
   public getTaskListError = this.#serviceDashBoard.getTaskError;
   public getCreateTask = this.#serviceDashBoard.getCreateTask
 
+
+  ngOnInit(): void {
+    if(this.getTaskList() === null) {
+      this.#serviceDashBoard.httpGetTasks$().subscribe();
+  
+    }
+    this.#serviceDashBoard.httpGetBudgetsForMonth$(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR').slice(0,7)).subscribe();
+  }
+
+ 
+
+  public closeDialog(modal: HTMLDialogElement) {
+
+    this.getTaskListError.set(null);
+
+    modal.close();
+
+  }
+
+
+
   public idTask!: number;
 
-  authorization = sessionStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
+  authorization = localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
 
   public deleteTask(modalDelete: HTMLDialogElement) {
 

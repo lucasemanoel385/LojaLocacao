@@ -9,12 +9,9 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { ItemUpdate } from '../interface/ItemUpdate';
 import { ItemCreate } from '../interface/ItemCreate';
+import { Pageable } from '../interface/Pageable';
+import { ListItem } from '../interface/ListItem';
 
-interface Ites {
-  content: Item[],
-  totalPages: number;
-  
-}
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +21,9 @@ export class ProductService {
   #http = inject(HttpClient);
   #url = signal(environment.api);
 
-  #setItemListPage!: number;
+  #setItemListPage = signal<Pageable | null>(null);
   get getItemListPage() {
-    return this.#setItemListPage;
+    return this.#setItemListPage.asReadonly();
   }
   #setItemList = signal<Item[] | null>(null);
   get getItemList() {
@@ -53,7 +50,7 @@ export class ProductService {
     return this.#setAllItemList.asReadonly();
   }
   
-  public httpGetItems$(page?: number, search?: string): Observable <Ites> {
+  public httpGetItems$(page?: number, search?: string): Observable <ListItem> {
 
    var params ;
   
@@ -61,17 +58,17 @@ export class ProductService {
     params = new HttpParams().set('search', search).set('page', page);
  
    } else if (search) {
-
     params = new HttpParams().set('search', search);
-   } else {
 
+   } else {
       params = new HttpParams().set('page', page as number);
    }
     //var params = new HttpParams().set('page', page as string).set('search', search as string);
     
     //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
-    return this.#http.get<Ites>(this.#url() + 'item', { responseType: 'json', params }).pipe(shareReplay(),
+    return this.#http.get<ListItem>(this.#url() + 'item', { responseType: 'json', params }).pipe(shareReplay(),
     tap((res) => {
+      console.log("criado")
       let b!: ArrayBuffer;
       const items: Item[] = [];
       res.content.forEach(a => {
@@ -89,7 +86,15 @@ export class ProductService {
         }
       );
        this.#setItemList.set(items);
-      this.#setItemListPage = (res.totalPages)
+      
+      const page: Pageable = {
+        numberOfElements: res.numberOfElements,
+        totalElements: res.totalElements,
+        totalPages: res.totalPages,
+        size: res.size,
+        number: res.number
+      }
+        this.#setItemListPage.set(page);
     }),
     catchError( (error: HttpErrorResponse) => {
       this.#setItemError.set(error.error.message);
@@ -98,13 +103,13 @@ export class ProductService {
     );
   }
 
-  public httpGetAllItems$(page?: number): Observable <Ites> {
+  public httpGetAllItems$(page?: number): Observable <ListItem> {
 
     this.#setItemList.set(null);
     this.#setItemError.set(null);
     
     //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
-    return this.#http.get<Ites>(this.#url() + 'item/all', { responseType: 'json' }).pipe(shareReplay(),
+    return this.#http.get<ListItem>(this.#url() + 'item/all', { responseType: 'json' }).pipe(shareReplay(),
     tap((res) => {
       let b!: ArrayBuffer;
       const items: Item[] = [];
@@ -123,7 +128,14 @@ export class ProductService {
         }
       );
        this.#setAllItemList.set(items);
-      //this.#setItemListPage = (res.totalPages)
+       const page: Pageable = {
+        numberOfElements: res.numberOfElements,
+        totalElements: res.totalElements,
+        totalPages: res.totalPages,
+        size: res.size,
+        number: res.number
+      }
+        this.#setItemListPage.set(page);
     }),
     catchError( (error: HttpErrorResponse) => {
       this.#setItemError.set(error.error.message);
@@ -173,7 +185,6 @@ export class ProductService {
     formData.append('item', new Blob([JSON.stringify(item)], { type: 'application/json'}))
     return this.#http.patch<Item>(this.#url() + 'item', formData ).pipe(
       tap((res) => this.#setItemSucess.set("Produto atualizado com sucesso!!!")),
-      shareReplay(),
       catchError( (error: HttpErrorResponse) => {
         this.#setItemError.set(error.error);
         return throwError(() => error)

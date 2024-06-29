@@ -6,10 +6,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CpfCnpjPipe implements PipeTransform {
 
-  transform(value: string): string {
+  transform(value: string | undefined): string {
 
-    if(value.length === 14) {
-      let valorFormatado = value + '';
+    if (!value) {
+      return '';
+    }
+
+    const valueString = value as string;
+
+    if(valueString.length === 14) {
+      let valorFormatado = valueString + '';
 
       valorFormatado = valorFormatado
           //padStart preenche a string com o valor definido no parametro 2 até que atinja o numero especificado no parametro 1
@@ -24,7 +30,7 @@ export class CpfCnpjPipe implements PipeTransform {
       return valorFormatado;
     }
 
-    let valorFormatado = value + '';
+    let valorFormatado = valueString + '';
 
     valorFormatado = valorFormatado
         .padStart(11, '0')                  // item 1

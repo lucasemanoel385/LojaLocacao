@@ -2,12 +2,23 @@
     width: 100%;
     box-sizing: border-box;
 
+    .nav_information{
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between;
+    }
+
+    .status {
+        display: flex; 
+        justify-content: end; 
+        width: 15%; 
+        height: 20px;
+    }
 
     form{
         display: flex;
         flex-direction: column;
         width: 100%;
-        gap: 2.5rem;
         padding: 0.3em;
         
     }
@@ -16,7 +27,7 @@
         display: flex;
         box-sizing: border-box;
         flex-wrap: wrap;
-        gap: 60px 100px;
+        gap: 60px 4em;
         
     }
     
@@ -28,34 +39,17 @@
         }
     }
 
+    .responsive_input_date {
+        display: flex;
+        gap: 4em;
+
+    }
+
     .input-style-date, .input-style, .input-phone, .input-client{
         position: relative;
         height: 2em;
         box-sizing: border-box;
-        input{
-            
-            background-color: rgb(242, 242, 242);
-            height: 1.8em;
-            &.ng-invalid.ng-touched{
-                border-bottom: 2px solid red;
-                transition: 0.5s ease-in-out;
-            }
-            &:focus, 
-            &:valid{
-                border-bottom: 2px solid cornflowerblue;
-            }
 
-            // ~ quer dizer que o proximo elemento label
-            //Quando clicar no input e estiver valido o label sobe 18px
-            &:focus ~ label, 
-            &:valid ~ label {
-                transform: translateY(-25px);
-                font-size: 16px;
-            }
-
-        }
-
-        
         label{
             position: absolute;
             left: 0.5%;
@@ -124,20 +118,9 @@
     .data-itens{
         width: 100%;
         display: flex;
-
     }
 
-    input{
-        border: 0;
-        border-bottom: 2px solid rgb(200, 200, 200);
-        outline: 0;
-        box-sizing: border-box;
-        font-size: 16px;
-        padding: 3px;
-        &:hover {
-            background: rgb(236, 236, 236);
-        }
-    }
+
 
     .table {
         width: 100%;
@@ -170,27 +153,7 @@
         text-align: center;
         gap: 10px;
         box-sizing: border-box;
-        input {
-            //Quando clicarmos no input fica azul e caso estiver com conteudo dentro
-            &:focus, 
-            &:valid {
-                border-bottom: 2px solid cornflowerblue;
-                
-            }
-            &.ng-invalid.ng-touched{
-                border-bottom: 2px solid red;
-                transition: 0.5s ease-in-out;
-            }
 
-            // ~ quer dizer que o proximo elemento label
-            //Quando clicar no input e estiver valido o label sobe 18px
-            &:focus ~ label, 
-            &:valid ~ label {
-                transform: translateY(-22px);
-                font-size: 14px;
-            }
-
-        }
 
     }
 
@@ -201,22 +164,6 @@
         text-align: center;
         gap: 15px;
         min-width: 300px;
-        input{
-            &.ng-invalid.ng-touched{
-                border-bottom: 2px solid red;
-                transition: 0.5s ease-in-out;
-            }
-        }
-        
-        label{
-            position: absolute;
-            left: 4%;
-            top: 13%;
-            bottom: 2rem;
-            color: rgb(150, 150, 150);
-            transition: 0.5s ease-in-out;
-        }
-        
     }
 
     .input_item {
@@ -226,16 +173,24 @@
         position: relative;
         width: 100%;
 
-        ul {
-            position: absolute;
-            background: white;
-            width: 100%;
-            top: 27px;
-            display: none;
-            border-radius: 10px;
-        }
+
 
  
+    }
+
+    .input_itens {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+
+        label{
+            position: absolute;
+            left: 0.5%;
+            bottom: 0.0rem;
+            color: rgb(150, 150, 150);
+            transition: 0.5s ease-in-out;
+            cursor: text;
+        }
     }
 
 
@@ -256,7 +211,11 @@
         max-height: 180px; 
         word-break: break-word; 
         z-index: 9999;
-        position: relative;
+        position: absolute;
+        background: white;
+        width: 100%;
+        top: 27px;
+        display: none;
     }
 
     .btn-delete {
@@ -316,7 +275,7 @@
         }
     }
 
-    .all-values {
+    .all_values {
         display: flex;
         flex-direction: column;
         margin-top: 20px;
@@ -338,6 +297,53 @@
 
     b {
         font-size: 18px;
+    }
+
+    .informations_contract_values {
+        display: flex; 
+        flex-direction: row; 
+        width: 100%;
+    }
+
+    @media (max-width: 733px) {
+        
+        .status {
+            padding: 5px;
+            box-sizing: border-box;
+            height: 40px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .input-style {
+            width: 100%;
+        }
+
+        .input-style-date {
+            width: 100%;
+        }
+
+        .responsive_input_date {
+            display: flex;
+            justify-content: space-between;  
+            gap: 3em;
+        }
+
+        .informations_contract_values {
+            display: flex; 
+            flex-direction: column; 
+            width: 100%;
+        }
+
+        .annotations {
+            width: 100%;
+        }
+
+        .all_values {
+            width: 100%;
+        }
+
+
     }
 
 

@@ -1,5 +1,10 @@
 import { CategoryList } from "./categoryList.interface";
 
 export interface CategoryPage {
-    content: CategoryList[]
+    content: CategoryList[],
+    numberOfElements: number,
+    totalElements: number,
+    totalPages: number,
+    size: number,
+    number: number
 }

@@ -13,10 +13,10 @@ export class ComponentsNavComponent {
 
   #router = inject(Router)
 
-  authorization = sessionStorage.getItem("role") === "ROLE_ADMIN" ? "flex" : "none";
+  authorization = localStorage.getItem("role") === "ROLE_ADMIN" ? "flex" : "none";
 
   logout() {
-    sessionStorage.clear();
+    localStorage.clear();
     this.#router.navigate(['../login'])
   }
 

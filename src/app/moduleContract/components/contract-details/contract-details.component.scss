@@ -2,16 +2,36 @@
     width: 100%;
     height: 100%;
 
+    h4 {
+        margin: 0;
+    }
+
     .dialog_content {
         align-items: start;
-        padding: 1em;
         form {
             width: 100%;
             flex-direction: row;
             table {
                 width: 100%;
                 margin: 1rem 0;
+                
+                td {
+                    padding: 10px;
+                }
             }
+        }
+    }
+
+    .values {
+        display: flex; 
+        justify-content: space-around; 
+        padding: 1em;
+    }
+
+    @media (max-width: 733px) {
+        .values {
+            flex-direction: column;
+            gap: 1.5em;
         }
     }
 

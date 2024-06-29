@@ -3,6 +3,14 @@
     width: 100%;
     height: 100%;
 
+    .layout_search {
+        display: flex; 
+        align-items: center; 
+        min-width: 10rem; 
+        max-width: 25rem;
+        gap: 10px;
+    }
+
     section {
         display: flex;
         flex-direction: column;
@@ -36,10 +44,6 @@
         
         section{
             overflow-x: auto;
-        }
-
-        .layout {
-            padding: 1em;
         }
 
         .btn_add {

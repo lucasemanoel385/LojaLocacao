@@ -1,3 +1,4 @@
+import { Address } from "./Address.interface"
 
 
 export interface ClientCreate {
@@ -5,13 +6,10 @@ export interface ClientCreate {
     nameReason: string,
     cpfCnpj: string,
     rgStateRegistration: string,
-    dateBirthCompanyFormation: Date,
-    street: string,
-    district: string,
-    cep: string,
-    number: string,
-    city: string
+    dateBirthCompanyFormation: any,
+    address: Address,
     email: string,
-    phone: string,
+    phone1: string,
+    phone2: string
     
 }

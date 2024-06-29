@@ -1,0 +1,16 @@
+:host {
+
+    .material-symbols-sharp {
+        font-size: 45px; 
+        cursor: pointer; 
+        color: rgb(65, 65, 65);
+        margin-top: 4px;
+    }
+
+    @media (max-width: 733px) {
+        
+        .material-symbols-sharp {
+            font-size: 35px;
+        }
+    }
+}
