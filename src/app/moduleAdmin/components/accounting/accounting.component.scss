@@ -81,5 +81,40 @@
         }
     }
     
+    @media (max-width: 733px) {
+        
+        .values__box {
+            flex-direction: column;
+            gap: 1em;
+        }
+
+        .layout__accounting-sections {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .inputs, .expenses {
+            margin: 0;
+            padding: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .expenses {
+            overflow-x: auto;
+        }
+
+        .expenses__table {
+            width: 500px;
+
+        }
+
+        .expenses::-webkit-scrollbar {
+            width: 5px; 
+            height: 5px;  
+                 /* width of the entire scrollbar */
+        }
+
+    }
 
 }

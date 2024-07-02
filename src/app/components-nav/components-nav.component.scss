@@ -1,68 +1,72 @@
 :host {
-    height: 100%;
-    width: 100%;
+    
 
     .active {
         background-color: whitesmoke;
         border-radius: 10px;
         padding: 10px;
         box-sizing: border-box;
-
         &:hover {
             background-color: #afafaf;
         }
     }
 
     .sidebar {
-        width: 100%;
+        display: flex;
+        flex-direction: column;
+        width: 240px;
+        align-items: center;
+        padding: 2em 0em 1em 0em;
+        gap: 5.5em;
+
+    }
+    
+
+    nav {
         display: flex;
         flex-direction: column;
         align-items: center;
-        text-align: center;
-        position: relative;
-        height: 95vh;
-        top: 1.5rem;
+        width: 100%;
 
-        nav {
+        a {
+            width: 205px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: start;
-            margin-top: 6rem;
-            width: 100%;
-            a:last-child {
-                position: absolute;
-                bottom: 2rem;
+            align-items: center;
+            text-align: center;
+            margin-left: 2em;
+            gap: 10px;
+            color: grey;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            box-sizing: border-box;
+            
+            &:hover {
+                color: white;
             }
-
-            a {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                text-align: center;
-                margin-left: 10px;
-                gap: 10px;
-                color: grey;
-                transition: all 0.2s ease;
-                cursor: pointer;
-                
-                &:hover {
-                    color: white;
-                }
-                
-                span {
-                    transition: all 0.1s ease;
-                }
-        
-                h3 {
-                    font-size: 19px;
-                    font-weight: normal;
-                }
+            
+            span {
+                transition: all 0.1s ease;
+            }
+    
+            h3 {
+                font-size: 19px;
+                font-weight: normal;
             }
         }
-        
     }
 
+    .logout {
+        position: absolute;
+        bottom: 2em;
+    }
+
+    @media (max-height: 669px) {
+
+        .sidebar {
+            gap: 1em;
+        }
+
+    }
 
 }
    

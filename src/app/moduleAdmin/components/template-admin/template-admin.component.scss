@@ -5,6 +5,9 @@
         gap: 35px;
         background-color: grey;
         border-radius: 5px;
+        height: 100%;
+        align-items: center;
+        box-sizing: border-box;
         
         a {
             padding: 15px;
@@ -17,6 +20,27 @@
         box-shadow: 2px -1px 7px -1px rgba(0,0,0,0.35);
     }
     
+    @media (max-width: 733px) {
 
+        nav {
+            text-align: center;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+
+            a {
+                display: flex;
+                padding: 5px;
+                width: 100%;
+                height: 50px;
+                box-sizing: border-box;
+                align-items: center;
+
+            }
+        
+        }
+
+     
+    }
     
 }

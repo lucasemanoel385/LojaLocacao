@@ -9,7 +9,6 @@
                 <th>Data Reserva</th>
                 <th>Data Retorno</th>
                 <th>Vendedor</th>
-                <th>Celular</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Excluir</th>
@@ -24,7 +23,6 @@
                 <td style="width: 150px;">{{ contract.dateReserve | formatDatePipe}}</td>
                 <td style="width: 150px;">{{ contract.dateFinal | formatDatePipe }}</td>
                 <td style="width: 150px;">{{ contract.seller }}</td>
-                <td style="width: 150px;">{{ contract.phone | phone}}</td>
                 @switch (contract.situation) {
                     @case ("ORCAMENTO") {
                         <td style="width: 150px;">Orçamento</td>

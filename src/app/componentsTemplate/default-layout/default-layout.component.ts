@@ -30,14 +30,26 @@ export class DefaultLayoutComponent implements OnInit {
       this.srcImg.set("../../../assets/seta-direita.png");
       sessionStorage.setItem('img', '../../../assets/seta-direita.png');
       sessionStorage.setItem('display', 'display: none;');
+
       
     } else {
       section.style.display = 'flex';
       this.srcImg.set("../../../assets/seta-esquerda.png");
       sessionStorage.setItem('img', '../../../assets/seta-esquerda.png');
       sessionStorage.setItem('display', 'display: flex;');
+
     }
   
+  }
+
+  hideSideBar(section: HTMLElement) {
+    const width = window.innerWidth;
+    if(width < 733) {
+      section.style.display = 'none';
+      this.srcImg.set("../../../assets/seta-direita.png");
+      sessionStorage.setItem('img', '../../../assets/seta-direita.png');
+      sessionStorage.setItem('display', 'display: none;');
+    }
   }
 
 

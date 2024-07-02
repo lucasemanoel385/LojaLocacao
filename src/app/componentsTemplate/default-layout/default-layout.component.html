@@ -3,7 +3,7 @@
         <app-components-nav/>
     </section>
     <span class="menu"><img #img (click)="swapImg(this.nav)" [src]="srcImg()" alt=""></span>
-    <section class="container-content">
+    <section (click)="hideSideBar(this.nav)" class="container-content">
         <div>
             <ng-content></ng-content>
         </div>
