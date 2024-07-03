@@ -1,0 +1,138 @@
+.data-contract{
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 60px 4em;
+    
+}
+
+.input-client {
+    width: 300px;
+
+    input {
+        width: 100%;
+    }
+}
+
+.li-items {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 5px;
+    
+}
+
+li{
+    list-style: none;
+    cursor: pointer;
+    padding: 3px;
+    background-color: rgb(235, 235, 235);
+    
+    &:hover{
+        background-color: rgb(220, 220, 220);
+    }
+    }
+
+.ul-menu {
+    display: none;
+    overflow-y: auto; 
+    max-height: 180px; 
+    word-break: break-word; 
+    z-index: 9999;
+    position: absolute;
+    background: white;
+    width: 100%;
+    top: 27px;
+}
+
+.ul-menu::-webkit-scrollbar-thumb {
+    background-color: rgb(175, 175, 175);
+    border-radius: 20px;
+
+  }
+
+.ul-menu::-webkit-scrollbar {
+    width: 5px;  
+         /* width of the entire scrollbar */
+}
+
+.responsive_input_date {
+    display: flex;
+    gap: 4em;
+
+}
+
+.input-style-date, .input-style, .input-phone, .input-client{
+    position: relative;
+    height: 2em;
+    box-sizing: border-box;
+
+    label{
+        position: absolute;
+        left: 0.5%;
+        bottom: 0.5rem;
+        color: rgb(150, 150, 150);
+        transition: 0.5s ease-in-out;
+        cursor: text;
+    }
+
+    p {
+        width: 150px;
+        right: -25px;
+        top: 10px;
+        color: white;
+        border: 2px solid red;
+        border-radius: 15px;
+        padding: 5px;
+        background-color: rgb(255, 0, 0);
+        position: relative;
+        text-align: center;
+        font-size: 12px;
+        animation: fadein 1s;
+        word-break: break-all;
+
+        &::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            display: block;
+            position: absolute;
+            top: -9px;
+            right: 10%;
+            background-color: red;
+            border: 2px solid red;
+            border-color: transparent red red transparent;
+            transform: rotate(225deg);
+
+            @keyframes fadein {
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+        }
+    }
+
+}
+
+.input-style-date{
+    width: 150px;
+    label{
+        position: absolute;
+        left: 0.5%;
+        bottom: 2rem;
+        color: rgb(150, 150, 150);
+        transition: 0.5s ease-in-out;
+        cursor: text;
+    }
+
+    p{
+        right: 0px;
+        width: 120px;
+    }
+}
+
+.data-itens{
+    width: 100%;
+    display: flex;
+}

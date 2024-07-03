@@ -1,0 +1,25 @@
+<div class="informations_contract_values" [formGroup]="footerForm">
+    <div class="annotations">
+        <label for="observation">Orçamento - Observação orçamento/contrato:</label>
+        <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="observation" cols="30" rows="10" formControlName="observation" maxlength="200"></textarea>
+    </div>
+    <div class="annotations">
+        <label for="annotations">Anotações:</label>
+        <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="annotations" cols="30" rows="10" formControlName="annotations" maxlength="200"></textarea>
+    </div>
+    <div class="all_values">
+        <b class="alert">Total Itens:&nbsp;<span> {{totalItem() | currency : "BRL"}}</span></b>
+        <b class="alert alert-danger">Total de Desconto:&nbsp;<span> {{totalDiscount() | currency : "BRL"}}</span></b>
+        <b class="alert alert-success">Total Geral:&nbsp;<span> {{grandTotal() | currency : "BRL"}}</span></b>
+    </div>
+</div>
+@if (getCreateContractError()) {
+    <span class="error_api">{{getCreateContractError()}}</span>
+} @else {
+    <span class="success_api">{{getContractMsgSucess()}}</span>
+}
+
+<div class="buttonsControl" #buttonsControl>
+    <ng-content></ng-content>
+    <button class="btn-update btn-contract" type="submit" [disabled]="buttonDisabled">{{ buttonInput }}</button>
+</div>

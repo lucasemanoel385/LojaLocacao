@@ -1,0 +1,57 @@
+<div class="data-contract" [formGroup]="headerForm">
+    <div class="input-client">
+        <input 
+        class="inputGrey"
+        id="cpf" 
+        type="text"
+        formControlName="client"
+        required
+        (keyup)="filterClient($event)"
+        (focus)="listClient($event)"
+        (focusout)="removeListClient($event)">
+        <ul class="ul-menu" id="filterCpf">
+            @for (item of listClients(); track $index) {
+                <li (click)="setValueClient(item.id, item.cpfCnpj, item.name)"><span style="padding: 0.5em;" class="li-items">{{ item.cpfCnpj | cpfCnpj }} - {{ item.name }}</span></li>
+            }
+        </ul>
+        <label for="cpf">Cliente</label>
+        @if (headerForm.get('cpf')?.touched && headerForm.get('cpf')?.invalid) {
+            <p class="balloon"><strong>Cpf vazio ou invalido</strong></p>
+        }
+    </div>
+    <div class="responsive_input_date">
+        <div class="input-style-date">
+            <label for="dateOf">Data da retirada:</label>
+            <input #dateOf class="inputGrey" type="date" id="dateOf" formControlName="dateOf" required>
+            
+            @if (headerForm.get('dateOf')?.touched && headerForm.get('dateOf')?.invalid) {
+                <p><strong>Data retirada vazio</strong></p>
+            }
+        </div>
+
+        <div class="input-style-date">
+            <label for="dateUntil">Data da entrega:</label>
+            <input class="inputGrey" id="dateUntil" class="inputGrey" type="date" formControlName="dateUntil" required>
+        
+            @if (headerForm.get('dateUntil')?.touched && headerForm.get('dateUntil')?.invalid) {
+                <p><strong>Data entrega vazio</strong></p>
+            }
+        </div>
+    </div>
+
+    <div class="input-style">
+        <input #discountInput class="inputGrey" id="discount" type="number" formControlName="discount" placeholder="Desconto em %">
+        <label for="discount">
+            Desconto:</label>
+    </div>
+    <div class="input-style">
+        <input class="inputGrey" id="seller" type="text" formControlName="seller" required>
+        <label for="seller">
+            Vendedor:</label>
+            @if (headerForm.get('seller')?.touched && headerForm.get('seller')?.invalid) {
+                <p><strong>Campo vendedor vazio</strong></p>
+            }
+    </div>
+
+</div>
+

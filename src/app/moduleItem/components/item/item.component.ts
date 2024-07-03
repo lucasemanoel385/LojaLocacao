@@ -89,27 +89,7 @@ export class ItemComponent implements OnChanges, OnInit {
    
     this.spanImg.nativeElement.innerHTML = `<img width = '100%' height = '100%' src='${data.imagem}'>`;
   }
-
-  /*public httpCreateItem(event: any) {
-
-    if(file) {
-      console.log("tem file")
-    }
-    const formDataa = new FormData();
-    formDataa.append('imagem', file);
-    console.log(formDataa)
-    const item: Ite = {
-      urlimg: 'urlimg/.com',
-      nome: 'lucas',
-      valor: 10,
-      quantidade: 1,
-      categoria: 1.0
-    
-    return this.#apiServiceItem.httpCreateItem$(item, file).pipe(
-      concatMap(() => this.#apiServiceItem.httpGetItems$())).subscribe();
-  }*/
   
-
   public itemContract = this.#fb.group({
     cod: [''],
     name: [''],
@@ -173,40 +153,4 @@ export class ItemComponent implements OnChanges, OnInit {
     }
    };
    
-
- /* selecionarImagem(event: any) {
-    const file = event.target.files[0] as File;
-    const formData = new FormData();
-    formData.append('imagem', file);
-    console.log(file);
-    console.log(formData);
-    this.imgg = formData;
-  }*/
-
-  /*setValueImg(novoValor: any) {
-    const formGroup = this.itemContract.controls;
-    formGroup.image.setValue(novoValor);
-
-  }*/
-
-  /*pegaImg(e: EventTarget | null, spanImg: HTMLSpanElement) {
-    const inputValue = e as HTMLInputElement;
-    const file = inputValue.files?.item(0) as File;
-    this.imgg = file;
-    //this.setValueImg(file?.name)
-    console.log(file);
-
-    if(file) {
-      const reader = new FileReader();
-      reader.addEventListener('load', function (e) {
-        const readerTarget = e.target;
-        console.log(readerTarget)
-        const img = readerTarget?.result;
-        spanImg.innerHTML = `<img width = '100%' height = '100%' src='${img}'>`;
-      });
-      reader.readAsDataURL(file);
-    }
-  }*/
-
-
 }

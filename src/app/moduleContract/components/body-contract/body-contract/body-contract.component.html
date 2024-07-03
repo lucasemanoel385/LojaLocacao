@@ -1,0 +1,44 @@
+<div class="data-itens" [formGroup]="bodyForm">
+    <div class="table">
+        <table #id>
+            <tr>
+                <th>Id</th>
+                <th>Item</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th>Total</th>
+            </tr>
+            @for(item of items; track item; let is = $index) {
+                <tr [formGroup]="item" id="{{is}}">
+                    <td>{{is}}</td>
+                    <td class="item"><img id="{{is}}img" src="../../../../assets/Image_not_available.png" width="100px" style="aspect-ratio: 4/3;" alt="">
+                    <div class="input_item input_itens">
+                        <input class="inputGrey" style="width: 100%;" (keyup)="filterItem($event, is);" (focus)="botaLista($event, is)" (focusout)="tiraLista($event, is)" type="text" id="{{is}}item" formControlName="name"  required>
+                        <label for="{{is}}item">
+                            Insira nome do item</label>
+                        <ul id="{{is}}list" class="ul-menu">
+                            @for (ite of listFilter; track ite; let i = $index) {
+                                
+                                <li (click)="setValueInput(is, ite);"><span class="li-items"><img src="{{ite.imagem}}" width="70px">{{ite.cod}} - {{ite.name}}</span></li>
+                                
+                            }
+                        </ul>
+                    </div>
+                    </td>
+                    <td><div class="input_itens">
+                        <input class="inputGrey" style="width: 80%;" id="{{is}}amount" type="number" formControlName="amount" min="1" required (focusout)="setValueTotal(is)">
+                        <label for="{{is}}amount" style="left: 10%;">
+                            Quantidade</label>
+                    </div></td>
+                    <td><input class="inputGrey" style="width: 80%;" id="{{is}}value" type="number" formControlName="value" placeholder="0" readonly ></td>
+                    <td><span id="{{is}}total">{{ '0.00' | currency : 'BRL' }}</span></td>
+                    <td><button type="button" style="height: 3.5em; width: 4.3em; margin-top: 0;" class="btn-delete" (click)="clearTr(is)"><span class="material-symbols-sharp">
+                        delete
+                        </span></button></td>
+                </tr> 
+            }
+        </table>
+        <button class="btn_add" type="button" (click)="addItens()">AddItem</button>
+    </div>
+
+</div>

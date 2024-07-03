@@ -21,8 +21,8 @@
                 (focus)="listClient($event)"
                 (focusout)="removeListClient($event)">
                 <ul class="ul-menu" id="filterCpf">
-                    @for (item of listClients(); track $index) {
-                        <li (click)="setValueClient(item.id, item.cpfCnpj, item.name)"><span style="padding: 0.5em;" class="li-items">{{ item.cpfCnpj | cpfCnpj }} - {{ item.name }}</span></li>
+                    @for (client of listClients(); track $index) {
+                        <li (click)="setValueClient(client.id, client.cpfCnpj, client.name)"><span style="padding: 0.5em;" class="li-items">{{ client.cpfCnpj | cpfCnpj }} - {{ client.name }}</span></li>
                     }
                 </ul>
                 <label for="cpf">Cliente</label>

@@ -16,12 +16,13 @@ import { DataCompanyService } from '../../../moduleAdmin/components/service/data
 import { ContractPdfComponent } from '../../pdf-contract/contract-pdf/contract-pdf.component';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { RegisterContractComponent } from '../register-contract/register-contract.component';
 
 
 @Component({
   selector: 'app-contract-details',
   standalone: true,
-  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule, ContractPdfComponent],
+  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule, ContractPdfComponent, RegisterContractComponent],
   templateUrl: './contract-details.component.html',
   styleUrl: './contract-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

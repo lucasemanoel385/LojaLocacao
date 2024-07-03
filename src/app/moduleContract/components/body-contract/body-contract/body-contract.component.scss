@@ -1,0 +1,133 @@
+.data-itens{
+    width: 100%;
+    display: flex;
+}
+
+
+
+.table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+table{
+    border-left: 0;
+    width: 100%;
+}
+
+table ,th, td{
+    border: 1px solid black;
+    padding: 0.5rem;
+    border-collapse: separate;
+    border-color: rgb(224, 224, 224);
+    border-spacing: 0 2em;
+    border-top: 0;
+    box-sizing: border-box;
+}
+
+table, td{
+    border-bottom: 0;
+}
+
+td {
+    position: relative;
+    height: 5em;
+    text-align: center;
+    gap: 10px;
+    box-sizing: border-box;
+
+
+}
+
+.item{
+    display: flex;
+    position: relative;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    min-width: 300px;
+}
+
+.input_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.input_itens {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+
+    label{
+        position: absolute;
+        left: 0.5%;
+        bottom: 0.0rem;
+        color: rgb(150, 150, 150);
+        transition: 0.5s ease-in-out;
+        cursor: text;
+    }
+}
+
+
+li{
+    list-style: none;
+    cursor: pointer;
+    padding: 3px;
+    background-color: rgb(235, 235, 235);
+    
+    &:hover{
+        background-color: rgb(220, 220, 220);
+    }
+    }
+
+.ul-menu {
+    display: none;
+    overflow-y: auto; 
+    max-height: 180px; 
+    word-break: break-word; 
+    z-index: 9999;
+    position: absolute;
+    background: white;
+    width: 100%;
+    top: 27px;
+}
+
+.ul-menu::-webkit-scrollbar-thumb {
+    background-color: rgb(175, 175, 175);
+    border-radius: 20px;
+
+  }
+
+.ul-menu::-webkit-scrollbar {
+    width: 5px;  
+         /* width of the entire scrollbar */
+}
+
+.btn-delete {
+    height: 20px;
+    width: 25px;
+    background-color: rgb(255, 4, 4);
+    border: 0;
+    cursor: pointer;
+    font-size: 8px;
+    color: white;
+    border-radius: 10px;
+
+    &:hover {
+        background-color: rgb(210, 20, 20);
+    }
+}
+
+.li-items {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 5px;
+    
+}

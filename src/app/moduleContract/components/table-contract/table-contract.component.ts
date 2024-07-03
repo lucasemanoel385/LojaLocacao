@@ -1,6 +1,5 @@
 import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, inject, signal } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { FilterPipePipe } from '../../../modules/contract-budget/filter-pipe.pipe';
 import { NgxMaskDirective } from 'ngx-mask';
 import { CommonModule, CurrencyPipe, formatDate } from '@angular/common';
 import { Item } from '../../../moduleItem/interface/Item';
@@ -31,7 +30,7 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
 @Component({
   selector: 'app-table-contract',
   standalone: true,
-  imports: [ReactiveFormsModule, FilterPipePipe, NgxMaskDirective, CurrencyPipe, CommonModule, CpfCnpjPipe, FormsModule, BackHistoryComponent],
+  imports: [ReactiveFormsModule, NgxMaskDirective, CurrencyPipe, CommonModule, CpfCnpjPipe, FormsModule, BackHistoryComponent],
   templateUrl: './table-contract.component.html',
   styleUrl: './table-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

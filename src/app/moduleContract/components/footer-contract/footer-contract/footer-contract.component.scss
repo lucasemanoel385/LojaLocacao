@@ -1,0 +1,56 @@
+.informations_contract_values {
+    display: flex; 
+    flex-direction: row; 
+    width: 100%;
+}
+
+.annotations {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 30%;
+    gap: 0.5em;
+
+    label {
+        width: 80%;
+    }
+}
+
+.all_values {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 20%;
+    gap: 0.3em;
+
+    b {
+        display: flex;
+        padding: 15px;
+        justify-content: end;
+        font-weight: 600;
+    }
+}
+
+.buttonsControl {
+    display: flex;
+    justify-content: center;
+}
+
+textarea {
+    width: 45%;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 10px;
+    padding: 1em;
+    transition: 0.2s all ease;
+
+    &:hover {
+        border: 1px solid rgb(199, 199, 199);
+        background-color: rgb(231, 231, 231);
+    }
+
+    &:focus {
+        border: 1px solid rgb(0, 213, 255);
+        background-color: rgb(231, 231, 231);
+        outline: 0;
+    }
+}
