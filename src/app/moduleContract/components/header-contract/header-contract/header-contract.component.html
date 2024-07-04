@@ -7,11 +7,10 @@
         formControlName="client"
         required
         (keyup)="filterClient($event)"
-        (focus)="listClient($event)"
         (focusout)="removeListClient($event)">
         <ul class="ul-menu" id="filterCpf">
             @for (item of listClients(); track $index) {
-                <li (click)="setValueClient(item.id, item.cpfCnpj, item.name)"><span style="padding: 0.5em;" class="li-items">{{ item.cpfCnpj | cpfCnpj }} - {{ item.name }}</span></li>
+                <li tabindex="0" (click)="setValueClient(item.id, item.cpfCnpj, item.name)" (focus)="setValueClient(item.id, item.cpfCnpj, item.name)"><span style="padding: 0.5em;" class="li-items">{{ item.cpfCnpj | cpfCnpj }} - {{ item.name }}</span></li>
             }
         </ul>
         <label for="cpf">Cliente</label>

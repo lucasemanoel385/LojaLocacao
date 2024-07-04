@@ -1,5 +1,9 @@
 export interface UpdateClient {
     id: number,
+    nameReason: string,
+    cpfCnpj: string,
+    rgStateRegistration: string,
+    dateBirthCompanyFormation: any,
     cep: string,
     city: string,
     district: string,

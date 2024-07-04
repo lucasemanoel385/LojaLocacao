@@ -45,6 +45,11 @@ export class CategoryItemService {
     return this.#setListCategory.asReadonly();
   }
 
+  #setListAllCategory = signal<CategoryList[] | null>(null);
+  get getListAllCategory() {
+    return this.#setListAllCategory;
+  }
+
   #setListCategoryError = signal<CategoryList | null>(null);
   get getListCategoryError() {
     return this.#setListCategoryError.asReadonly();
@@ -91,6 +96,18 @@ export class CategoryItemService {
         number: res.number
       }
       this.#setListCategoryPage.set(page);
+    }),
+    catchError( (error: HttpErrorResponse) => {
+      this.#setListCategoryError.set(error.error.message);
+      return throwError(() => error);
+    }))
+  }
+
+  public httpGetListAllCategory(): Observable<CategoryPage> {
+
+    return this.#http.get<CategoryPage>(`${this.#url()}categoria/all`).pipe(shareReplay(),
+    tap( (res) => {
+      this.#setListAllCategory.set(res.content)
     }),
     catchError( (error: HttpErrorResponse) => {
       this.#setListCategoryError.set(error.error.message);

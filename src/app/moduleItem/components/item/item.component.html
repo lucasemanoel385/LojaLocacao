@@ -28,12 +28,22 @@
                     </label>
                     <label class="label_form_data">
                         <span>Categoria</span>
-                        <datalist id="category">
-                            @for (item of getCategorys(); track $index) {
-                                <option value="{{item.category}}"></option>
-                            }
-                        </datalist>
-                        <input list="category" placeholder="Selecione a Categoria" formControlName="category" required>
+                        <div class="input_category">
+                            <input 
+                            class="inputGrey"
+                            type="text"
+                            formControlName="category"
+                            required
+                            (keyup)="filterCategory($event)"
+                            (focusout)="removeListCategory($event)"
+                            placeholder="Sapato"
+                            >
+                            <ul class="ul-menu" style="max-height: 110px;" id="filterItem">
+                                @for (item of listFilterCategory(); track $index) {
+                                    <li tabindex="0" (click)="setValueCategory(item.category)" (focus)="setValueCategory(item.category)"><span style="padding: 0.5em;" class="li-items">{{ item.category }}</span></li>
+                                }
+                            </ul>
+                        </div>
                     </label>
                 </section>
             </form>

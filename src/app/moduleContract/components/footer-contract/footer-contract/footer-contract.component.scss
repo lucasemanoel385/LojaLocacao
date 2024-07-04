@@ -54,3 +54,21 @@ textarea {
         outline: 0;
     }
 }
+
+@media (max-width: 733px) {
+
+    .informations_contract_values {
+        display: flex; 
+        flex-direction: column; 
+        width: 100%;
+    }
+
+    .annotations {
+        width: 100%;
+    }
+
+    .all_values {
+        width: 100%;
+    }
+
+}

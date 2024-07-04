@@ -58,6 +58,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.idParamContract.set(this.#router.snapshot.params['id']);
+    this.#apiServiceContract.httpGetPaymentsContract$(this.idParamContract()).subscribe();
     this.#apiServiceDataCompnay.httpGetDataCompany$().subscribe();
     this.#apiServiceContract.httpGetContractId(Number(this.idParamContract())).subscribe((res) => {
       this.checkSituation(res.contractSituation); 
@@ -145,7 +146,6 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
   paymentFuture(dialog: HTMLDialogElement) {
     dialog.showModal();
-    this.#apiServiceContract.httpGetPaymentsContract$(this.idParamContract()).subscribe();
     console.log(this.getContractId());
     this.valueTotalContract.set(this.getContractId()?.valueTotal as number)
     this.teste(this.getContractPayment() as PaymentsList[])

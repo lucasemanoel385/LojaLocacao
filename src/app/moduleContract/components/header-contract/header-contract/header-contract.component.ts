@@ -7,6 +7,7 @@ import { ClientService } from '../../../../moduleClient/service/client.service';
 import { CpfCnpjPipe } from '../../../../moduleClient/components/pipes/cpf-cnpj.pipe';
 import { ContractId } from '../../../interface/contractId.interface';
 import { FormatDatePipe } from '../../../../moduleClient/components/pipes/format-date.pipe';
+import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
 
 @Component({
   selector: 'app-header-contract',
@@ -25,6 +26,7 @@ export class HeaderContractComponent implements OnChanges{
 
 }
 
+  #arrowSelect = new ArrowSelectComponent();
   #apiServiceClient = inject(ClientService);
   #apiServiceContract = inject(ContractServiceService);
   public getCreateContractError = this.#apiServiceContract.getContractCreateError;
@@ -50,21 +52,26 @@ export class HeaderContractComponent implements OnChanges{
 
   }
 
+  ulIdentificator!: string;
+
   filterClient(e: Event) {
     
     const target = e.target as HTMLInputElement;
     const valueInput = target.value.toUpperCase().replaceAll('.', '').replace('-', '');
+    this.listClient();
 
-    if(valueInput.length >= 4) {
+    if(valueInput.length > 0) {
       this.#apiServiceClient.httpGetClientFilter(valueInput).subscribe((res) => this.listClients.set(res.content));
+      this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentificator);
     } else {
       this.listClients.set(null);
     }
   }
 
-  listClient(e: Event) {
+  listClient() {
     const ul: any = document.getElementById('filterCpf');
-    if(e) {
+    if(ul) {
+      this.ulIdentificator = ul.id;
       ul.style.display = 'list-item';
       
     }
@@ -77,7 +84,7 @@ export class HeaderContractComponent implements OnChanges{
         ul.style.display = 'none';
         this.listClients.set(null);
       }
-    }, 200)
+    }, 180)
   }
 
   public idClient!: number;

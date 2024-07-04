@@ -14,7 +14,7 @@ import { ContractId } from '../../../interface/contractId.interface';
 })
 export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['contractId'].currentValue) {
+    if (changes['contractId'] && changes['contractId'].currentValue) {
       setTimeout(() => {
         this.editValue();
       }, 0)

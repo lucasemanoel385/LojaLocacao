@@ -10,6 +10,8 @@ import { ItemCreate } from '../../interface/ItemCreate';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
 import { CategoryItemService } from '../../../moduleCategory/service/categoryItem.service';
 import { concat, concatMap } from 'rxjs';
+import { CategoryList } from '../../../moduleCategory/interface/categoryList.interface';
+import { ArrowSelectComponent } from '../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
 
 @Component({
   selector: 'app-item',
@@ -20,7 +22,7 @@ import { concat, concatMap } from 'rxjs';
 })
 export class ItemComponent implements OnChanges, OnInit {
   ngOnInit(): void {
-    this.#apiServiceCategory.httpGetListCategory().subscribe();
+    this.#apiServiceCategory.httpGetListAllCategory().subscribe();
   }
 
   @Input() tittleItem!: string;
@@ -44,11 +46,14 @@ export class ItemComponent implements OnChanges, OnInit {
  
   #apiServiceItem = inject(ProductService);
   #apiServiceCategory = inject(CategoryItemService)
+  #arrowSelect = new ArrowSelectComponent();
 
-  public getCategorys = this.#apiServiceCategory.getListCategory;
+  public getAllCategorys = this.#apiServiceCategory.getListAllCategory;
   public getItemError$ = this.#apiServiceItem.getItemError;
   public getItemMsgSucess$ = this.#apiServiceItem.getItemSucess;
 
+  listFilterCategory = signal<CategoryList[] | null>(null);
+  ulIdentificator!: string;
 
   isReadOnlyCodItem = signal(false);
   selectedFile: File | undefined;
@@ -73,6 +78,49 @@ export class ItemComponent implements OnChanges, OnInit {
   @ViewChild('cod') codItem!: ElementRef;
 
   public getItemId = this.#apiServiceItem.getItemId;
+
+  filterCategory(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const valueInput = target.value.toUpperCase();
+
+    this.listCategory();
+
+    if(valueInput.length >= 3) {
+
+      let list = this.getAllCategorys()?.filter(a => a.category.toUpperCase().indexOf(valueInput) > -1);
+      this.listFilterCategory.set(list as CategoryList[]);
+
+    }
+
+    this.#arrowSelect.arrowSelect(event as KeyboardEvent, this.ulIdentificator)
+  }
+
+  listCategory() {
+    const ul: any = document.getElementById('filterItem');
+      if(ul) {
+        this.ulIdentificator = ul.id;
+        ul.style.display = 'list-item';
+        this.listFilterCategory.set(null);
+      }
+
+  }
+
+  removeListCategory(event: FocusEvent) {
+    const ul: any = document.getElementById('filterItem');
+    setTimeout(() => {
+      if(ul) {
+        ul.style.display = 'none';
+        this.listFilterCategory.set(null);
+      }
+    }, 180)
+
+  }
+
+  setValueCategory(categoryName: string) {
+    this.itemContract.patchValue({
+      category: categoryName,
+    })
+  }
 
   editItem() {
     this.isReadOnlyCodItem.set(true);

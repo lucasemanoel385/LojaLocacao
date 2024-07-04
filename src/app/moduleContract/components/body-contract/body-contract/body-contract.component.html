@@ -13,13 +13,18 @@
                     <td>{{is}}</td>
                     <td class="item"><img id="{{is}}img" src="../../../../assets/Image_not_available.png" width="100px" style="aspect-ratio: 4/3;" alt="">
                     <div class="input_item input_itens">
-                        <input class="inputGrey" style="width: 100%;" (keyup)="filterItem($event, is);" (focus)="botaLista($event, is)" (focusout)="tiraLista($event, is)" type="text" id="{{is}}item" formControlName="name"  required>
+                        <input class="inputGrey" style="width: 100%;" 
+                        (keyup)="filterItem($event, is);"
+                        (focusout)="listOut($event, is)" 
+                        type="text" id="{{is}}item" 
+                        formControlName="name"
+                        required>
                         <label for="{{is}}item">
                             Insira nome do item</label>
                         <ul id="{{is}}list" class="ul-menu">
-                            @for (ite of listFilter; track ite; let i = $index) {
+                            @for (ite of listFilter(); track ite; let i = $index) {
                                 
-                                <li (click)="setValueInput(is, ite);"><span class="li-items"><img src="{{ite.imagem}}" width="70px">{{ite.cod}} - {{ite.name}}</span></li>
+                                <li tabindex="0" (click)="setValueInput(is, ite);" (focus)="setValueInput(is, ite)"><span class="li-items"><img src="{{ite.imagem}}" width="70px">{{ite.cod}} - {{ite.name}}</span></li>
                                 
                             }
                         </ul>

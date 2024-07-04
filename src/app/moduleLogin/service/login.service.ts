@@ -21,6 +21,11 @@ export class LoginService {
     return this.#setLogin.asReadonly();
   }
 
+  #setLoginError = signal<string | null>(null);
+  get getLoginError() {
+    return this.#setLoginError;
+  }
+
   public httpLogin$(dataLogin: Login): Observable <LoginToken> {
 
     return this.#http.post<LoginToken>(`${this.#url()}login`, dataLogin).pipe(
@@ -30,7 +35,7 @@ export class LoginService {
       }),
       shareReplay(),
       catchError( (error: HttpErrorResponse) => {
-        //this.#setItemError.set(error.error);
+        this.#setLoginError.set(error.error);
         return throwError(() => error)
       })
     );

@@ -141,10 +141,10 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
     if(this.buttonSave === "Salvar") {
       const client: UpdateClient = {
         id: this.idUpdateClient() as number,
-        /*name: form.control.get('name')?.value,
-        cpf: form.control.get('cpf')?.value,
-        rg: form.control.get('rg')?.value,
-        dateBirth: form.control.get('dateBirth')?.value,*/
+        nameReason: form.control.get('name')?.value,
+        cpfCnpj: form.control.get('cpf')?.value,
+        rgStateRegistration: form.control.get('rg')?.value,
+        dateBirthCompanyFormation: form.control.get('dateBirth')?.value,
         street: form.control.get('street')?.value,
         district: form.control.get('district')?.value,
         cep: form.control.get('cep')?.value,
@@ -159,14 +159,14 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       this.#serviceClient.httpUpdateClient(client).pipe(
         concatMap( () => this.#serviceClient.httpGetClient())
         ).subscribe();
-        setTimeout(() => this.#router.navigate(['/clients']), 2000)
+        setTimeout(() => this.#router.navigate(['../store/clients']), 2000)
       
     } else {
         console.log(form.value as ClientCreate)
         this.#serviceClient.httpCreateClient(form.value as ClientCreate).pipe(
         concatMap( () => this.#serviceClient.httpGetClient())
         ).subscribe();
-        setTimeout(() => this.#router.navigate(['/clients']), 2000)
+        setTimeout(() => this.#router.navigate(['../store/clients']), 2000)
     }
   }
 }

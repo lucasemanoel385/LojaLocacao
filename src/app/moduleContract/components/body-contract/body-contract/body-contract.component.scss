@@ -3,7 +3,24 @@
     display: flex;
 }
 
+li{
+    img {
+        border-radius: 10px;
+    }
 
+    &:hover, &.active{
+        background-color: rgb(220, 220, 220);
+
+        span {
+            font-size: 17px;
+        }
+
+        img {
+            transition: all 0.2s ease;
+            width: 80px;
+        }
+    }
+    }
 
 .table {
     width: 100%;
@@ -73,40 +90,6 @@ td {
 }
 
 
-li{
-    list-style: none;
-    cursor: pointer;
-    padding: 3px;
-    background-color: rgb(235, 235, 235);
-    
-    &:hover{
-        background-color: rgb(220, 220, 220);
-    }
-    }
-
-.ul-menu {
-    display: none;
-    overflow-y: auto; 
-    max-height: 180px; 
-    word-break: break-word; 
-    z-index: 9999;
-    position: absolute;
-    background: white;
-    width: 100%;
-    top: 27px;
-}
-
-.ul-menu::-webkit-scrollbar-thumb {
-    background-color: rgb(175, 175, 175);
-    border-radius: 20px;
-
-  }
-
-.ul-menu::-webkit-scrollbar {
-    width: 5px;  
-         /* width of the entire scrollbar */
-}
-
 .btn-delete {
     height: 20px;
     width: 25px;
@@ -122,12 +105,11 @@ li{
     }
 }
 
-.li-items {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    gap: 5px;
-    box-sizing: border-box;
-    padding: 5px;
-    
+
+@media (max-width: 733px) {
+
+    .table {
+        overflow-x: auto;
+    }
+
 }

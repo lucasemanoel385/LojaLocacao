@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../../moduleItem/service/product.service';
 import { ContractServiceService } from '../../../service/contract-service.service';
@@ -7,11 +7,12 @@ import { Item } from '../../../../moduleItem/interface/Item';
 import { forbiddenNameValidator } from '../../table-contract/table-contract.component';
 import { ContractId } from '../../../interface/contractId.interface';
 import { ContractItens } from '../../../interface/contractItens.interface';
+import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
 
 @Component({
   selector: 'app-body-contract',
   standalone: true,
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, CurrencyPipe, ArrowSelectComponent],
   templateUrl: './body-contract.component.html',
   styleUrl: './body-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -31,9 +32,10 @@ export class BodyContractComponent implements OnInit, OnChanges {
   @Input() contractId!: ContractId | null;
   @Output() addItemForm = new EventEmitter<Event>;
 
+  #arrowSelect = new ArrowSelectComponent();
   #apiServiceItem = inject(ProductService);
   #apiServiceContract = inject(ContractServiceService);
-  public listaItem$ = this.#apiServiceItem.getAllItemList;
+  public listItem$ = this.#apiServiceItem.getAllItemList;
   public getCreateContractError = this.#apiServiceContract.getContractCreateError;
   public getContractMsgSucess = this.#apiServiceContract.getContractSucess;
   public getContractId = this.#apiServiceContract.getContractId;
@@ -71,47 +73,50 @@ export class BodyContractComponent implements OnInit, OnChanges {
  
   }
 
+  ulIdentificator!: string;
+
   filterItem(e: Event, is: number) {
     const target = e.target as HTMLInputElement;
     const valueInput = target.value.toUpperCase();
-    const lista = this.listaItem$();
-
+    const lista = this.listItem$();
+    
     let list!: Item[];
-   
-    if(valueInput.length > 3) {
-      
+    
+    if(valueInput.length > 3 ) {
       list = lista!.filter(a => a.name.toUpperCase().indexOf(valueInput) > -1);
+      
 
-    } else {
+    } else if(valueInput.length > 0) {
       list = lista!.filter(a => a.cod.toString().indexOf(valueInput) > -1);
       
     }
 
-    this.idItem = target.id;
-    this.filterWrite = valueInput;
-    this.listFilter = list;
+    this.listFilter.set(list);
+    this.putList(is);
+    this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentificator);
+    
+  }
+  
+
+  putList(index: number) {
+    const ul: HTMLElement = document.getElementById(index.toString() + 'list') as HTMLElement;
+      ul.style.display = 'list-item';
+      this.ulIdentificator = ul.id;
   }
 
-  botaLista(e: Event, index: number) {
-    console.log(e)
-    const t: any = document.getElementById(index.toString() + 'list');
-    if(e) {
-      t.style.display = 'list-item';
-      
-    }
-  }
 
-  listFilter!: Item[];
 
-  tiraLista(e: Event, index: number){
+  listFilter = signal<Item[] | null>(null);
+
+  listOut(e: Event, index: number){
     const t: any = document.getElementById(index.toString() + 'list');
     setTimeout(() => {
       if(e) {
         t.style.display = 'none';
         let list!: Item[];
-        this.listFilter = list;
+        this.listFilter.set(list);
       }
-    }, 200)
+    }, 160)
   }
 
   get getArrayForm() {

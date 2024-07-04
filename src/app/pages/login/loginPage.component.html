@@ -7,6 +7,9 @@
             <input type="text" id="user" class="inputGrey_noneLabel" formControlName="login" autocomplete="username" required>
             <label>Senha:</label>
             <input type="password" id="password" class="inputGrey_noneLabel" formControlName="password" autocomplete="current-password" required>
+            @if (getLoginError()) {
+                <span class="error_api">{{ getLoginError() }}</span>
+            }
             <button class="btn-update" type="submit" (click)="submitLogin()" [disabled]="!loginForm.valid">Acessar</button>
         </form>
     </article>

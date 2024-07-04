@@ -30,7 +30,7 @@ export class RegisterContractComponent implements OnChanges {
       this.switchStatus(this.contractId as ContractId);
     }
 
-    if(changes['buttonCreate'].currentValue) {
+    if(changes['buttonCreate'] && changes['buttonCreate'].currentValue) {
       this.buttonFooter.set(changes['buttonCreate'].currentValue);
     }
   }
