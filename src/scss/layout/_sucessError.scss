@@ -1,12 +1,24 @@
-.span_button, .error_api, .success_api {
-    width: 100%;
+.error_api, .success_api {
+   
     display: flex;
     justify-content: center;
-    margin: 15px 0;
+    margin: 5px 0;
+    box-sizing: border-box;
+    color: #ce8f22;
+    background-color: #fffcee;
+    background-image: none;
+    box-shadow: none;
+    text-shadow: none;
+    padding: 9px 19px 9px 15px;
+    border-radius: 3px 3px 3px 3px;
+    border: 1px solid #F0DBB4;
+    transition: all 0.2s linear 0s;
 }
 
 .error_api {
-    color: red;
+    color: #e76e70;
+    background-color: #fff6f4;
+    border-color: #f8cdcd;
 }
 
 .error_api, .success_api {
@@ -15,5 +27,22 @@
 }
 
 .success_api {
-    color: rgb(29, 151, 29);
+    color: #438a85;
+    background-color: #f3faf8;
+    border-color: #bfd1cf;
+}
+
+.span-error {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+@media (max-width: 733px) {
+    .error_api, .success_api, .span-error {
+        width: 100%;
+   
+    }
 }

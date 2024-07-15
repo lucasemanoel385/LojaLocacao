@@ -2,26 +2,31 @@
         <app-back-history/>
         <h2>{{ tittle() }}</h2>
     </div>
-    <div style="display: block; background-color: whitesmoke; padding: 2em;">
-        <form id="register" #formRegister="ngForm" (ngSubmit)="submitForm(formRegister)">
-    
-            <label for="">
-                Nome categoria:
-                <input class="inputGrey" placeholder="Ternos, Luvas..." name="category" type="text" #category="ngModel" [ngModel]="category.value" required/>
+    <div class="layout">
+        <div style="display: block; background-color: whitesmoke; padding: 2em;">
+            <form id="register" #formRegister="ngForm" (ngSubmit)="submitForm(formRegister)">
+        
+                <label for="">
+                    Nome categoria:
+                    <input class="inputGrey" placeholder="Ternos, Luvas..." name="category" type="text" #category="ngModel" [ngModel]="category.value" required/>
 
-            </label>
-            @if (category.touched && category.invalid) {
-                <span style="color: red;"><strong>Categoria incompleto ou vazio</strong></span>
-            }
-            @if (getCreateCategory()) {
-                <span style="color: rgb(23, 151, 23);"><strong>{{ getCreateCategory() }}</strong></span>
-            } @else if (getCreateCategoryError()) {
-                <span style="color: red;"><strong>{{ getCreateCategoryError() }}</strong></span>
-            }
-        </form>
-        <div style="display: flex; gap: 15px;">
-            <button class="btn-update" form="register" [disabled]="!formRegister.valid">{{ buttonSubmit() }}</button>
-            <button class="btn-back" (click)="backRouter()">Voltar</button>
+                </label>
+                @if (category.touched && category.invalid) {
+                    <span style="color: red;"><strong>Categoria incompleta ou vazia</strong></span>
+                }
+                <div class="span-error">
+                    @if (getCreateCategory()) {
+                        <span class="success_api" style="width: 100%;"><strong>{{ getCreateCategory() }}</strong></span>
+                    } @else if (getCreateCategoryError()) {
+                        <span class="error_api" style="width: 100%;"><strong>{{ getCreateCategoryError() }}</strong></span>
+                    }
+                </div>
+
+            </form>
+            <div class="span_button" style="justify-content: start; gap: 10px;">
+                <button class="btn-update" form="register" [disabled]="!formRegister.valid">{{ buttonSubmit() }}</button>
+                <app-back-history-button/>
+            </div>
         </div>
-    </div>
+</div>
 

@@ -1,11 +1,13 @@
 :host{
     height: 100%;
     padding: 2em;
+    width: 100%;
 
     .layout__accounting {
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
+        width: 100%;
     }
 
     .vertical {
@@ -15,10 +17,10 @@
         border-radius: 10px;
     }
 
-    .inputs, .expenses {
+    .layout__accouting-left, .expenses {
         width: 50%;
         margin: 0em 5em;
-        max-height: 500px;
+      
     }
 
     .inputs {
@@ -40,7 +42,7 @@
     }
 
     .expenses, .inputs {
-        overflow-y: visible;
+        overflow-y: hidden;
         overflow-x: hidden;
     }
 
@@ -55,8 +57,19 @@
              /* width of the entire scrollbar */
     }
 
+    .expenses__table {
+        margin: 0;
+    }
+
     .layout__accounting-sections {
         display: flex;
+        width: 100%;
+    }
+
+    .layout__accouting-left {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
     }
 
     .values {
@@ -93,7 +106,7 @@
             width: 100%;
         }
 
-        .inputs, .expenses {
+        .inputs, .expenses, .layout__accouting-left {
             margin: 0;
             padding: 1em;
             width: 100%;
@@ -102,11 +115,6 @@
 
         .expenses {
             overflow-x: auto;
-        }
-
-        .expenses__table {
-            width: 500px;
-
         }
 
         .expenses::-webkit-scrollbar {

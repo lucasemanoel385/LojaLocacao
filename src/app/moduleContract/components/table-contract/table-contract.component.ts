@@ -380,6 +380,7 @@ export class TableContractComponent implements OnInit, OnDestroy, OnChanges, Aft
         dateUntil: this.contractForm.get('dateUntil')?.value,
         discount: this.contractForm.get('discount')?.value as number,
         items : listItens,
+        seller: this.contractForm.get('seller')?.value as string,
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }

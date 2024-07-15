@@ -1,4 +1,12 @@
 :host {
+
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    align-items: center;
+    padding: 2em 0em 1em 0em;
+    gap: 5.5em;
+    
     
 
     .active {
@@ -11,17 +19,7 @@
         }
     }
 
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        width: 240px;
-        align-items: center;
-        padding: 2em 0em 1em 0em;
-        gap: 5.5em;
-
-    }
-    
-
+   
     nav {
         display: flex;
         flex-direction: column;
@@ -32,13 +30,11 @@
             width: 205px;
             display: flex;
             align-items: center;
-            text-align: center;
             margin-left: 2em;
             gap: 10px;
             color: grey;
             transition: all 0.2s ease;
             cursor: pointer;
-            box-sizing: border-box;
             
             &:hover {
                 color: white;
@@ -62,8 +58,12 @@
 
     @media (max-height: 669px) {
 
-        .sidebar {
+        :host {
             gap: 1em;
+        }
+
+        .logout {
+            bottom: 1em;
         }
 
     }

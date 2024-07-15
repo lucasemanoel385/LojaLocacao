@@ -2,116 +2,125 @@
     <app-back-history/>
     <h2>{{ tittle() }}</h2>
 </div>
-<div class="form_layout">
-    <form id="register" #formRegister="ngForm" (ngSubmit)="submitForm(formRegister)">
-        <label for="">
-            <span>Tipo</span>
-            <select (change)="setPerson()" style="height: 100%;" class="inputGrey" name="type" #type="ngModel" [ngModel]="type.value" required>
-                <option value="Física">Física</option>
-                <option value="Jurídica">Jurídica</option>
-            </select>
-        </label>
-        <label for="">
-            <span [innerText]="nameReason()"></span>
-            <input 
-            class="inputGrey"
-            placeholder="Escreva o nome do cliente. Sophia Bandeira..."
-            type="text" 
-            name="name" 
-            #name="ngModel" 
-            [ngModel]="name.value" 
-            required/>
-        @if (name.touched && name.invalid) {
-            <p><strong>Incompleto ou vazio</strong></p>
-        }
-        </label>
-        <label for="">
-            <span [innerText]="cpfCnpj()"></span>
-            <input class="inputGrey" placeholder="123.456.789-2" type="text" name="cpf" #cpf="ngModel" [ngModel]="cpf.value" required mask="000.000.000.0||000.000.000-00||00.000.000/0000-00"/>
-            @if (cpf.touched && cpf.invalid) {
+<div class="layout">
+    <div class="form_layout">
+        <form id="register" #formRegister="ngForm" (ngSubmit)="submitForm(formRegister)">
+            <label for="">
+                <span>Tipo</span>
+                <select (change)="setPerson()" style="height: 100%;" class="inputGrey" name="type" #type="ngModel" [ngModel]="type.value" required>
+                    <option value="Física">Física</option>
+                    <option value="Jurídica">Jurídica</option>
+                </select>
+            </label>
+            <label for="">
+                <span [innerText]="nameReason()"></span>
+                <input 
+                class="inputGrey"
+                placeholder="Escreva o nome do cliente. Sophia Bandeira..."
+                type="text" 
+                name="name" 
+                #name="ngModel" 
+                [ngModel]="name.value" 
+                required/>
+            @if (name.touched && name.invalid) {
                 <p><strong>Incompleto ou vazio</strong></p>
             }
-        </label>
-       <label for="">
-            <span [innerText]="rgInsc()"></span>
-            <input class="inputGrey" placeholder="12.234.567-8" type="text" name="rg" #rg="ngModel" [ngModel]="rg.value" required/>
-            @if (rg.touched && rg.invalid) {
-                <p><strong>Incompleto ou vazio</strong></p>
-            }
-        </label>
-        <label for="">
-            <span [innerText]="dateBirthC()"></span>
-            <input class="inputGrey" type="date" name="dateBirth" #dateBirth="ngModel" [ngModel]="dateBirth.value" required/>
-       
-        </label>
-        <label for="">
-            Cep:
-            <input (blur)="queryCep(this.cep.value, this.formRegister)" class="inputGrey" placeholder="12.345-645" type="text" name="cep" #cep="ngModel" ngModel required mask="00.000-000"/>
-            @if (cep.touched && cep.invalid) {
-                <p><strong>Cep vazio</strong></p>
-            }
-        </label>
-        <label for="">
-            Rua:
-            <input class="inputGrey" placeholder="Itapimirim, 123" type="text" name="street" #street="ngModel" [ngModel]="street.value" required/>
-            @if (street.touched && street.invalid) {
-                <p><strong>Campo rua vazio</strong></p>
-            }
-        </label>
+            </label>
+            <label for="">
+                <span [innerText]="cpfCnpj()"></span>
+                <input class="inputGrey" placeholder="123.456.789-2" type="text" name="cpf" #cpf="ngModel" [ngModel]="cpf.value" required mask="000.000.000.0||000.000.000-00||00.000.000/0000-00"/>
+                @if (cpf.touched && cpf.invalid) {
+                    <p><strong>Incompleto ou vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                <span [innerText]="rgInsc()"></span>
+                <input class="inputGrey" placeholder="12.234.567-8" type="text" name="rg" #rg="ngModel" [ngModel]="rg.value" required/>
+                @if (rg.touched && rg.invalid) {
+                    <p><strong>Incompleto ou vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                <span [innerText]="dateBirthC()"></span>
+                <input class="inputGrey" type="date" name="dateBirth" #dateBirth="ngModel" [ngModel]="dateBirth.value" required/>
+        
+            </label>
+            <label for="">
+                Cep:
+                <input (blur)="queryCep(this.cep.value, this.formRegister)" class="inputGrey" placeholder="12.345-645" type="text" name="cep" #cep="ngModel" ngModel required mask="00.000-000"/>
+                @if (cep.touched && cep.invalid) {
+                    <p><strong>Cep vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                Rua:
+                <input class="inputGrey" placeholder="Itapimirim, 123" type="text" name="street" #street="ngModel" [ngModel]="street.value" required/>
+                @if (street.touched && street.invalid) {
+                    <p><strong>Campo rua vazio</strong></p>
+                }
+            </label>
 
-        <label for="">
-            Número:
-            <input class="inputGrey" placeholder="123" type="text" name="number" #number="ngModel" [ngModel]="number.value" required/>
-            @if (number.touched && number.invalid) {
-                <p><strong>Campo número vazio</strong></p>
-            }
-        </label>
+            <label for="">
+                Número:
+                <input class="inputGrey" placeholder="123" type="text" name="number" #number="ngModel" [ngModel]="number.value" required/>
+                @if (number.touched && number.invalid) {
+                    <p><strong>Campo número vazio</strong></p>
+                }
+            </label>
 
-        <label for="">
-            Cidade:
-            <input class="inputGrey" placeholder="Belo Horizonte" type="text" name="city" #city="ngModel" [ngModel]="city.value" required/>
-            @if (city.touched && city.invalid) {
-                <p><strong>Campo cidade vazio</strong></p>
+            <label for="">
+                Cidade:
+                <input class="inputGrey" placeholder="Belo Horizonte" type="text" name="city" #city="ngModel" [ngModel]="city.value" required/>
+                @if (city.touched && city.invalid) {
+                    <p><strong>Campo cidade vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                Bairro:
+                <input class="inputGrey" placeholder="Savassi" type="text" name="district" #district="ngModel" [ngModel]="district.value" required/>
+                @if (district.touched && district.invalid) {
+                    <p><strong>Campo bairro vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                UF:
+                <input class="inputGrey" placeholder="MG" type="text" name="uf" #uf="ngModel" [ngModel]="uf.value" required [maxLength]="2"/>
+                @if (uf.touched && uf.invalid) {
+                    <p><strong>Campo uf vazio</strong></p>
+                }
+            </label>
+            <label for="phone1">
+                Tel./Celular:
+                <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone1" #phone1="ngModel" [ngModel]="phone1.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
+                @if (phone1.touched && phone1.invalid) {
+                    <p><strong>Campo celular vazio</strong></p>
+                }
+            </label>
+            <label for="phone2">
+                Tel./Celular:
+                <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone2" #phone2="ngModel" [ngModel]="phone2.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
+                @if (phone2.touched && phone2.invalid) {
+                    <p><strong>Campo celular vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                E-mail:
+                <input class="inputGrey" placeholder="teste@gmail.com" type="email" name="email" #email="ngModel" [ngModel]="email.value"/>
+            </label>
+        </form>
+        <div class="span-error">
+            @if (getClientMsgSucess()) {
+                <span class="success_api"><strong>{{ getClientMsgSucess() }}</strong></span>
+            } @else if (getClientError()) {
+                <span class="error_api"><strong>{{ getClientError() }}</strong></span>
             }
-        </label>
-        <label for="">
-            Bairro:
-            <input class="inputGrey" placeholder="Savassi" type="text" name="district" #district="ngModel" [ngModel]="district.value" required/>
-            @if (district.touched && district.invalid) {
-                <p><strong>Campo bairro vazio</strong></p>
-            }
-        </label>
-        <label for="">
-            UF:
-            <input class="inputGrey" placeholder="MG" type="text" name="uf" #uf="ngModel" [ngModel]="uf.value" required [maxLength]="2"/>
-            @if (uf.touched && uf.invalid) {
-                <p><strong>Campo uf vazio</strong></p>
-            }
-        </label>
-        <label for="phone1">
-            Tel./Celular:
-            <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone1" #phone1="ngModel" [ngModel]="phone1.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
-            @if (phone1.touched && phone1.invalid) {
-                <p><strong>Campo celular vazio</strong></p>
-            }
-        </label>
-        <label for="phone2">
-            Tel./Celular:
-            <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone2" #phone2="ngModel" [ngModel]="phone2.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
-            @if (phone2.touched && phone2.invalid) {
-                <p><strong>Campo celular vazio</strong></p>
-            }
-        </label>
-        <label for="">
-            E-mail:
-            <input class="inputGrey" placeholder="teste@gmail.com" type="email" name="email" #email="ngModel" [ngModel]="email.value"/>
-        </label>
-    </form>
-    @if (getClientMsgSucess()) {
-        <span style="color: rgb(23, 151, 23);"><strong>{{ getClientMsgSucess() }}</strong></span>
-    } @else if (getClientError()) {
-        <span style="color: red;"><strong>{{ getClientError() }}</strong></span>
-    }
-    <button form="register" [disabled]="!formRegister.valid">{{ buttonSubmit() }}</button>
+        </div>
+
+        <div style="display: flex; gap: 0.5em;">
+            <app-back-history-button/>
+            <button class="btn-update" form="register" type="button" (click)="submitForm(formRegister)" [disabled]="!formRegister.valid">{{ buttonSubmit() }}</button>
+        </div>
+    </div>
+
 </div>
 

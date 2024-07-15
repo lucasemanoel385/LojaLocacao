@@ -14,7 +14,10 @@ registerLocaleData(localePt);
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes, withComponentInputBinding(), withRouterConfig(
+    provideRouter(routes, withComponentInputBinding(), 
+    
+    // Isso faz com que as rotas filhas sempre tenham acesso a parametros definidos da rota pai
+    withRouterConfig(
       {
         paramsInheritanceStrategy: 'always'
       }

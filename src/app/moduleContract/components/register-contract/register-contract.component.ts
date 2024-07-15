@@ -120,10 +120,11 @@ export class RegisterContractComponent implements OnChanges {
         dateUntil: this.contractForm.get('dateUntil')?.value,
         discount: this.contractForm.get('discount')?.value as number,
         items : listItens,
+        seller: this.contractForm.get('seller')?.value as string,
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
-      console.log(this.contractForm.value)
+
       this.#apiServiceContract.httpEditContract(contract).pipe(
         concatMap(() => this.#apiServiceContract.httpGetContracts())
       ).subscribe();

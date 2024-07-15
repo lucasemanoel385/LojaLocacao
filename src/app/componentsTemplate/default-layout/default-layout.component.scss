@@ -1,7 +1,5 @@
 :host {
 
-
-    main {
         display: flex;
         flex-direction: row;
         height: 100%;
@@ -9,11 +7,11 @@
 
         .container-nav {
             background-color: #26282b;
-            box-shadow: 0 0 2em rgb(0 0 0 / .2);
+            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+            z-index: 9999;
         }
 
         .menu {
-            background-color: black;
             width: 0;
             img {
                 margin-top: 5px;
@@ -38,7 +36,6 @@
         .container-content {
             background-color: #d9dde2;
             width: 100%;
-
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -53,8 +50,6 @@
             }
             
         }
-
-    }
 }
 
 

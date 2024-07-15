@@ -1,12 +1,12 @@
 <app-register-contract buttonCreate="Salvar" [contractId]="getContractId()">
-<button #buttonPrintOut class="btn-back" style="margin: 0;" type="button" (click)="navigateToPrintOut()">Imprmir</button>
+<button #buttonPrintOut class="btn-back" type="button" (click)="navigateToPrintOut()">Imprmir</button>
     <button #buttonReserve style="background-color: #1f3853;" class="btn-update btn-contract" type="button" (click)="modalReserve.showModal()">{{buttonSituation()}}</button>
     <button #invoice style="background-color: #1f3853; display: none;" class="btn-update btn-contract" type="button" (click)="paymentFuture(modalInvoice)">Lançar pagamentos</button>
     <dialog #modalReserve class="dialog_delete">
         <div>
             <p>Deseja realmente reservar? Após a reserva, não será possível reverter o status e um lançamento de pagamento será gerado</p>
             <div>
-                <button style="margin: 0 10px;" class="btn_add" type="button" (click)="reserve(invoice, buttonReserve, modalReserve)">Reservar</button>
+                <button class="btn_add" type="button" (click)="reserve(invoice, buttonReserve, modalReserve)">Reservar</button>
                 <button class="btn-delete" type="button" (click)="modalReserve.close()">Não</button>
             </div>
         </div>
@@ -23,26 +23,27 @@
                 <p>Valor Pago: {{amountToPay() | currency: 'BRL'}}</p>
             </div>
             <div class="dialog_content">
-                <form [formGroup]="paymentForm">
-
-                
-                <table class="table">
-                    @for (payment of payments; track payment; let i = $index) {
-                    <tr [formGroup]="payment">
-                        <td>
-                            <input #value class="inputGrey" type="number" placeholder="R$100,20" formControlName="paymentValue" (focusout)="attValuePaid(value)">
-                        </td>
-                        <td>
-                            <input class="inputGrey" type="date" formControlName="datePayment">
-                        </td>
-                        <td>
-                            <button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete" (click)="clearTr(i)"><span class="material-symbols-sharp">
-                                delete
-                                </span></button>
-                        </td>
-                    </tr>
-                    }
-                </table>
+                <form [formGroup]="paymentForm" class="form_payment">
+                    <div class="table_container">
+                        <table class="table">
+                            @for (payment of payments; track payment; let i = $index) {
+                            <tr [formGroup]="payment">
+                                <td>
+                                    <input #value class="inputGrey" type="number" placeholder="R$100,20" formControlName="paymentValue" (focusout)="attValuePaid(value)">
+                                </td>
+                                <td>
+                                    <input class="inputGrey" type="date" formControlName="datePayment">
+                                </td>
+                                <td>
+                                    <button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete" (click)="clearTr(i)"><span class="material-symbols-sharp">
+                                        delete
+                                        </span></button>
+                                </td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                    
                 </form>
                 <button class="btn_add" type="button" (click)="addItens()">Add. parcela</button>
                 <!--<div class="table">
@@ -51,16 +52,20 @@
                     <input #valuePayment class="inputGrey" type="date" min="0">
                     X
                 </div>-->
-                @if (getContractPaymentError()) {
-                    <span class="error_api">{{getContractPaymentError()}}</span>
-                } @else {
-                    <span class="success_api">{{getContractPaymentSucess()}}</span>
-                }
+
+                <div class="span-error" style="width: 100%;">
+                    @if (getContractPaymentError()) {
+                        <span class="error_api">{{getContractPaymentError()}}</span>
+                    } @else if (getContractPaymentSucess()){
+                        <span class="success_api">{{getContractPaymentSucess()}}</span>
+                    }
+                </div>
+ 
                 <div class="dialog_btns">
                     <button class="btn_add" type="button" (click)="payment(modalInvoice)">Salvar</button>
                     <button class="btn-delete" type="button" (click)="modalInvoice.close(); this.getContractPaymentError.set(null);  this.getContractPaymentSucess.set(null)">Não</button>
                 </div>
-            </div>    
+            </div>   
             <div class="dialog_footer"></div>
         </div>
 

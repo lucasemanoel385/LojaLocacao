@@ -1,13 +1,14 @@
 import { CurrencyPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DoCheck, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DoCheck, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { ContractServiceService } from '../../../service/contract-service.service';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ContractId } from '../../../interface/contractId.interface';
+import { BackHistoryButtonComponent } from '../../../../componentsTemplate/button-back-navigate/back-history-button/back-history-button.component';
 
 @Component({
   selector: 'app-footer-contract',
   standalone: true,
-  imports: [CurrencyPipe, ReactiveFormsModule],
+  imports: [CurrencyPipe, ReactiveFormsModule, BackHistoryButtonComponent],
   templateUrl: './footer-contract.component.html',
   styleUrl: './footer-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -29,7 +30,9 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   @Input() contractId!: ContractId | null;
   @Input() buttonInput!: string;
   @Input() buttonDisabled!: boolean;
+  @Output() submitOutPut = new EventEmitter;
 
+  //Gett data APIs
   #apiServiceContract = inject(ContractServiceService);
   public getCreateContractError = this.#apiServiceContract.getContractCreateError;
   public getContractMsgSucess = this.#apiServiceContract.getContractSucess;
@@ -40,13 +43,9 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   totalDiscount = signal(0.00);
   grandTotal = signal(0.00);
 
-  get getArrayForm() {
-    return this.footerForm.get('items') as FormArray;
-  }
-
+  //Get Items of FormArray
   get items() {
     //Indicamos que dentro do nosso formArray tem controls que são FormGroup
-    
     return (this.footerForm.get('items') as FormArray).controls as FormGroup[];
   }
 
@@ -56,6 +55,7 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
     this.valueTotal();
   }
 
+  // Get all items and sum
   fullItem() {
     let valorTotal = 0;
     this.items.forEach((a) => {
@@ -73,6 +73,11 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   valueTotal() {
     this.grandTotal.set(this.totalItem() - this.totalDiscount());
   }
+
+  submit() {
+    this.submitOutPut.emit();
+  }
+  
 
   ngOnDestroy(): void {
     this.getCreateContractError.set(null);

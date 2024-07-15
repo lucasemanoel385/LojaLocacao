@@ -9,39 +9,18 @@ import { concatMap } from 'rxjs';
 import { UpdateClient } from '../../interface/updateClient.interface';
 import { Router } from '@angular/router';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
+import { BackHistoryButtonComponent } from '../../../componentsTemplate/button-back-navigate/back-history-button/back-history-button.component';
 
 
 
 @Component({
   selector: 'app-form-register-client',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxMaskDirective, BackHistoryComponent],
+  imports: [CommonModule, FormsModule, NgxMaskDirective, BackHistoryComponent, BackHistoryButtonComponent],
   templateUrl: './form-register-client.component.html',
   styleUrl: './form-register-client.component.scss'
 })
 export class FormRegisterClientComponent implements OnChanges, OnInit {
-  
-
-  @ViewChild('formRegister') form!: NgForm;
-  @ViewChild("type") public typePerson!: NgModel;
-
-  idUpdateClient = signal<number | null>(null);
-  
-  tittle = signal('Cadastrar cliente');
-  buttonSubmit = signal('Cadastrar');
-
-  @Input() tittleClient!: string;
-  @Input() buttonSave!: string;
-  @Input() client!: string;
-  //Pega uma lista de formulario
-  //@ViewChildren('formElem', {read: ElementRef}) myFormElems: QueryList<ElementRef>;
-
-  #serviceClient = inject(ClientService);
-
-  #router = inject(Router);
-
-  public getClientMsgSucess = this.#serviceClient.getClientMsgSucess;
-  public getClientError = this.#serviceClient.getClientError;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tittleClient'].currentValue) {
@@ -50,14 +29,34 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       this.idUpdateClient.set(changes['client'].currentValue);
       this.#serviceClient.httpGetClientId(changes['client'].currentValue).subscribe((res) => this.editCLient(res));
     }
-
    }
 
   ngOnInit(): void {
     this.getClientMsgSucess.set("");
     this.getClientError.set("");
    }
+  
+  @Input() tittleClient!: string;
+  @Input() buttonSave!: string;
+  @Input() client!: string;
+  @ViewChild('formRegister') form!: NgForm;
+  @ViewChild("type") public typePerson!: NgModel;
+  
+  // Get value of input for submit Update
+  idUpdateClient = signal<number | null>(null);
+  
+  // Set value depending for @Input
+  tittle = signal('Cadastrar cliente');
+  buttonSubmit = signal('Cadastrar');
 
+  // Pull data for clientService
+  #serviceClient = inject(ClientService);
+  public getClientMsgSucess = this.#serviceClient.getClientMsgSucess;
+  public getClientError = this.#serviceClient.getClientError;
+
+  #router = inject(Router);
+
+  // Set name label depending on the person
   nameReason = signal('Nome:');
   cpfCnpj = signal('CPF:');
   rgInsc = signal('RG:');
@@ -80,12 +79,7 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
     }
   }
 
-  public queryCep(cep: string ,formRegister: NgForm) {
-
-    this.#serviceClient.httpGetCep(cep).subscribe((dados) => this.attAddress(dados, formRegister));
-
-  }
-
+  // Edit inputs if @inputs true
   private editCLient(data: ClientCreate) {
 
     var yyyy: string = data.dateBirthCompanyFormation[0];
@@ -124,6 +118,11 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
 
   }
 
+
+// Get addrees of api ViaCep
+  public queryCep(cep: string ,formRegister: NgForm) {
+    this.#serviceClient.httpGetCep(cep).subscribe((dados) => this.attAddress(dados, formRegister));
+  }
   public attAddress(dados: Cep, formRegister: NgForm) {
     console.log(formRegister)
     formRegister.control.patchValue({
@@ -136,6 +135,7 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
 
   }
 
+  // Update or Create
   public submitForm(form: NgForm){
 
     if(this.buttonSave === "Salvar") {
@@ -158,15 +158,15 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       }
       this.#serviceClient.httpUpdateClient(client).pipe(
         concatMap( () => this.#serviceClient.httpGetClient())
-        ).subscribe();
-        setTimeout(() => this.#router.navigate(['../store/clients']), 2000)
+        ).subscribe(res => setTimeout(() => this.#router.navigate(['../store/clients']), 2000));
+        
       
     } else {
         console.log(form.value as ClientCreate)
         this.#serviceClient.httpCreateClient(form.value as ClientCreate).pipe(
         concatMap( () => this.#serviceClient.httpGetClient())
-        ).subscribe();
-        setTimeout(() => this.#router.navigate(['../store/clients']), 2000)
+        ).subscribe(res => setTimeout(() => this.#router.navigate(['../store/clients']), 2000));
+        
     }
   }
 }

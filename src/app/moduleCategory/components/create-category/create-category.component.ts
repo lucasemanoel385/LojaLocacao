@@ -7,17 +7,29 @@ import { concatMap } from 'rxjs';
 import { CategoryCreate } from '../../interface/categoryCreate.interface';
 import { CategoryList } from '../../interface/categoryList.interface';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
+import { BackHistoryButtonComponent } from '../../../componentsTemplate/button-back-navigate/back-history-button/back-history-button.component';
 
 
 @Component({
   selector: 'app-create-category',
   standalone: true,
-  imports: [FormsModule, NgxMaskDirective, BackHistoryComponent],
+  imports: [FormsModule, NgxMaskDirective, BackHistoryComponent, BackHistoryButtonComponent],
   templateUrl: './create-category.component.html',
   styleUrl: './create-category.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCategoryComponent implements OnChanges, OnInit {
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['tittleCategory'].currentValue) {
+      this.tittle.set(changes['tittleCategory'].currentValue);
+      this.buttonSubmit.set(changes['buttonSave'].currentValue);
+      this.idUpdateCategory.set(changes['idCategory'].currentValue);
+      this.#serviceCategory.httpGetCategoryId(changes['idCategory'].currentValue).subscribe((res) => this.editCategory(res));
+    }
+
+  }
+
   ngOnInit(): void {
     this.getCreateCategory.set("");
     this.getCreateCategoryError.set("");
@@ -34,15 +46,7 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
 
   idUpdateCategory = signal<number | null>(null);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['tittleCategory'].currentValue) {
-      this.tittle.set(changes['tittleCategory'].currentValue);
-      this.buttonSubmit.set(changes['buttonSave'].currentValue);
-      this.idUpdateCategory.set(changes['idCategory'].currentValue);
-      this.#serviceCategory.httpGetCategoryId(changes['idCategory'].currentValue).subscribe((res) => this.editCategory(res));
-    }
 
-  }
 
   #serviceCategory = inject(CategoryItemService);
   #router = inject(Router)

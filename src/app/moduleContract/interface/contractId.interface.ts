@@ -6,6 +6,7 @@ import { ContractItens } from "./contractItens.interface";
 export interface ContractId {
     id: number,
     client: ClientCreate,
+    dateContract: Date,
     dateOf: Date,
     dateUntil: Date,
     discount: number,

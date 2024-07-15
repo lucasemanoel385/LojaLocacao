@@ -16,7 +16,7 @@ export class PagiantorList implements OnChanges {
     setTimeout(() => {
       this.getRangeLabel(changes['pageable'].currentValue['totalPages'], 
       changes['pageable'].currentValue['totalElements'], changes['pageable'].currentValue['size'], changes['pageable'].currentValue['number']);
-    }, 100)
+    }, 50)
 
   }
 

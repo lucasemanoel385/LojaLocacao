@@ -12,11 +12,12 @@ import { ItemComponent } from '../item/item.component';
 })
 export class EditItemComponent implements OnInit {
 
+  ngOnInit(): void {
+    this.idParamItem.set(this.#router.snapshot.params['id']);
+  }
+
   #router = inject(ActivatedRoute)
 
   idParamItem = signal('');
 
-  ngOnInit(): void {
-    this.idParamItem.set(this.#router.snapshot.params['id']);
-  }
 }

@@ -7,6 +7,7 @@ export interface ContractEdit {
     dateUntil: any,
     discount: number,
     items: itensList[],
+    seller: string,
     observation: string,
     annotations: string
 

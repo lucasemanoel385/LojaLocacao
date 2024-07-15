@@ -17,11 +17,15 @@ import { DataAccouting } from '../interface/DataAccouting.interface';
 })
 export class AccountingComponent implements OnInit {
   ngOnInit(): void {
-    console.log(this.today())
-    this.#serviceDataCompany.httpGetDataAccouting$(this.today()).subscribe(res => 
-      this.editSumLiquidMonthAndYear(res)
-    );
+    
+    this.#serviceDataCompany.httpGetDataAccouting$(this.today()).subscribe(res => this.editSumLiquidMonthAndYear(res)) 
+
   }
+
+  #serviceDataCompany = inject(DataCompanyService);
+  public getDataAccounting = this.#serviceDataCompany.getAccouting;
+  public getMsgExpensesSucess = this.#serviceDataCompany.getMsgSucessExpenses;
+  public getMsgExpensesError = this.#serviceDataCompany.getMsgErrorExpenses
 
   public today = signal(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR'));
 
@@ -32,10 +36,6 @@ export class AccountingComponent implements OnInit {
       this.editSumLiquidMonthAndYear(res)
     });
   }
-
-  #serviceDataCompany = inject(DataCompanyService);
-
-  public getDataAccounting = this.#serviceDataCompany.getAccouting;
 
   valueLiquidMonth = signal(0);
   valueLiquidYear = signal(0);
@@ -49,22 +49,6 @@ export class AccountingComponent implements OnInit {
    
   })
 
-  /*addItens() {
-    const addNewExpense = this.#fb.group({
-      description: [''],
-      value: [0],
-      date: [Date]
-    })
-      return (this.expensesForm.get('expenses') as FormArray).push(addNewExpense);
-  }
-
-  get expenses() {
-    //Indicamos que dentro do nosso formArray tem controls que são FormGroup
-    
-    return (this.expensesForm.get('expenses') as FormArray).controls as FormGroup[];
-  }*/
-
-
   submitExpenses() {
 
     this.#serviceDataCompany.httpRegisterExpenses$((this.expensesForm.value) as RegisterExepenses).pipe(
@@ -74,6 +58,7 @@ export class AccountingComponent implements OnInit {
   }
 
   editSumLiquidMonthAndYear(res: DataAccouting) {
+    console.log(this.getDataAccounting());
     this.valueLiquidYear.set(res.sumPaymentsYear - res.valueExpensesYear)
     this.valueLiquidMonth.set(res.sumPaymentsMonth - res.valueExpensesMonth);
   }
@@ -88,8 +73,8 @@ export class AccountingComponent implements OnInit {
 
   clearTr(modalDelete: HTMLDialogElement) {
     this.#serviceDataCompany.httpDeleteExpenses$(this.deleteExpenseId).pipe(
+      concatMap(() => this.#serviceDataCompany.httpGetDataAccouting$(this.today()))
     ).subscribe(res => this.editSumLiquidMonthAndYear(res));
-    this.getDataAccounting()?.expensesList.splice(this.deleteRowTableIndex, 1);
     modalDelete.close();
   }
 

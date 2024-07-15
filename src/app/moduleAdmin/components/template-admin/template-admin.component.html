@@ -1,4 +1,4 @@
-<div style="background-color: whitesmoke;">
+
     <nav>
         <a #data="routerLinkActive" routerLinkActive="active" [routerLink]="['../','data']">Dados da empresa</a>
         <a #budget="routerLinkActive" routerLinkActive="active" [routerLink]="['../','budget']">Orçamento</a>
@@ -20,4 +20,4 @@
         @defer (when accounting.isActive) {
             <app-accounting id="accounting"></app-accounting>
         }     
-</div>
+

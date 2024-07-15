@@ -12,7 +12,7 @@
     <form id="contractForm" [formGroup]="contractForm" (ngSubmit)="submit()">
         <app-header-contract [headerForm]="contractForm" (client)="OutPutIdClient($event)" [contractId]="contractId"/>
         <app-body-contract [bodyForm]="contractForm" (addItemForm)="addItens()" [contractId]="contractId"/>
-        <app-footer-contract [footerForm]="contractForm" [buttonDisabled]="!this.contractForm.valid" [contractId]="contractId" [buttonInput]="buttonFooter()">
+        <app-footer-contract (submitOutPut)="submit()" [footerForm]="contractForm" [buttonDisabled]="!this.contractForm.valid" [contractId]="contractId" [buttonInput]="buttonFooter()">
         <ng-content></ng-content>
         </app-footer-contract>
     </form>

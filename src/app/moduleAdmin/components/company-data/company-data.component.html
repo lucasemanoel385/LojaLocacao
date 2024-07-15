@@ -77,12 +77,15 @@
         </div>
     </div>
 
-    @if (this.getMsgSucess()) {
-        <span class="success_api">{{ getMsgSucess() }}</span>
-    } @else {
-        <span class="error_api">{{ getMsgError() }}</span>
-    }
+    <div class="span-error">
+        @if (this.getMsgSucess()) {
+            <span class="success_api" style="margin: 0 10px;">{{ getMsgSucess() }}</span>
+        } @else if (getMsgError()) {
+            <span class="error_api" style="margin: 0 10px;">{{ getMsgError() }}</span>
+        }
+    </div>
+
     
-    <button style="margin-bottom: 2em;" class="btn-update" [disabled]="!dataCompanyForm.valid">Salvar</button>
+    <button style="margin-bottom: 2em;" type="button" (click)="submit()" class="btn-update" [disabled]="!dataCompanyForm.valid">Salvar</button>
 </form>
 </div>

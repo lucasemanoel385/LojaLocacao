@@ -18,12 +18,6 @@ import { RouterLink } from '@angular/router';
 })
 export class ContractForMonthComponent implements OnInit {
 
-  #serviceDashBoard = inject(DashBoardService);
-
-  public getContractsMonthList = this.#serviceDashBoard.getListContractMonth;
-
-  public contractsMonth = signal(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR'));
-
   ngOnInit(): void {
     this.contractsMonth.set(this.contractsMonth());
     if(this.getContractsMonthList() === null) {
@@ -31,17 +25,22 @@ export class ContractForMonthComponent implements OnInit {
     }
   }
 
+  #serviceDashBoard = inject(DashBoardService);
+
+  public getContractsMonthList = this.#serviceDashBoard.getListContractMonth;
+
+  public contractsMonth = signal(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR'));
+
   dateScheduleDay = this.contractsMonth();
 
+  //Form Schedule
   #fb = inject(FormBuilder);
-
   public schedulesForm = this.#fb.group({
     name:[''],
     description:[''],
     time: [''],
     dateScheduling: ['']
   })
-
 
   public contractsMonthChange(value: string) {
     this.dateScheduleDay = value;

@@ -12,26 +12,16 @@ import { CategoryItemService } from '../../../moduleCategory/service/categoryIte
 import { concat, concatMap } from 'rxjs';
 import { CategoryList } from '../../../moduleCategory/interface/categoryList.interface';
 import { ArrowSelectComponent } from '../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
+import { BackHistoryButtonComponent } from '../../../componentsTemplate/button-back-navigate/back-history-button/back-history-button.component';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgxMaskDirective, BackHistoryComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgxMaskDirective, BackHistoryComponent, BackHistoryButtonComponent],
   templateUrl: './item.component.html',
   styleUrl: './item.component.scss'
 })
 export class ItemComponent implements OnChanges, OnInit {
-  ngOnInit(): void {
-    this.#apiServiceCategory.httpGetListAllCategory().subscribe();
-  }
-
-  @Input() tittleItem!: string;
-  @Input() buttonSave!: string;
-  @Input() idItem!: string;
-
-  tittle = signal('Cadastrar produto');
-  buttonSubmit = signal('Cadastrar');
-  idProduct = signal('');
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['tittleItem'].currentValue) {
@@ -42,15 +32,30 @@ export class ItemComponent implements OnChanges, OnInit {
     }
   }
 
-  #fb = inject(FormBuilder);
- 
-  #apiServiceItem = inject(ProductService);
-  #apiServiceCategory = inject(CategoryItemService)
+  ngOnInit(): void {
+    this.#apiServiceCategory.httpGetListAllCategory().subscribe();
+  }
+
+  @Input() tittleItem!: string;
+  @Input() buttonSave!: string;
+  @Input() idItem!: string;
+  @ViewChild('choose') spanImg!: ElementRef;
+  @ViewChild('cod') codItem!: ElementRef;
+
+  tittle = signal('Cadastrar produto');
+  buttonSubmit = signal('Cadastrar');
+  idProduct = signal('');
+
+  // Get methods depending of action keyboard
   #arrowSelect = new ArrowSelectComponent();
 
+  //Get data Apis
+  #apiServiceItem = inject(ProductService);
+  #apiServiceCategory = inject(CategoryItemService)
   public getAllCategorys = this.#apiServiceCategory.getListAllCategory;
   public getItemError$ = this.#apiServiceItem.getItemError;
   public getItemMsgSucess$ = this.#apiServiceItem.getItemSucess;
+  public getItemId = this.#apiServiceItem.getItemId;
 
   listFilterCategory = signal<CategoryList[] | null>(null);
   ulIdentificator!: string;
@@ -58,6 +63,7 @@ export class ItemComponent implements OnChanges, OnInit {
   isReadOnlyCodItem = signal(false);
   selectedFile: File | undefined;
 
+  //Create UrlData for interface
   onFileSelected(event: any, spanImg: HTMLSpanElement): void {
     const file = event.target.files[0] as File;
     this.selectedFile = file;
@@ -71,28 +77,23 @@ export class ItemComponent implements OnChanges, OnInit {
       });
       reader.readAsDataURL(file);
     }
-    console.log(this.selectedFile)
   }
-
-  @ViewChild('choose') spanImg!: ElementRef;
-  @ViewChild('cod') codItem!: ElementRef;
-
-  public getItemId = this.#apiServiceItem.getItemId;
 
   filterCategory(event: Event) {
     const target = event.target as HTMLInputElement;
     const valueInput = target.value.toUpperCase();
-
     this.listCategory();
-
     if(valueInput.length >= 3) {
-
       let list = this.getAllCategorys()?.filter(a => a.category.toUpperCase().indexOf(valueInput) > -1);
       this.listFilterCategory.set(list as CategoryList[]);
-
     }
-
     this.#arrowSelect.arrowSelect(event as KeyboardEvent, this.ulIdentificator)
+  }
+
+  setValueCategory(categoryName: string) {
+    this.itemContract.patchValue({
+      category: categoryName,
+    })
   }
 
   listCategory() {
@@ -116,12 +117,7 @@ export class ItemComponent implements OnChanges, OnInit {
 
   }
 
-  setValueCategory(categoryName: string) {
-    this.itemContract.patchValue({
-      category: categoryName,
-    })
-  }
-
+  // edit item if @Inputs have data
   editItem() {
     this.isReadOnlyCodItem.set(true);
     var data = this.getItemId() as Item;
@@ -134,10 +130,10 @@ export class ItemComponent implements OnChanges, OnInit {
       amount: data.amount.toString(),
       category: data.category.name,
     })
-   
     this.spanImg.nativeElement.innerHTML = `<img width = '100%' height = '100%' src='${data.imagem}'>`;
   }
-  
+
+  #fb = inject(FormBuilder);
   public itemContract = this.#fb.group({
     cod: [''],
     name: [''],

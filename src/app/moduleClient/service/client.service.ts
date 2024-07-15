@@ -128,7 +128,7 @@ export class ClientService {
     return this.#http.patch<ClientCreate>(`${this.#url()}cliente`, client ).pipe(shareReplay(),
     tap( (res) => this.#setClientMsgSucess.set("Cliente atualizado com sucesso!!!")),
     catchError( (error: HttpErrorResponse) => {
-      this.#setClientError.set(error.error.message);
+      this.#setClientError.set(error.error);
       return throwError(() => error);
     }))
   }

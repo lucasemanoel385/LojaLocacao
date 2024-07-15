@@ -34,6 +34,9 @@
 .buttonsControl {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
+    z-index: 9999;
+    gap: 0.5em;
 }
 
 textarea {

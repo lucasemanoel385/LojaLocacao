@@ -31,7 +31,6 @@ export class DefaultLayoutComponent implements OnInit {
       sessionStorage.setItem('img', '../../../assets/seta-direita.png');
       sessionStorage.setItem('display', 'display: none;');
 
-      
     } else {
       section.style.display = 'flex';
       this.srcImg.set("../../../assets/seta-esquerda.png");

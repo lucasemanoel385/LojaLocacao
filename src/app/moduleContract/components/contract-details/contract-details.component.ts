@@ -29,16 +29,29 @@ import { RegisterContractComponent } from '../register-contract/register-contrac
 })
 export class ContractDetailsComponent implements OnInit, OnDestroy {
 
+  ngOnInit(): void {
+    this.idParamContract.set(this.#router.snapshot.params['id']);
+    this.#apiServiceContract.httpGetPaymentsContract$(this.idParamContract()).subscribe();
+    this.#apiServiceDataCompnay.httpGetDataCompany$().subscribe();
+    this.#apiServiceContract.httpGetContractId(Number(this.idParamContract())).subscribe((res) => {
+      this.checkSituation(res.contractSituation); 
+      this.getPaymentContract(res);
+      this.contractCurrent.set(res);
+    });
+  }
+
   @ViewChild('invoice', {static: true}) invoice!: ElementRef;
   @ViewChild('buttonReserve', {static: true}) buttonReserve!: ElementRef;
   @ViewChild('pdfContract', {static: false}) pdfContract!: ElementRef;
   @ViewChild(ContractPdfComponent, {static: false}) pdffContract!: ContractPdfComponent;
  
+  //Routers
   #route = inject(Router);
   #router = inject(ActivatedRoute);
+
+  //Get data APIS
   #apiServiceContract = inject(ContractServiceService);
   #apiServiceDataCompnay = inject(DataCompanyService);
-
   public getContractId = this.#apiServiceContract.getContractId;
   public getContractPaymentSucess = this.#apiServiceContract.getContractPaymentMsgSucess;
   public getContractPaymentError = this.#apiServiceContract.getContractPaymentMsgError;
@@ -50,26 +63,9 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
   valuePay = signal(0);
   amountToPay = signal(0);
   contractCurrent = signal<ContractId | null>(null);
-
-  ngOnDestroy(): void {
-    this.getContractId.set(null);
-
-  }
-
-  ngOnInit(): void {
-    this.idParamContract.set(this.#router.snapshot.params['id']);
-    this.#apiServiceContract.httpGetPaymentsContract$(this.idParamContract()).subscribe();
-    this.#apiServiceDataCompnay.httpGetDataCompany$().subscribe();
-    this.#apiServiceContract.httpGetContractId(Number(this.idParamContract())).subscribe((res) => {
-      this.checkSituation(res.contractSituation); 
-      this.getPaymentContract(res);
-      this.contractCurrent.set(res);
-    });
-
-  }
-
   buttonSituation = signal('Reservar');
 
+  //Display invoice depending of situation
   checkSituation(situation: string) {
       if (situation === "RESERVADO") {
         this.invoice.nativeElement['style'].display = 'inline-block';
@@ -82,7 +78,6 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
   }
 
   reserve(invoice: HTMLButtonElement, reserve: HTMLButtonElement, modalReserve: HTMLDialogElement) {
-    
     let change: ChangeSituation = {
       contractId: Number(this.idParamContract()),
       situationContract: "RESERVADO"
@@ -95,18 +90,16 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
   
       window.location.reload();
     });
-
     modalReserve.close();
   }
 
-
+  //Form of payment
   #fb = inject(FormBuilder);
-
   paymentForm = this.#fb.group({
     payments: this.#fb.array([
     ]),
   })
-
+  //add items in the formPayment
   addItens() {
     const addNewPayment = this.#fb.group({
       paymentValue: [],
@@ -115,11 +108,10 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
       return (this.paymentForm.get('payments') as FormArray).push(addNewPayment);
   }
 
+  //Delete payment index
   clearTr(index: number){
-    
     (this.paymentForm.get('payments') as FormArray).removeAt(index);
-    this.teste(this.paymentForm.value.payments as PaymentsList[]);
-
+    this.sumValuePaid(this.paymentForm.value.payments as PaymentsList[]);
   }
 
   get payments() {
@@ -128,6 +120,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
     return (this.paymentForm.get('payments') as FormArray).controls as FormGroup[];
   }
 
+  // add and set values in form
   private getPaymentContract(res: ContractId) {
     const paymentArrayForm = this.paymentForm.get('payments') as FormArray;
 
@@ -141,44 +134,51 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
       indice ++;
       })
       
-
   }
 
+  //Show dialog and values
   paymentFuture(dialog: HTMLDialogElement) {
     dialog.showModal();
     console.log(this.getContractId());
     this.valueTotalContract.set(this.getContractId()?.valueTotal as number)
-    this.teste(this.getContractPayment() as PaymentsList[])
+    this.sumValuePaid(this.getContractPayment() as PaymentsList[])
    
   }
 
+  
   attValuePaid(payments: any) {
-    this.teste(this.paymentForm.value.payments as PaymentsList[]);
+    this.sumValuePaid(this.paymentForm.value.payments as PaymentsList[]);
   }
 
-  private teste(payments: PaymentsList[]) {
+  // Sum values paid
+  private sumValuePaid(payments: PaymentsList[]) {
 
     var valuePaid: number = 0;
-
     payments.forEach(a => valuePaid += a.paymentValue)
-
     this.amountToPay.set(valuePaid);
 
   }
 
+  //Push data for api
   payment(modalInvoice: HTMLDialogElement) {
-
     this.#apiServiceContract.httpPaymentsContract$(this.idParamContract(), this.paymentForm.value).pipe(concatMap(() => 
       this.#apiServiceContract.httpGetPaymentsContract$(this.idParamContract())
     ))
-      .subscribe(res => console.log(res));
+      .subscribe();
 
   }
 
   navigateToPrintOut() {
+    if (window.innerWidth < 733) {
+      this.#route.navigate([`../store/orcamento/pdf/${this.getContractId()?.id}`]);
+    } else {
+      window.open(this.#route.createUrlTree([`/store/orcamento/pdf/${this.getContractId()?.id}`]).toString());
+    }
+    
+  }
 
-    this.#route.navigate([`../contract/${this.getContractId()?.id}`])
-
+  ngOnDestroy(): void {
+    this.getContractId.set(null);
   }
 
 }

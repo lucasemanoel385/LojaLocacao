@@ -141,7 +141,7 @@ export class ContractServiceService {
       this.#setContractId.set(res)
     }),
     catchError( (error: HttpErrorResponse) => {
-      this.#setContractIdError.set(error.error.message);
+      this.#setContractIdError.set(error.error);
       return throwError(() => error);
     }))
   }
@@ -161,14 +161,13 @@ export class ContractServiceService {
     }))
   }
 
-  public httpEditContract(contract: ContractEdit): Observable<any>{
+  public httpEditContract(contract: ContractEdit): Observable<ContractId>{
 
     this.#setContractCreateError.set(null);
     this.#setContractMsgSucess.set(null);
 
-    return this.#http.patch<any>(`${this.#url()}contrato`, contract ).pipe(shareReplay(),
+    return this.#http.patch<ContractId>(`${this.#url()}contrato`, contract ).pipe(shareReplay(),
     tap( (res) => {
-
       this.#setContractMsgSucess.set("Contrato salvo com sucesso");}),
     catchError( (error: HttpErrorResponse) => {
       this.#setContractCreateError.set(error.error);

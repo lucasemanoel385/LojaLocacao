@@ -17,55 +17,23 @@ templateUrl: './layout-dashboard.component.html',
 })
 export class LayoutDashboardComponent implements OnInit {
 
-  // START BOX
+  ngOnInit(): void {
+    this.getTaskList() === null ? this.#serviceDashBoard.httpGetTasks$().subscribe() : null;
+    this.#serviceDashBoard.httpGetBudgetsForMonth$(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR').slice(0,7)).subscribe();
+  }
+
+  // Chamada API
   #serviceDashBoard = inject(DashBoardService);
-
   public getDataBudgetMonth = this.#serviceDashBoard.getDataBudgetMonth;
-
-  // END BOX
-
-  // START TASKS
-
   public getTaskList = this.#serviceDashBoard.getListTasks;
   public getTaskListError = this.#serviceDashBoard.getTaskError;
   public getCreateTask = this.#serviceDashBoard.getCreateTask
 
-
-  ngOnInit(): void {
-    if(this.getTaskList() === null) {
-      this.#serviceDashBoard.httpGetTasks$().subscribe();
-  
-    }
-    this.#serviceDashBoard.httpGetBudgetsForMonth$(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR').slice(0,7)).subscribe();
-  }
-
- 
-
-  public closeDialog(modal: HTMLDialogElement) {
-
-    this.getTaskListError.set(null);
-
-    modal.close();
-
-  }
-
-
-
-  public idTask!: number;
-
+  // authorization view buttons task
   authorization = localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
 
-  public deleteTask(modalDelete: HTMLDialogElement) {
-
-    this.#serviceDashBoard.httpDeleteTaskId$(this.idTask).pipe(
-      concatMap(() => 
-        this.#serviceDashBoard.httpGetTasks$()))
-      .subscribe();
-    modalDelete.close();
-  }
-
+  // Form
   #fb = inject(FormBuilder);
-
   public tasksForm = this.#fb.group({
     description:[],
   })
@@ -80,5 +48,23 @@ export class LayoutDashboardComponent implements OnInit {
 
   }
 
-  // END TASKS
+  // Get idTaks for delete
+  public idTask!: number;
+
+  public deleteTask(modalDelete: HTMLDialogElement) {
+
+    this.#serviceDashBoard.httpDeleteTaskId$(this.idTask).pipe(
+      concatMap(() => 
+        this.#serviceDashBoard.httpGetTasks$()))
+      .subscribe();
+    modalDelete.close();
+  }
+
+  public closeDialog(modal: HTMLDialogElement) {
+
+    this.getTaskListError.set(null);
+
+    modal.close();
+
+  }
 }

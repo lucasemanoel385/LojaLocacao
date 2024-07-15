@@ -7,6 +7,7 @@ import { ImgBuffer } from '../../../moduleItem/service/imgBuffer';
 import { GetDataCompany } from '../interface/getDataCompany.interface';
 import { RegisterExepenses } from '../interface/RegisterExpenses.interface';
 import { DataAccouting } from '../interface/DataAccouting.interface';
+import { DataCommissionEmployee } from '../interface/DataComissionEmployee.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,11 @@ export class DataCompanyService {
   #http = inject(HttpClient);
   #url = signal(environment.api);
 
+  #setGetComissionEmployee = signal<DataCommissionEmployee[] | null>(null);
+  get getComissionEmployee() {
+    return this.#setGetComissionEmployee.asReadonly();
+  }
+
   #setGetCompany = signal<GetDataCompany | null>(null);
   get getCompany() {
     return this.#setGetCompany.asReadonly();
@@ -23,7 +29,7 @@ export class DataCompanyService {
 
   #setGetAccouting = signal<DataAccouting | null>(null);
   get getAccouting() {
-    return this.#setGetAccouting.asReadonly();
+    return this.#setGetAccouting;
   }
 
   #setMsgError = signal<String | null>(null);
@@ -117,6 +123,20 @@ export class DataCompanyService {
     );
   }
 
+  public httpGetComissionEmployee$(month: string): Observable <DataCommissionEmployee[]> {
+    
+    //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
+    return this.#http.get<DataCommissionEmployee[]>(`${this.#url()}data-company/accounting/employee/${month}`, { responseType: 'json' }).pipe(shareReplay(),
+    tap((res) => {
+      this.#setGetComissionEmployee.set(res);
+    }),shareReplay(),
+    catchError( (error: HttpErrorResponse) => {
+      console.log(error.error.message)
+      return throwError(() => error);
+    })
+    );
+  }
+
   public httpRegisterExpenses$(expenses: RegisterExepenses): Observable <any> {
     
     //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
@@ -125,7 +145,7 @@ export class DataCompanyService {
       this.#setMsgSucessExpenses.set("Despesa salva com sucesso!!")
     }),shareReplay(),
     catchError( (error: HttpErrorResponse) => {
-      console.log(error.error.message)
+      this.#setMsgErrorExpenses.set(error.error)
       return throwError(() => error);
     })
     );

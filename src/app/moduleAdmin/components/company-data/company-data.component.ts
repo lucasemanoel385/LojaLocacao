@@ -16,20 +16,20 @@ import { NgxMaskDirective } from 'ngx-mask';
 })
 export class CompanyDataComponent implements OnInit{
 
-  #apiDataCompanyService = inject(DataCompanyService);
+  ngOnInit(): void {
+    this.getDataCompany() === null 
+                      ? 
+                      this.#apiDataCompanyService.httpGetDataCompany$().subscribe((res) => this.updateValueTemplate(res)) 
+                      : 
+                      this.updateValueTemplate(this.getDataCompany() as GetDataCompany);
 
+
+  }
+
+  #apiDataCompanyService = inject(DataCompanyService);
   public getDataCompany = this.#apiDataCompanyService.getCompany;
   public getMsgError = this.#apiDataCompanyService.getMsgError;
   public getMsgSucess = this.#apiDataCompanyService.getMsgSucess;
-
-  ngOnInit(): void {
-    if(this.getDataCompany() === null) {
-      this.#apiDataCompanyService.httpGetDataCompany$().subscribe((res) => this.updateValueTemplate(res));
-    } else {
-      this.updateValueTemplate(this.getDataCompany() as GetDataCompany);
-    }
-    
-  }
 
   updateValueTemplate(res: GetDataCompany) {
     console.log(res);
@@ -46,12 +46,24 @@ export class CompanyDataComponent implements OnInit{
       phone1: res.phone1,
       phone2: res.phone2
     })
-
-   
       const span: any = document.getElementById('img');
       span.innerHTML = `<img width = '100%' height = '100%' src='${res.imagem}'>`
-  
+  }
 
+  selectedFile: File | undefined;
+
+  onFileSelected(event: any, spanImg: HTMLSpanElement): void {
+    const file = event.target.files[0] as File;
+    this.selectedFile = file;
+    if(file) {
+      const reader = new FileReader();
+      reader.addEventListener('load', function (e) {
+        const readerTarget = e.target;
+        const img = readerTarget?.result;
+        spanImg.innerHTML = `<img width = '100%' height = '100%' src='${img}'>`;
+      });
+      reader.readAsDataURL(file);
+    }
   }
 
   #fb = inject(FormBuilder);
@@ -69,22 +81,6 @@ export class CompanyDataComponent implements OnInit{
     phone1: [''],
     phone2: ['']
   })
-
-  selectedFile: File | undefined;
-
-  onFileSelected(event: any, spanImg: HTMLSpanElement): void {
-    const file = event.target.files[0] as File;
-    this.selectedFile = file;
-    if(file) {
-      const reader = new FileReader();
-      reader.addEventListener('load', function (e) {
-        const readerTarget = e.target;
-        const img = readerTarget?.result;
-        spanImg.innerHTML = `<img width = '100%' height = '100%' src='${img}'>`;
-      });
-      reader.readAsDataURL(file);
-    }
-  }
 
   submit() {
     console.log(this.selectedFile)

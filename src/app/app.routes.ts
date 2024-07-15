@@ -32,7 +32,7 @@ export const routes: Routes = [
     
     },
     {
-        path: 'contract/:id',
+        path: 'store/orcamento/pdf/:id',
         component: ContractPdfComponent,
         canMatch: [authorizationGuard],
     },

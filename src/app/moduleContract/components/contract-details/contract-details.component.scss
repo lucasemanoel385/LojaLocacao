@@ -8,17 +8,19 @@
 
     .dialog_content {
         align-items: start;
-        form {
-            width: 100%;
-            flex-direction: row;
-            table {
-                width: 100%;
-                margin: 1rem 0;
-                
-                td {
-                    padding: 10px;
-                }
-            }
+    }
+
+    .form_payment {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .table {
+        width: 100%;
+        margin: 1rem 0;
+        height: 100%;
+        td {
+            padding: 10px;
         }
     }
 

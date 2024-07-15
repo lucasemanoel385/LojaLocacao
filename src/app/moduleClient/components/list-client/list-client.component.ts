@@ -18,24 +18,22 @@ import { PagiantorList } from '../../../componentsTemplate/paginator/paginator-l
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListClientComponent implements OnInit, OnDestroy{
-  
-  #serviceClient = inject(ClientService);
 
+  ngOnInit(): void {
+    this.getListClient() === null ? this.#serviceClient.httpGetClient().subscribe() : null;
+  }
+  
+  // Get api Service
+  #serviceClient = inject(ClientService);
   public getListClient = this.#serviceClient.getListClient;
   public getListClientPageable = this.#serviceClient.getListClientPageable;
   public getDeleteMsgError = this.#serviceClient.getClientDeleteError;
 
-  ngOnInit(): void {
-    if(this.getListClient() === null) {
-      this.#serviceClient.httpGetClient().subscribe(res => console.log(res));
-    }
-  }
-  
+
   public idClient!: number;
-  indexRowTable!: number;
-
+  
+  // Filter client
   searchClient = signal('');
-
   public filterClient(search: any) {
     this.searchClient.set(search);
     this.#serviceClient.httpGetClient(search).subscribe();
@@ -53,16 +51,15 @@ export class ListClientComponent implements OnInit, OnDestroy{
   
   }
 
+  // paginator
   numberPage = signal(0);
-
   handlePageEvent(pageNumber: number) {
+    this.numberPage.set(pageNumber);
     this.#serviceClient.httpGetClient(this.searchClient() ,pageNumber).subscribe();
   }
 
   ngOnDestroy(): void {
-    if(this.searchClient() != '' || this.numberPage() != 0) {
-      this.#serviceClient.httpGetClient().subscribe();
-    }
+    this.searchClient() != '' || this.numberPage() != 0 ? this.#serviceClient.httpGetClient().subscribe() : null;
   }
 
 }

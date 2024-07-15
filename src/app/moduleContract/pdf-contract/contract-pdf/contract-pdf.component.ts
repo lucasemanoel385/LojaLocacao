@@ -30,7 +30,7 @@ export class ContractPdfComponent implements OnInit {
       this.companyData.set(res);
       let formattedClauses = res.clauses.replaceAll('\n', '<br>');
       this.clauses.set(`<p>${formattedClauses}</p>`);
-      let formattedObservation = res.observation.replaceAll('\n', '<br>');
+      let formattedObservation = res.observation ? res.observation.replaceAll('\n', '<br>') : ''; 
       this.observation += (`<p>${formattedObservation}</p>`);
     });
     this.#apiServiceContract.httpGetContractId(this.#router.snapshot.params['id']).subscribe(res => {
@@ -43,8 +43,9 @@ export class ContractPdfComponent implements OnInit {
       }
 
     });
-
   }
+
+  @ViewChild('pdfContract') contractPdf!: ElementRef;
 
   #router = inject(ActivatedRoute);
   #apiServiceContract = inject(ContractServiceService);
@@ -56,6 +57,6 @@ export class ContractPdfComponent implements OnInit {
   clauses = signal('');
   observation = '';
   
-  @ViewChild('pdfContract') contractPdf!: ElementRef;
+  
 
 }

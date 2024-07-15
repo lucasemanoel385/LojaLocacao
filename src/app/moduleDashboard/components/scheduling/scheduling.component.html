@@ -60,14 +60,14 @@
     
                         </label>
                         @if (getCreateScheduling()) {
-                            <strong class="validation" style="color: rgb(61, 148, 61); font-size: 16px;">{{ getCreateScheduling() }}</strong>
-                        } @else {
-                            <strong class="validation" style="color: red; font-size: 16px;">{{ getSchedulingListError() }}</strong>
+                            <span class="success_api" style="width: 100%;"><strong >{{ getCreateScheduling() }}</strong></span>
+                        } @else if (getSchedulingListError()) {
+                            <span class="error_api" style="width: 100%;"><strong >{{ getSchedulingListError() }}</strong></span>
                         }
                    
     
                     <div class="dialog_btns">
-                        <button type="submit" (click)="submitSchedules(modalSchedules)" [disabled]="!schedulesForm.valid" class="btn-update">Salvar</button>
+                        <button type="submit" (click)="submitSchedules()" [disabled]="!schedulesForm.valid" class="btn-update">Salvar</button>
                         <button class="btn-delete" (click)="closeDialog(modalSchedules)">Fechar</button>
                     </div>
                 </form>

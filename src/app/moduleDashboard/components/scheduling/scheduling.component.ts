@@ -24,17 +24,13 @@ export class SchedulingComponent implements OnInit {
   public schedulesToday = signal(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR'));
 
   ngOnInit(): void {
-      this.schedulesToday.set(this.schedulesToday());
-    if(this.getSchedulingList() === null) {
-      this.#serviceDashBoard.httpGetScheduling$(this.schedulesToday()).subscribe();
-    }
-
+      this.schedulesToday()
+      this.getSchedulingList() === null ? this.#serviceDashBoard.httpGetScheduling$(this.schedulesToday()).subscribe() : null;
   }
 
   dateScheduleDay = this.schedulesToday();
 
   #fb = inject(FormBuilder);
-
   public schedulesForm = this.#fb.group({
     name:[''],
     description:[''],
@@ -47,18 +43,7 @@ export class SchedulingComponent implements OnInit {
     this.#serviceDashBoard.httpGetScheduling$(value).subscribe();
   }
 
-  public idScheduler!: number;
-
-  public deleteScheduler(modalDelete: HTMLDialogElement) {
-
-    this.#serviceDashBoard.httpDeleteSchedulingId$(this.idScheduler).pipe(
-      concatMap(() => 
-        this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay)))
-      .subscribe();
-    modalDelete.close();
-  }
-
-  public submitSchedules(modalSchedules: HTMLDialogElement) {
+  public submitSchedules() {
     
     const dateString = (this.schedulesForm.value.dateScheduling)! as string;
     const time = dateString.split('T');
@@ -70,12 +55,23 @@ export class SchedulingComponent implements OnInit {
         this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay))
     ).subscribe(res => this.schedulesForm.reset());
 
-    
+  }
 
+    // Get id for delete
+    public idScheduler!: number;
+
+  public deleteScheduler(modalDelete: HTMLDialogElement) {
+
+    this.#serviceDashBoard.httpDeleteSchedulingId$(this.idScheduler).pipe(
+      concatMap(() => 
+        this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay)))
+      .subscribe();
+    modalDelete.close();
   }
 
   public closeDialog(modal: HTMLDialogElement) {
     this.getSchedulingListError.set(null);
+    this.getCreateScheduling.set(null);
     this.schedulesForm.reset()
     modal.close();
 

@@ -43,19 +43,18 @@ export class BodyContractComponent implements OnInit, OnChanges {
   idItem!: string;
   filterWrite!: string;
 
+  //edit
   editBody(contract: ContractId) {
-
     let indice = 0;
-
     contract.items.forEach((i) => {
       console.log(i);
        this.addItens();
        this.setValueInputEdit(indice, i)
        indice ++;
      })
-
   }
 
+  //Set inputs of item edit
   setValueInputEdit(indice: number, novoValor: ContractItens) {
     
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
@@ -104,8 +103,6 @@ export class BodyContractComponent implements OnInit, OnChanges {
       this.ulIdentificator = ul.id;
   }
 
-
-
   listFilter = signal<Item[] | null>(null);
 
   listOut(e: Event, index: number){
@@ -123,6 +120,7 @@ export class BodyContractComponent implements OnInit, OnChanges {
     return this.bodyForm.get('items') as FormArray;
   }
 
+  //Set inputs of item
   setValueInput(indice: number, novoValor: Item) {
     
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
@@ -135,6 +133,7 @@ export class BodyContractComponent implements OnInit, OnChanges {
 
   }
 
+  //Set value total of item
   setValueTotal(index: number) {
     const formGroup = this.getArrayForm.at(index) as FormGroup;
     let valueItem = formGroup.get('value')?.value;
@@ -144,28 +143,15 @@ export class BodyContractComponent implements OnInit, OnChanges {
 
     const total: any = document.getElementById(index.toString() + 'total');
     total.innerText = new CurrencyPipe("pt-BR").transform(formGroup.get('total')?.value, 'BRL');
-    
-    /*this.valueTotalItem.set((valueItem * amountItem));
- 
-    let valueItens = this.fullItem();
-    let discountItem = this.discount();
-    this.valueTotal(valueItens, discountItem);*/
   }
 
   get items() {
     //Indicamos que dentro do nosso formArray tem controls que são FormGroup
-    
     return (this.bodyForm.get('items') as FormArray).controls as FormGroup[];
   }
 
   clearTr(index: number){
-
     (this.bodyForm.get('items') as FormArray).removeAt(index);
-
-    /*let valueItens = this.fullItem();
-    let discountItem = this.discount();
-    this.valueTotal(valueItens, discountItem);*/
-
   }
 
   addItens() {

@@ -2,32 +2,32 @@
     <app-back-history/>
     <h2>{{ tittle() }}</h2>
 </div>
-    <div class="layout_main">
+    <div class="layout">
         <div class="layout_content">
             <form class="form_data" id="register" [formGroup]="itemContract" enctype="multipart/form-data" >
-                <section>
+                <section class="section_label">
                     <label class="label_form_data">
                         <span>Cód. Produto:</span>
-                        <input id="codItem" type="number" placeholder="Nome do item" formControlName="cod" required [readOnly]="isReadOnlyCodItem()">
+                        <input id="codItem" class="inputGrey" type="number" placeholder="Nome do item" formControlName="cod" required [readOnly]="isReadOnlyCodItem()">
                     </label>
                     <label class="label_form_data">
                         <span>Nome do produto:</span>
-                        <input type="text" placeholder="Nome do item" formControlName="name" required>
+                        <input type="text" class="inputGrey" placeholder="Nome do item" formControlName="name" required>
                     </label>
                     <label class="label_form_data">
                         <span>Quantidade:</span>
-                        <input type="text" placeholder="Unidades do item" formControlName="amount" required>
+                        <input type="text" class="inputGrey" placeholder="Unidades do item" formControlName="amount" required>
                     </label>
                     <label class="label_form_data">
                         <span>Valor:</span>
-                        <input type="text" placeholder="100,20 ou 1000,30" formControlName="value" required>
+                        <input type="text" class="inputGrey" placeholder="100,20 ou 1000,30" formControlName="value" required>
                     </label>
                     <label class="label_form_data">
                         <span>Valor da reposição:</span>
-                        <input type="text" placeholder="100,20 ou 1000,30" formControlName="replacementValue" required>
+                        <input type="text" class="inputGrey" placeholder="100,20 ou 1000,30" formControlName="replacementValue" required>
                     </label>
                     <label class="label_form_data">
-                        <span>Categoria</span>
+                        <span>Categoria:</span>
                         <div class="input_category">
                             <input 
                             class="inputGrey"
@@ -49,21 +49,25 @@
             </form>
                 <hr>
             <form class="form_img" [formGroup]="formImg" (submit)="submitItem()" enctype="multipart/form-data">
-                <section>
-                        <label class="img__item">
+                <section class="section_img">
+                        <label class="img_item">
                             <input style="display: none;" type="file" name="imagem" (change)="onFileSelected($event, choose)" formControlName="imagem" required>
-                            <span #choose>Choose Image</span>
+                            <span #choose class="span_img">Choose Image</span>
                         </label>
                 </section>
             </form>
         </div>
-        @if ( getItemError$() ) {
+        <div class="span-error">       
+            @if ( getItemError$() ) {
             <span class="error_api">{{ getItemError$() }}</span>
-        } @else {
+            } @else if(getItemMsgSucess$()) {
             <span class="success_api">{{ getItemMsgSucess$() }}</span>
         }
+    </div>
+ 
         <span class="span_button">
-            <button class="btn_add" (click)="submitItem()" form="register" type="submit" [disabled]="!itemContract.valid">{{ buttonSubmit() }}</button>
+            <app-back-history-button/>
+            <button class="btn_add" (click)="submitItem()" form="register" type="button" [disabled]="!itemContract.valid">{{ buttonSubmit() }}</button>
         </span>
     </div>
 

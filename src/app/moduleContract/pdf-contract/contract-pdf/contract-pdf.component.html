@@ -6,7 +6,11 @@
             <h5>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE LOCAÇÃO DE ROUPAS E AFINS</h5>
             <h3>{{ companyData()?.fantasyName }}</h3>
         </div>
-        <span>Orç. Contract Num: {{ contract()?.id }}</span>
+        <div style="display: flex; justify-content: end; flex-direction: column;">
+            <span>Orç. Contract Num: {{ contract()?.id }}</span>
+            <span>Data do contrato: {{ contract()?.dateContract | formatDatePipe}}</span>
+        </div>
+        
     </header>
     <main class="layout_content">
         <section class="section_information">

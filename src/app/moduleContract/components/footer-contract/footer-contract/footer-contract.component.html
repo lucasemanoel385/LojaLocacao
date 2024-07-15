@@ -13,13 +13,18 @@
         <b class="alert alert-success">Total Geral:&nbsp;<span> {{grandTotal() | currency : "BRL"}}</span></b>
     </div>
 </div>
-@if (getCreateContractError()) {
-    <span class="error_api">{{getCreateContractError()}}</span>
-} @else {
-    <span class="success_api">{{getContractMsgSucess()}}</span>
-}
+
+<div class="span-error">
+    @if (getCreateContractError()) {
+        <span class="error_api">{{getCreateContractError()}}</span>
+    } @else if(getContractMsgSucess()){
+        <span class="success_api">{{getContractMsgSucess()}}</span>
+    }
+</div>
+
 
 <div class="buttonsControl" #buttonsControl>
+    <app-back-history-button/>
     <ng-content></ng-content>
-    <button class="btn-update btn-contract" type="submit" [disabled]="buttonDisabled">{{ buttonInput }}</button>
+    <button class="btn-update btn-contract" type="button" (click)="submit()" [disabled]="buttonDisabled">{{ buttonInput }}</button>
 </div>

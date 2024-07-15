@@ -41,7 +41,7 @@ export class DashBoardService {
 
   #setCreateScheduling = signal<String | null>(null);
   get getCreateScheduling() {
-    return this.#setCreateScheduling.asReadonly();
+    return this.#setCreateScheduling;
   }
 
   public httpGetContractsMonth$(month: string): Observable<ContractList[]> {

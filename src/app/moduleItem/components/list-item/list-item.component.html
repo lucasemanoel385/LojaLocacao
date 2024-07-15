@@ -36,7 +36,7 @@
             </tr> 
         }
     </table>
-    <dialog #modalDelete style="border: 0; box-shadow: 0 0 2em rgb(0 0 0 / .3); text-align: center;">
+    <dialog #modalDelete class="dialog_delete">
         <h4>Deseja mesmo excluir?</h4>
         <button style="margin: 0 10px;" class="btn_add" (click)="deleteProduct(this.modalDelete)">Sim</button>
         <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
