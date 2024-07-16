@@ -1,6 +1,9 @@
+import { HttpClientTestingModule, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderContractComponent } from './header-contract.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('HeaderContractComponent', () => {
   let component: HeaderContractComponent;
@@ -8,7 +11,11 @@ describe('HeaderContractComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderContractComponent]
+      imports: [HeaderContractComponent, ReactiveFormsModule, FormsModule],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
     .compileComponents();
 

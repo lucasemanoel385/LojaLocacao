@@ -100,7 +100,7 @@ export class ContractServiceService {
        params = new HttpParams().set('page', page as number);
     }
 
-    return this.#http.get<ContractListWithPage>(`${this.#url()}contrato`, {params}).pipe(shareReplay(), 
+    return this.#http.get<ContractListWithPage>(`${this.#url()}contract`, {params}).pipe(shareReplay(), 
     tap( (res) => {
       this.#setListContract.set(res.content);
       const page: Pageable = {
@@ -122,7 +122,7 @@ export class ContractServiceService {
     
     this.#setContractId.set(null);
 
-    return this.#http.get<ContractId>(`${this.#url()}contrato/${id}`).pipe(shareReplay(), 
+    return this.#http.get<ContractId>(`${this.#url()}contract/${id}`).pipe(shareReplay(), 
     tap( (res) => {
       res.items = res.items.map((i) => {
         let itens: ContractItens = {
@@ -151,7 +151,7 @@ export class ContractServiceService {
     this.#setContractCreateError.set(null);
     this.#setContractMsgSucess.set(null);
 
-    return this.#http.post<any>(`${this.#url()}contrato`, contract ).pipe(shareReplay(),
+    return this.#http.post<any>(`${this.#url()}contract`, contract ).pipe(shareReplay(),
     tap( (res) => {
       this.#setContractCreate.set(res);
       this.#setContractMsgSucess.set("Contrato salvo com sucesso");}),
@@ -166,7 +166,7 @@ export class ContractServiceService {
     this.#setContractCreateError.set(null);
     this.#setContractMsgSucess.set(null);
 
-    return this.#http.patch<ContractId>(`${this.#url()}contrato`, contract ).pipe(shareReplay(),
+    return this.#http.patch<ContractId>(`${this.#url()}contract`, contract ).pipe(shareReplay(),
     tap( (res) => {
       this.#setContractMsgSucess.set("Contrato salvo com sucesso");}),
     catchError( (error: HttpErrorResponse) => {
@@ -180,7 +180,7 @@ export class ContractServiceService {
     this.#setContractCreateError.set(null);
     this.#setContractMsgSucess.set(null);
 
-    return this.#http.patch<any>(`${this.#url()}contrato/situation`, situation ).pipe(shareReplay(),
+    return this.#http.patch<any>(`${this.#url()}contract/situation`, situation ).pipe(shareReplay(),
     tap( (res) => {
       this.#setContractMsgSucess.set("Contrato reservado com sucesso");}),
     catchError( (error: HttpErrorResponse) => {
@@ -195,7 +195,7 @@ export class ContractServiceService {
     this.#setContractPaymentMsgSucess.set(null);
     this.#setContractPayment.set(null);
 
-    return this.#http.patch<any>(`${this.#url()}contrato/payment/${id}`, payment ).pipe(shareReplay(),
+    return this.#http.patch<any>(`${this.#url()}contract/payment/${id}`, payment ).pipe(shareReplay(),
     tap( (res) => {
       this.#setContractPayment.set(res);
       this.#setContractPaymentMsgSucess.set("Pagamento salvo com sucesso!!!");
@@ -209,7 +209,7 @@ export class ContractServiceService {
   
   public httpGetPaymentsContract$(id: string): Observable<PaymentsList[]>{
   
-    return this.#http.get<PaymentsList[]>(`${this.#url()}contrato/payment/${id}`).pipe(shareReplay(),
+    return this.#http.get<PaymentsList[]>(`${this.#url()}contract/payment/${id}`).pipe(shareReplay(),
     tap( (res) => {
       this.#setContractPayment.set(res);
     }),

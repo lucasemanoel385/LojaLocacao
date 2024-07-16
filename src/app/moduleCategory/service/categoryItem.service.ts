@@ -62,7 +62,7 @@ export class CategoryItemService {
 
   public httpCreateCategory(category: string): Observable<CategoryCreate> {
 
-    return this.#http.post<CategoryCreate>(`${this.#url()}categoria`, category).pipe(shareReplay(),
+    return this.#http.post<CategoryCreate>(`${this.#url()}category`, category).pipe(shareReplay(),
     tap( (res) => this.#setCreateCategory.set("Categoria adicionada com Sucesso!!!")),
     catchError( (error: HttpErrorResponse) => {
       this.#setCreateCategoryError.set(error.error);
@@ -85,7 +85,7 @@ export class CategoryItemService {
        params = new HttpParams().set('page', page as number);
     }
 
-    return this.#http.get<CategoryPage>(`${this.#url()}categoria`, {params}).pipe(shareReplay(),
+    return this.#http.get<CategoryPage>(`${this.#url()}category`, {params}).pipe(shareReplay(),
     tap( (res) => {
       this.#setListCategory.set(res.content)
       const page: Pageable = {
@@ -105,7 +105,7 @@ export class CategoryItemService {
 
   public httpGetListAllCategory(): Observable<CategoryPage> {
 
-    return this.#http.get<CategoryPage>(`${this.#url()}categoria/all`).pipe(shareReplay(),
+    return this.#http.get<CategoryPage>(`${this.#url()}category/all`).pipe(shareReplay(),
     tap( (res) => {
       this.#setListAllCategory.set(res.content)
     }),
@@ -116,7 +116,7 @@ export class CategoryItemService {
   }
 
   public httpGetCategoryId(id: number): Observable<CategoryCreate> {
-    return this.#http.get<CategoryCreate>(`${this.#url()}categoria/${id}`).pipe(shareReplay(),
+    return this.#http.get<CategoryCreate>(`${this.#url()}category/${id}`).pipe(shareReplay(),
     tap( (res) => this.#setCategoryId.set(res)),
     catchError( (error: HttpErrorResponse) => {
       this.#setListCategoryError.set(error.error.message);
@@ -125,7 +125,7 @@ export class CategoryItemService {
   }
 
   public httpUpdateCategory(category: CategoryList): Observable<CategoryCreate> {
-    return this.#http.patch<CategoryCreate>(`${this.#url()}categoria`, category).pipe(shareReplay(),
+    return this.#http.patch<CategoryCreate>(`${this.#url()}category`, category).pipe(shareReplay(),
     tap( (res) => this.#setCreateCategory.set("Categoria atualizada com Sucesso!!!")),
     catchError( (error: HttpErrorResponse) => {
       this.#setCreateCategoryError.set(error.error);

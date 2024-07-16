@@ -59,7 +59,7 @@ export class ClientService {
 
   public httpCreateClient(client: ClientCreate): Observable<ClientCreate>{
     console.log(client)
-    return this.#http.post<ClientCreate>(`${this.#url()}cliente`, client ).pipe(shareReplay(),
+    return this.#http.post<ClientCreate>(`${this.#url()}client`, client ).pipe(shareReplay(),
     tap( (res) => this.#setClientMsgSucess.set("Cliente cadastrado com sucesso")),
     catchError( (error: HttpErrorResponse) => {
       this.#setClientError.set(error.error);
@@ -82,7 +82,7 @@ export class ClientService {
        params = new HttpParams().set('page', page as number);
     }
 
-    return this.#http.get<ClientPage>(`${this.#url()}cliente`, {params}).pipe(shareReplay(), 
+    return this.#http.get<ClientPage>(`${this.#url()}client`, {params}).pipe(shareReplay(), 
     tap( (res) => {
       this.#setListClient.set(res.content);
       const page: Pageable = {
@@ -102,7 +102,7 @@ export class ClientService {
 
   public httpGetClientFilter(filter: string): Observable<ClientPage> {
 
-    return this.#http.get<ClientPage>(`${this.#url()}cliente/filter?search=${filter}`).pipe(shareReplay(), 
+    return this.#http.get<ClientPage>(`${this.#url()}client/filter?search=${filter}`).pipe(shareReplay(), 
     tap( (res) => {
       this.#setListClient.set(res.content)
 
@@ -116,7 +116,7 @@ export class ClientService {
 
   public httpGetClientId(id: string): Observable<ClientCreate>{
     
-    return this.#http.get<ClientCreate>(`${this.#url()}cliente/${id}`).pipe(shareReplay(), 
+    return this.#http.get<ClientCreate>(`${this.#url()}client/${id}`).pipe(shareReplay(), 
     tap( (res) => this.#setClientId.set(res)),
     catchError( (error: HttpErrorResponse) => {
       this.#setClientIdError.set(error.error.message);
@@ -125,7 +125,7 @@ export class ClientService {
   }
 
   public httpUpdateClient(client: UpdateClient): Observable<ClientCreate>{
-    return this.#http.patch<ClientCreate>(`${this.#url()}cliente`, client ).pipe(shareReplay(),
+    return this.#http.patch<ClientCreate>(`${this.#url()}client`, client ).pipe(shareReplay(),
     tap( (res) => this.#setClientMsgSucess.set("Cliente atualizado com sucesso!!!")),
     catchError( (error: HttpErrorResponse) => {
       this.#setClientError.set(error.error);
@@ -137,7 +137,7 @@ export class ClientService {
     
     this.#setClientError.set(null);
 
-    return this.#http.delete(`${this.#url()}cliente/${id}`).pipe(shareReplay(),
+    return this.#http.delete(`${this.#url()}client/${id}`).pipe(shareReplay(),
     catchError( (error: HttpErrorResponse) => {
       this.#setClientDeleteError.set(error.error);
       return throwError(() => error);

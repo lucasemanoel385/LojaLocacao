@@ -41,9 +41,10 @@
                                 <!--<td><span class="check material-symbols-sharp">
                                     check
                                     </span></td>-->
-                                <td [ngStyle]="{'display': authorization === true ? 'table-cell' : 'none'}"><span (click)="idTask = task.id; this.modalDeleteTasks.showModal()" class="delete material-symbols-sharp">
-                                    close
-                                    </span>
+                                <td [ngStyle]="{'display': authorization === true ? 'table-cell' : 'none'}">
+                                    <button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete" (click)="idTask = task.id; this.modalDeleteTasks.showModal()"><span class="material-symbols-sharp">
+                                        delete
+                                        </span></button>
                                 </td>
                             </tr>
                         }

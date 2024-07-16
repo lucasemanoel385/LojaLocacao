@@ -46,7 +46,7 @@ export class DashBoardService {
 
   public httpGetContractsMonth$(month: string): Observable<ContractList[]> {
 
-    return this.#http.get<ContractList[]>(`${this.#url()}contrato/contractMonth/${month}`).pipe(shareReplay(), 
+    return this.#http.get<ContractList[]>(`${this.#url()}contract/contractMonth/${month}`).pipe(shareReplay(), 
     tap((res) => this.#setListContractMonth.set(res)),
     catchError( (error: HttpErrorResponse) => {
       this.#setSchedulingError.set(error.error);
@@ -56,7 +56,7 @@ export class DashBoardService {
 
   public httpGetBudgetsForMonth$(month: string): Observable<DataContractDashBoard> {
 
-    return this.#http.get<DataContractDashBoard>(`${this.#url()}contrato/budgets/${month}`).pipe(shareReplay(), 
+    return this.#http.get<DataContractDashBoard>(`${this.#url()}contract/budgets/${month}`).pipe(shareReplay(), 
     tap((res) => this.#setDataBudgetMonth.set(res)),
     catchError( (error: HttpErrorResponse) => {
       this.#setSchedulingError.set(error.error);

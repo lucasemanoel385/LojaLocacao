@@ -28,10 +28,10 @@ export class ContractPdfComponent implements OnInit {
   ngOnInit(): void {
     this.#apiServiceDataCompnay.httpGetDataCompany$().subscribe(res => {
       this.companyData.set(res);
-      let formattedClauses = res.clauses.replaceAll('\n', '<br>');
+      let formattedClauses = res.clauses ? res.clauses.replaceAll('\n', '<br>') : "";
       this.clauses.set(`<p>${formattedClauses}</p>`);
-      let formattedObservation = res.observation ? res.observation.replaceAll('\n', '<br>') : ''; 
-      this.observation += (`<p>${formattedObservation}</p>`);
+      let formattedObservation = res.observation ? res.observation.replaceAll('\n', '<br>') : ""; 
+      this.observation += (`<p>${formattedObservation}</p><br>`);
     });
     this.#apiServiceContract.httpGetContractId(this.#router.snapshot.params['id']).subscribe(res => {
       this.contract.set(res);
@@ -41,7 +41,6 @@ export class ContractPdfComponent implements OnInit {
         this.clauses.set('');
         this.signature.nativeElement['style'].display = 'none';
       }
-
     });
   }
 

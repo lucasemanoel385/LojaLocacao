@@ -9,6 +9,7 @@ import localePt from '@angular/common/locales/pt';
 import { tokenJWTInterceptor } from './config/interceptor/token-jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatNativeDateModule } from '@angular/material/core';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 registerLocaleData(localePt);
 

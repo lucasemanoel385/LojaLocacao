@@ -18,6 +18,7 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
     if (changes['contractId'] && changes['contractId'].currentValue) {
       setTimeout(() => {
         this.editValue();
+        this.editObservationAndClauses();
       }, 0)
     }
   }
@@ -49,6 +50,13 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
     return (this.footerForm.get('items') as FormArray).controls as FormGroup[];
   }
 
+  editObservationAndClauses() {
+    this.footerForm.patchValue({
+      observation: this.contractId?.observation,
+      annotations: this.contractId?.annotations,
+    })
+  }
+
   editValue() {
     this.fullItem();
     this.discount();
@@ -58,7 +66,7 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   // Get all items and sum
   fullItem() {
     let valorTotal = 0;
-    this.items.forEach((a) => {
+    (this.items as FormGroup[]).forEach((a) => {
       
       valorTotal = valorTotal + a.controls['total'].value as number;
     })

@@ -11,6 +11,7 @@ import { ItemUpdate } from '../interface/ItemUpdate';
 import { ItemCreate } from '../interface/ItemCreate';
 import { Pageable } from '../interface/Pageable';
 import { ListItem } from '../interface/ListItem';
+import { ImgBuffer } from './imgBuffer';
 
 
 @Injectable({
@@ -68,11 +69,8 @@ export class ProductService {
     //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
     return this.#http.get<ListItem>(this.#url() + 'item', { responseType: 'json', params }).pipe(shareReplay(),
     tap((res) => {
-      console.log("criado")
-      let b!: ArrayBuffer;
       const items: Item[] = [];
       res.content.forEach(a => {
-        b = this.base64ToArrayBuffer(a.imagem);
         let item: Item = {
           id: a.id,
           cod: a.cod,
@@ -81,7 +79,7 @@ export class ProductService {
           replacementValue: a.replacementValue,
           amount: a.amount,
           category: a.category,
-          imagem: this.criarImagemUrl(b)}
+          imagem: ImgBuffer.prototype.base64ToArrayBuffer(a.imagem)}
         items.push(item);
         }
       );
@@ -114,7 +112,6 @@ export class ProductService {
       let b!: ArrayBuffer;
       const items: Item[] = [];
       res.content.forEach(a => {
-        b = this.base64ToArrayBuffer(a.imagem);
         let item: Item = {
           id: a.id,
           cod: a.cod,
@@ -123,7 +120,7 @@ export class ProductService {
           replacementValue: a.replacementValue,
           amount: a.amount,
           category: a.category,
-          imagem: this.criarImagemUrl(b)}
+          imagem: ImgBuffer.prototype.base64ToArrayBuffer(a.imagem)}
         items.push(item);
         }
       );
@@ -152,10 +149,6 @@ export class ProductService {
     //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
     return this.#http.get<Item>(`${this.#url()}item/${id}`, { responseType: 'json' }).pipe(shareReplay(),
     tap((res) => {
-      let b!: ArrayBuffer;
-      let img!: string;
-      b = this.base64ToArrayBuffer(res.imagem);
-      img = this.criarImagemUrl(b);
       let item: Item = {
         id: res.id,
         cod: res.cod,
@@ -164,7 +157,7 @@ export class ProductService {
         replacementValue: res.replacementValue,
         amount: res.amount,
         category: res.category,
-        imagem: img}
+        imagem: ImgBuffer.prototype.base64ToArrayBuffer(res.imagem)}
         this.#setItemId.set(item);
             }),
     catchError( (error: HttpErrorResponse) => {
@@ -218,28 +211,5 @@ export class ProductService {
         return throwError(() => error);
       })
     )
-  }
-
-  private criarImagemUrl(imagem: ArrayBuffer): string {
-    // Converte os bytes da imagem para uma URL de dados
-    const nome = "teste";
-    const blob = new Blob([new Uint8Array(imagem)], { type: 'image/png' }); // Substitua pelo tipo de mídia correto
-
-    // Cria um File com o Blob
-    const arquivo = new File([blob], nome, { type: 'image/png' }); // Substitua pelo tipo de mídia correto
-    const urlTemporary = URL.createObjectURL(blob);
-    
-    return urlTemporary;
-  }
-
-  private base64ToArrayBuffer(base64: string): ArrayBuffer {
-    const binaryString = window.atob(base64);
-    const bytes = new Uint8Array(binaryString.length);
-  
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes.buffer;
-
   }
 }

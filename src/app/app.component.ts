@@ -19,4 +19,6 @@ import { PageSPAComponent } from './pages/page-spa/page-spa.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
+
+  title = 'loja-locacao';
 }
