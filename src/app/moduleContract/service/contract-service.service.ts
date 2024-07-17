@@ -221,7 +221,7 @@ export class ContractServiceService {
   
 
   public httpDeleteContractId(id: number): Observable<any>{
-    return this.#http.delete(`${this.#url()}contrato/${id}`).pipe(shareReplay(),
+    return this.#http.delete(`${this.#url()}contract/${id}`).pipe(shareReplay(),
     catchError( (error: HttpErrorResponse) => {
       this.#setContractDeleteError.set(error.error.message);
       return throwError(() => error);
