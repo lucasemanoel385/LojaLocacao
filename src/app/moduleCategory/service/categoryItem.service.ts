@@ -135,7 +135,7 @@ export class CategoryItemService {
 
   public httpDeleteCategory(id: number): Observable<any> {
     
-    return this.#http.delete(`${this.#url()}categoria/${id}`).pipe(shareReplay(),
+    return this.#http.delete(`${this.#url()}category/${id}`).pipe(shareReplay(),
     catchError( (error: HttpErrorResponse) => {
       this.#setDeleteCategoryError.set(error.error);
       return throwError(() => error);
