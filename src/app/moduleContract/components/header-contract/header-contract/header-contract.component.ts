@@ -56,7 +56,7 @@ export class HeaderContractComponent implements OnChanges{
   }
 
   //ul of client
-  ulIdentificator!: string;
+  ulIdentifier!: string;
   filterClient(e: Event) {
     const target = e.target as HTMLInputElement;
     const valueInput = target.value.toUpperCase().replaceAll('.', '').replace('-', '');
@@ -64,7 +64,7 @@ export class HeaderContractComponent implements OnChanges{
 
     if(valueInput.length > 0) {
       this.#apiServiceClient.httpGetClientFilter(valueInput).subscribe((res) => this.listClients.set(res.content));
-      this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentificator);
+      this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
     } else {
       this.listClients.set(null);
     }
@@ -74,7 +74,7 @@ export class HeaderContractComponent implements OnChanges{
   listClient() {
     const ul: any = document.getElementById('filterCpf');
     if(ul) {
-      this.ulIdentificator = ul.id;
+      this.ulIdentifier = ul.id;
       ul.style.display = 'list-item';
     }
   }
