@@ -72,7 +72,7 @@ export class BodyContractComponent implements OnInit, OnChanges {
  
   }
 
-  ulIdentificator!: string;
+  ulIdentifier!: string;
 
   filterItem(e: Event, is: number) {
     const target = e.target as HTMLInputElement;
@@ -92,7 +92,7 @@ export class BodyContractComponent implements OnInit, OnChanges {
 
     this.listFilter.set(list);
     this.putList(is);
-    this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentificator);
+    this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
     
   }
   
@@ -100,7 +100,7 @@ export class BodyContractComponent implements OnInit, OnChanges {
   putList(index: number) {
     const ul: HTMLElement = document.getElementById(index.toString() + 'list') as HTMLElement;
       ul.style.display = 'list-item';
-      this.ulIdentificator = ul.id;
+      this.ulIdentifier = ul.id;
   }
 
   listFilter = signal<Item[] | null>(null);
