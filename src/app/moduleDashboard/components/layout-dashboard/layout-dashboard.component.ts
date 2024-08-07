@@ -6,6 +6,7 @@ import { Scheduling } from '../../interface/scheduling.interface';
 import { concatMap } from 'rxjs';
 import { SchedulingComponent } from '../scheduling/scheduling.component';
 import { ContractForMonthComponent } from '../contract-for-month/contract-for-month.component';
+import { WebSocketService } from '../../../config/webSocket/webSocket.service';
 
 @Component({
   selector: 'app-layout-dashboard',
@@ -20,7 +21,14 @@ export class LayoutDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getTaskList() === null ? this.#serviceDashBoard.httpGetTasks$().subscribe() : null;
     this.#serviceDashBoard.httpGetBudgetsForMonth$(formatDate(Date.now(), 'yyyy-MM-dd', 'pt-BR').slice(0,7)).subscribe();
+
+    this.#webSocketService.getTask().subscribe((body: any) => {
+      this.getTaskList.set(body);
+    });
   }
+
+  // WebSocket
+  #webSocketService = inject(WebSocketService);
 
   // Chamada API
   #serviceDashBoard = inject(DashBoardService);

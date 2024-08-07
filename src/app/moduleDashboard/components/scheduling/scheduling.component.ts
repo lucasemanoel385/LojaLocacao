@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DoCheck, OnInit, inject, signal } from '@angular/core';
 import { DashBoardService } from '../../service/dash-board.service';
 import { formatDate } from '@angular/common';
 import { concatMap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Scheduling } from '../../interface/scheduling.interface';
+import { WebSocketService } from '../../../config/webSocket/webSocket.service';
 
 @Component({
   selector: 'app-scheduling',
@@ -14,8 +15,9 @@ import { Scheduling } from '../../interface/scheduling.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchedulingComponent implements OnInit {
-
+  
   #serviceDashBoard = inject(DashBoardService);
+  #webSocketService = inject(WebSocketService);
 
   public getSchedulingList = this.#serviceDashBoard.getListScheduling;
   public getSchedulingListError = this.#serviceDashBoard.getListSchedulingError;
@@ -26,8 +28,14 @@ export class SchedulingComponent implements OnInit {
   ngOnInit(): void {
       this.schedulesToday()
       this.getSchedulingList() === null ? this.#serviceDashBoard.httpGetScheduling$(this.schedulesToday()).subscribe() : null;
-  }
-
+      this.#webSocketService.getScheduling().subscribe((categories: any) => {
+          if(this.dateScheduleDay === categories[0].dateScheduling) {
+            this.getSchedulingList.set(categories);
+          }
+      });
+  
+    }
+   
   dateScheduleDay = this.schedulesToday();
 
   #fb = inject(FormBuilder);
@@ -53,8 +61,8 @@ export class SchedulingComponent implements OnInit {
     this.#serviceDashBoard.httpCreateScheduling$(this.schedulesForm.value as Scheduling).pipe(
       concatMap(() => 
         this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay))
-    ).subscribe(res => this.schedulesForm.reset());
-
+    ).subscribe(res => {this.schedulesForm.reset();
+    });
   }
 
     // Get id for delete
@@ -62,7 +70,7 @@ export class SchedulingComponent implements OnInit {
 
   public deleteScheduler(modalDelete: HTMLDialogElement) {
 
-    this.#serviceDashBoard.httpDeleteSchedulingId$(this.idScheduler).pipe(
+    this.#serviceDashBoard.httpDeleteSchedulingId$(this.idScheduler, this.dateScheduleDay).pipe(
       concatMap(() => 
         this.#serviceDashBoard.httpGetScheduling$(this.dateScheduleDay)))
       .subscribe();
