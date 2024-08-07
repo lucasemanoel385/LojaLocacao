@@ -20,9 +20,7 @@ export class ContractForMonthComponent implements OnInit {
 
   ngOnInit(): void {
     this.contractsMonth.set(this.contractsMonth());
-    if(this.getContractsMonthList() === null) {
-      this.#serviceDashBoard.httpGetContractsMonth$(this.contractsMonth().slice(0, 7)).subscribe();
-    }
+    this.#serviceDashBoard.httpGetContractsMonth$(this.contractsMonth().slice(0, 7)).subscribe();
   }
 
   #serviceDashBoard = inject(DashBoardService);

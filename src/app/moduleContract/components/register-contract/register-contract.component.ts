@@ -49,7 +49,6 @@ export class RegisterContractComponent implements OnChanges {
   @Input() contractId!: ContractId | null;
 
   #apiServiceItem = inject(ProductService);
-  #apiServiceClient = inject(ClientService);
   #apiServiceContract = inject(ContractServiceService);
   public listaItem$ = this.#apiServiceItem.getAllItemList;
   public getCreateContractError = this.#apiServiceContract.getContractCreateError;
@@ -99,7 +98,6 @@ export class RegisterContractComponent implements OnChanges {
   }
 
   public submit() {
-    console.log(this.contractForm.value)
     var listItens: itensList[] = [];
 
     this.items.forEach((i) => {
@@ -126,13 +124,14 @@ export class RegisterContractComponent implements OnChanges {
       }
 
       this.#apiServiceContract.httpEditContract(contract).pipe(
-        concatMap(() => this.#apiServiceContract.httpGetContracts())
-      ).subscribe();
+        concatMap(() => this.#apiServiceContract.httpGetContracts()),
+      ).subscribe(() => location.reload());
 
       setTimeout(() => {
         this.getCreateContractError.set(null);
         this.getContractMsgSucess.set(null);
-      }, 5000)
+      }, 5000);
+
     } else {
       const contract: ContractCreate = {
         client: this.clientId,

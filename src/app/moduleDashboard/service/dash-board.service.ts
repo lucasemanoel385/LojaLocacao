@@ -31,7 +31,7 @@ export class DashBoardService {
   // START APISCHEDULING
   #setListScheduling = signal<Scheduling[] | null>(null);
   get getListScheduling() {
-    return this.#setListScheduling.asReadonly();
+    return this.#setListScheduling;
   }
 
   #setSchedulingError = signal<Scheduling | null>(null);
@@ -87,8 +87,8 @@ export class DashBoardService {
     }))
   }
 
-  public httpDeleteSchedulingId$(id: number): Observable<any>{
-    return this.#http.delete(`${this.#url()}scheduling/${id}`).pipe(shareReplay(),
+  public httpDeleteSchedulingId$(id: number, dateDay: string): Observable<any>{
+    return this.#http.delete(`${this.#url()}scheduling/${id}/${dateDay}`).pipe(shareReplay(),
     catchError( (error: HttpErrorResponse) => {
       this.#setSchedulingError.set(error.error.message);
       return throwError(() => error);
@@ -101,7 +101,7 @@ export class DashBoardService {
 
   #setListTasks = signal<Task[] | null>(null);
   get getListTasks() {
-    return this.#setListTasks.asReadonly();
+    return this.#setListTasks;
   }
 
   #setTaskError = signal<Task | null>(null);

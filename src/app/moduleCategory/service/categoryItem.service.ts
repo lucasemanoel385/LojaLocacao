@@ -42,7 +42,7 @@ export class CategoryItemService {
 
   #setListCategory = signal<CategoryList[] | null>(null);
   get getListCategory() {
-    return this.#setListCategory.asReadonly();
+    return this.#setListCategory;
   }
 
   #setListAllCategory = signal<CategoryList[] | null>(null);
