@@ -78,7 +78,7 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
 
     } else {
       this.#serviceCategory.httpCreateCategory(form.value).pipe(
-        concatMap(() => this.#serviceCategory.httpGetListCategory())
+        concatMap(() => this.#serviceCategory.httpGetListCategory()),
       ).subscribe();
       setTimeout(() => {
         this.getCreateCategory.set(null),
@@ -86,8 +86,6 @@ export class CreateCategoryComponent implements OnChanges, OnInit {
       }, 3000)
     }
     }
-
-  
 
   public backRouter() {
     //this.#router.navigate(['/category']);
