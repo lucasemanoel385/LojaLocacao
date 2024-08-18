@@ -184,7 +184,7 @@ export class ContractServiceService {
     tap( (res) => {
       this.#setContractMsgSucess.set("Contrato reservado com sucesso");}),
     catchError( (error: HttpErrorResponse) => {
-      this.#setContractCreateError.set(error.error);
+      this.#setContractCreateError.set(error.error[0].message);
       return throwError(() => error);
     }))
   }

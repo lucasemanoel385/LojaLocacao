@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment.development';
 import { Injectable } from '@angular/core';
 import { Client, Message } from '@stomp/stompjs';
 import SockJS from 'sockjs-client/dist/sockjs';
@@ -10,14 +11,15 @@ export class WebSocketService {
   private client: Client;
   private schedulingSubject: Subject<any> = new Subject<any>();
   private taskSubject: Subject<any[]> = new Subject<any[]>();
+  private urlApi = environment.api;
 
   constructor() {
     this.client = new Client({
-      brokerURL: 'ws://localhost:8080/ws',
+      brokerURL: `ws://${this.urlApi.replace("http://", "")}ws`,
       reconnectDelay: 1000,
       heartbeatIncoming: 1000,
       heartbeatOutgoing: 1000,
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () => new SockJS(`${this.urlApi}ws`),
       onConnect: () => {
         this.client.subscribe('/topic/scheduling', (message: Message) => {
           const scheduling = JSON.parse(message.body);
