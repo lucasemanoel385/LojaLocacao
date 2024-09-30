@@ -75,7 +75,7 @@
                     <th>
                         Comissão
                     </th>
-                    @for (commision of getDataAccounting()?.commission; track commision; let i = $index) {
+                    @for (commision of getDataAccounting()?.commission; track $index; let i = $index) {
                         <tr>
                             <td>
                                 {{ commision.seller }}
@@ -106,7 +106,7 @@
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Data</th>
-                    @for (expenses of getDataAccounting()?.expensesList; track expenses; let i = $index) {
+                    @for (expenses of getDataAccounting()?.expensesList; track expenses.id; let i = $index) {
                         <tr>
                             <td>{{expenses.description}}</td>
                             <td>{{expenses.value | currency : 'BRL'}}</td>
