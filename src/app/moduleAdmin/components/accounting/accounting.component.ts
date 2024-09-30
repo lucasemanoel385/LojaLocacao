@@ -55,6 +55,10 @@ export class AccountingComponent implements OnInit {
       concatMap(() => this.#serviceDataCompany.httpGetDataAccouting$(this.today()))
     ).subscribe(res => this.editSumLiquidMonthAndYear(res));
     
+    setTimeout(() => {
+      this.getMsgExpensesSucess.set(null);
+      this.getMsgExpensesError.set(null);
+    }, 2000)
   }
 
   editSumLiquidMonthAndYear(res: DataAccouting) {
