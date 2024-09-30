@@ -8,6 +8,7 @@ import { ContractItens } from '../../moduleContract/interface/contractItens.inte
 import { ContractList } from '../../moduleContract/interface/contractList.interface';
 import { ContractId } from '../../moduleContract/interface/contractId.interface';
 import { DataContractDashBoard } from '../interface/dataContractDashBoard.interface copy';
+import { Reserveditems } from '../interface/reserveditems.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,11 @@ export class DashBoardService {
   #setDataBudgetMonth = signal<DataContractDashBoard | null>(null);
   get getDataBudgetMonth() {
     return this.#setDataBudgetMonth.asReadonly();
+  }
+
+  #setListReservedWeek = signal<Reserveditems[] | null>(null);
+  get getListReservedWeek() {
+    return this.#setListReservedWeek.asReadonly();
   }
 
   // START APISCHEDULING
@@ -68,6 +74,16 @@ export class DashBoardService {
 
     return this.#http.get<any>(`${this.#url()}scheduling/${date}`).pipe(shareReplay(), 
     tap( (res) => this.#setListScheduling.set(res)),
+    catchError( (error: HttpErrorResponse) => {
+      this.#setSchedulingError.set(error.error);
+      return throwError(() => error);
+    }))
+  }
+
+  public httpGetReservedItems$(): Observable<Reserveditems[]> {
+
+    return this.#http.get<Reserveditems[]>(`${this.#url()}item/reserved-items`).pipe(shareReplay(), 
+    tap( (res) => this.#setListReservedWeek.set(res)),
     catchError( (error: HttpErrorResponse) => {
       this.#setSchedulingError.set(error.error);
       return throwError(() => error);

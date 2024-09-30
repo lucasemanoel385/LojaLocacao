@@ -21,7 +21,7 @@
         </div>
         <div class="responsive_input_date">
             <div class="input-style-date">
-                <label for="dateOf">Data da retirada:</label>
+                <label for="dateOf">Data da retirada</label>
                 <input #dateOf class="inputGrey" type="date" id="dateOf" formControlName="dateOf" required>
                 
                 @if (headerForm.get('dateOf')?.touched && headerForm.get('dateOf')?.invalid) {
@@ -30,7 +30,7 @@
             </div>
     
             <div class="input-style-date">
-                <label for="dateUntil">Data da entrega:</label>
+                <label for="dateUntil">Data da entrega</label>
                 <input class="inputGrey" id="dateUntil" class="inputGrey" type="date" formControlName="dateUntil" required>
             
                 @if (headerForm.get('dateUntil')?.touched && headerForm.get('dateUntil')?.invalid) {
@@ -42,12 +42,12 @@
         <div class="input-style">
             <input #discountInput class="inputGrey" id="discount" type="number" formControlName="discount" placeholder="Desconto em %">
             <label for="discount">
-                Desconto:</label>
+                Desconto</label>
         </div>
         <div class="input-style">
             <input class="inputGrey" id="seller" type="text" formControlName="seller" required>
             <label for="seller">
-                Vendedor:</label>
+                Vendedor</label>
                 @if (headerForm.get('seller')?.touched && headerForm.get('seller')?.invalid) {
                     <p><strong>Campo vendedor vazio</strong></p>
                 }

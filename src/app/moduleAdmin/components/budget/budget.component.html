@@ -1,5 +1,12 @@
-<div>
+<div class="layout-budget">
     <label for="budget">Orçamento - Observação padrão</label>
     <textarea #observations class="fontHelvetica" id="budget" cols="30" rows="10">{{getCompany()?.observation}}</textarea>
+    <div class="span-error">
+        @if (this.msgSuccess()) {
+            <span class="success_api" style="margin: 0 10px;">{{ msgSuccess() }}</span>
+        } @else if (msgError()) {
+            <span class="error_api" style="margin: 0 10px;">{{ msgError() }}</span>
+        }
+    </div>
     <button class="btn-update" (click)="saveObservation(observations.value)">Salvar</button>
 </div>

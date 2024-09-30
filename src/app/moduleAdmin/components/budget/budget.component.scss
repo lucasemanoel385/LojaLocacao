@@ -1,17 +1,20 @@
 :host {
-    div {
+    
+    .layout-budget {
         display: flex; 
         flex-direction: column;
         padding: 1.5em;
         gap: 10px;
+        width: 35%;
+        box-sizing: border-box;
     }
-
     textarea {
-        width: 45%;
+        width: 100%;
         border: 1px solid rgb(225, 225, 225);
         border-radius: 10px;
         padding: 1em;
         transition: 0.2s all ease;
+        box-sizing: border-box;
 
         &:hover {
             border: 1px solid rgb(199, 199, 199);
@@ -26,8 +29,8 @@
     }
 
     @media (max-width: 733px) {
-        textarea {
-            width: 80%;
+        .layout-budget {
+            width: 100%;
         }
     }
 }

@@ -17,15 +17,11 @@ import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect
   styleUrl: './body-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BodyContractComponent implements OnInit, OnChanges {
+export class BodyContractComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['contractId'].currentValue) {
       this.editBody(this.contractId as ContractId);
     }
-  }
-
-  ngOnInit(): void {
-    this.#apiServiceItem.httpGetAllItems$().subscribe();
   }
 
   @Input() bodyForm!: FormGroup;
@@ -82,15 +78,16 @@ export class BodyContractComponent implements OnInit, OnChanges {
     let list!: Item[];
     
     if(valueInput.length > 3 ) {
-      list = lista!.filter(a => a.name.toUpperCase().indexOf(valueInput) > -1);
-      
-
-    } else if(valueInput.length > 0) {
-      list = lista!.filter(a => a.cod.toString().indexOf(valueInput) > -1);
+      //list = lista!.filter(a => a.name.toUpperCase().indexOf(valueInput) > -1);
+   
+        this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
+  
+    } else if(valueInput.length < 2 &&  valueInput.match(/[0-9]/)) {
+      //list = lista!.filter(a => a.cod.toString().indexOf(valueInput) > -1);
+        this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
       
     }
-
-    this.listFilter.set(list);
+    
     this.putList(is);
     this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
     

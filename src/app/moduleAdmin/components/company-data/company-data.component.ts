@@ -29,7 +29,7 @@ export class CompanyDataComponent implements OnInit{
   #apiDataCompanyService = inject(DataCompanyService);
   public getDataCompany = this.#apiDataCompanyService.getCompany;
   public getMsgError = this.#apiDataCompanyService.getMsgError;
-  public getMsgSucess = this.#apiDataCompanyService.getMsgSucess;
+  public getMsgSucess = this.#apiDataCompanyService.getMsgSuccess;
 
   updateValueTemplate(res: GetDataCompany) {
     console.log(res);

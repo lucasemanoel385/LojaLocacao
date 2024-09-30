@@ -37,9 +37,9 @@ export class DataCompanyService {
     return this.#setMsgError;
   }
 
-  #setMsgSucess = signal<String | null>(null);
-  get getMsgSucess() {
-    return this.#setMsgSucess;
+  #setMsgSuccess = signal<String | null>(null);
+  get getMsgSuccess() {
+    return this.#setMsgSuccess;
   }
 
   #setMsgErrorExpenses = signal<String | null>(null);
@@ -59,7 +59,7 @@ export class DataCompanyService {
     
     formData.append('dataCompany', new Blob([JSON.stringify(item)], { type: 'application/json'}))
     return this.#http.put(this.#url() + 'data-company', formData ).pipe(
-      tap(() => this.#setMsgSucess.set("Salvo com sucesso")),
+      tap(() => this.#setMsgSuccess.set("Salvo com sucesso")),
       shareReplay(),
       catchError( (error: HttpErrorResponse) => {
         this.#setMsgError.set(error.error.message)
@@ -71,7 +71,7 @@ export class DataCompanyService {
   public httpSaveObservationCompany$(observation: string): Observable <any> {
 
     return this.#http.patch(`${this.#url()}data-company/observation`, observation ).pipe(
-      tap(() => this.#setMsgSucess.set("Salvo com sucesso")),
+      tap(() => this.#setMsgSuccess.set("Salvo com sucesso")),
       shareReplay(),
       catchError( (error: HttpErrorResponse) => {
         this.#setMsgError.set(error.error.message)
@@ -83,7 +83,7 @@ export class DataCompanyService {
   public httpSaveClausesCompany$(clauses: string): Observable <any> {
 
     return this.#http.patch(`${this.#url()}data-company/clauses`, clauses ).pipe(
-      tap(() => this.#setMsgSucess.set("Salvo com sucesso")),
+      tap(() => this.#setMsgSuccess.set("Salvo com sucesso")),
       shareReplay(),
       catchError( (error: HttpErrorResponse) => {
         this.#setMsgError.set(error.error.message)

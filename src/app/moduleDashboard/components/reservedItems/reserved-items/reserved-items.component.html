@@ -1,0 +1,31 @@
+<div class="reserved__items">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4>Items reservados <strong style="color: #e76e70;">SEMANA</strong></h4>
+    </div>
+    <div class="table_container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id.Item</th>
+                    <th>Item</th>
+                    <th>Data da reserva</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (listReservedItems(); as listReservedItems) {
+                    @for (item of listReservedItems; track item.id; let i = $index) {
+                        <tr>
+                            <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['../','item','edit', item.id]">{{ item.id }}</a></td>
+                            <td style="width: 500px; text-align: start;">{{ item.id }}</td>
+                            <td>{{ item.finalDate| formatDatePipe}}</td>
+                        </tr>
+                    } @empty {
+                        <strong class="empty_if">Nenhum item reservado</strong>
+                    }
+                } @else {
+                    <strong class="empty_if">Carregando...</strong>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

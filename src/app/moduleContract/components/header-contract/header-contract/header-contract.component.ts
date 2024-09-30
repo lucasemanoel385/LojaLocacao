@@ -62,7 +62,7 @@ export class HeaderContractComponent implements OnChanges{
     const valueInput = target.value.toUpperCase().replaceAll('.', '').replace('-', '');
     this.listClient();
 
-    if(valueInput.length > 0) {
+    if(valueInput.length > 3) {
       this.#apiServiceClient.httpGetClientFilter(valueInput).subscribe((res) => this.listClients.set(res.content));
       this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
     } else {

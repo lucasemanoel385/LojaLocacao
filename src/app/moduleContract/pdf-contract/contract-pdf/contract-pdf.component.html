@@ -108,7 +108,7 @@
                     <p [innerHTML]="observation"></p>
                 </div>
                 <div class="products_value">
-                    <p><strong>Desconto:</strong> {{ contract()?.discount | currency: 'BRL'}}</p>
+                    <p><strong>Desconto:</strong> {{ discount() | currency: 'BRL'}}</p>
                     <p><strong>Valor dos Produtos:</strong> {{ contract()?.value | currency: 'BRL'}}</p>
                     <p><strong>Valor Total:</strong> {{ contract()?.valueTotal | currency: 'BRL'}}</p>
                 </div>

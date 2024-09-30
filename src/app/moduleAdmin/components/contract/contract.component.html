@@ -1,5 +1,12 @@
-<div>
+<div class="layout-clauses">
     <label for="budget">Contrato - Cláusulas</label>
     <textarea #clauses class="fontHelvetica" id="budget" cols="30" rows="10">{{ getCompany()?.clauses }}</textarea>
+    <div class="span-error">
+        @if (this.msgSuccess()) {
+            <span class="success_api" style="margin: 0 10px;">{{ msgSuccess() }}</span>
+        } @else if (msgError()) {
+            <span class="error_api" style="margin: 0 10px;">{{ msgError() }}</span>
+        }
+    </div>
     <button class="btn-update" (click)="saveClauses(clauses.value)">Salvar</button>
 </div>

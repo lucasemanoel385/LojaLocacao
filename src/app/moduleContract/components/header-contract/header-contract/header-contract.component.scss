@@ -1,3 +1,4 @@
+
 .data-contract{
     display: flex;
     box-sizing: border-box;
@@ -101,19 +102,15 @@
         flex-direction: column;
     }
 
-    .input-style {
-        width: 100%;
-    }
-
-    .input-style-date {
+    .input-style, .input-style-date, .input-client {
         width: 100%;
     }
 
     .responsive_input_date {
         display: flex;
-        justify-content: space-between;  
-        gap: 3em;
-        width: 90%;
+        flex-direction: row;
+        width: 100%;
+        gap: 1em;
     }
 
 }

@@ -1,7 +1,7 @@
 <div style="display: flex; flex-direction: column;">
     <div class="img_logo">
         <label class="img_input">
-            <input style="display: none;" type="file" name="imagem" (change)="onFileSelected($event, choose)">
+            <input style="display: none;" type="file" accept="image/png, image/jpeg, iamge/jpg" name="imagem" (change)="onFileSelected($event, choose)">
             <span id="img" #choose>Escolha a Image</span>
         </label>
     </div>

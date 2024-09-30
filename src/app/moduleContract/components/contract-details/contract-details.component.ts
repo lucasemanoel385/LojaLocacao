@@ -5,7 +5,7 @@ import { style } from '@angular/animations';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, ViewChildren, inject, signal, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import { TableContractComponent } from '../table-contract/table-contract.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContractServiceService } from '../../service/contract-service.service';
 import { CurrencyPipe } from '@angular/common';
 import { ChangeSituation } from '../../interface/changeSituation.interface';
@@ -17,12 +17,14 @@ import { ContractPdfComponent } from '../../pdf-contract/contract-pdf/contract-p
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { RegisterContractComponent } from '../register-contract/register-contract.component';
+import { routes } from '../../../app.routes';
 
 
 @Component({
   selector: 'app-contract-details',
   standalone: true,
-  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule, ContractPdfComponent, RegisterContractComponent],
+  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule, 
+    ContractPdfComponent, RegisterContractComponent, RouterLink],
   templateUrl: './contract-details.component.html',
   styleUrl: './contract-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -172,7 +174,8 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
     if (window.innerWidth < 733) {
       this.#route.navigate([`../store/orcamento/pdf/${this.getContractId()?.id}`]);
     } else {
-      window.open(this.#route.createUrlTree([`/store/orcamento/pdf/${this.getContractId()?.id}`]).toString());
+      //window.open(this.#route.createUrlTree([`/store/orcamento/pdf/${this.getContractId()?.id}`]).toString());
+      this.#route.navigate([`../store/orcamento/pdf/${this.getContractId()?.id}`]);
     }
     
   }

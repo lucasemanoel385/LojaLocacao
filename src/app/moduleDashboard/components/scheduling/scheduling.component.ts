@@ -29,8 +29,13 @@ export class SchedulingComponent implements OnInit {
       this.schedulesToday()
       this.getSchedulingList() === null ? this.#serviceDashBoard.httpGetScheduling$(this.schedulesToday()).subscribe() : null;
       this.#webSocketService.getScheduling().subscribe((categories: any) => {
-          if(this.dateScheduleDay === categories[0].dateScheduling) {
+       
+          if(categories[0] === undefined) {
             this.getSchedulingList.set(categories);
+    
+          } else if(this.dateScheduleDay === categories[0].dateScheduling) {
+            this.getSchedulingList.set(categories);
+   
           }
       });
   

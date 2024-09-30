@@ -1,5 +1,5 @@
 <app-register-contract buttonCreate="Salvar" [contractId]="getContractId()">
-<button #buttonPrintOut class="btn-back" type="button" (click)="navigateToPrintOut()">Imprmir</button>
+    <button #buttonPrintOut class="btn-back" type="button" (click)="navigateToPrintOut()">Imprmir</button>
     <button #buttonReserve style="background-color: #1f3853;" class="btn-update btn-contract" type="button" (click)="modalReserve.showModal()">{{buttonSituation()}}</button>
     <button #invoice style="background-color: #1f3853; display: none;" class="btn-update btn-contract" type="button" (click)="paymentFuture(modalInvoice)">Lançar pagamentos</button>
     <dialog #modalReserve class="dialog_delete">

@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Item } from '../interface/Item';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/internal/operators/tap';
@@ -12,6 +12,7 @@ import { ItemCreate } from '../interface/ItemCreate';
 import { Pageable } from '../interface/Pageable';
 import { ListItem } from '../interface/ListItem';
 import { ImgBuffer } from './imgBuffer';
+import { map } from 'rxjs';
 
 
 @Injectable({
@@ -101,13 +102,15 @@ export class ProductService {
     );
   }
 
-  public httpGetAllItems$(page?: number): Observable <ListItem> {
+  public httpGetAllItems$(filter: string): Observable <ListItem> {
 
     this.#setItemList.set(null);
     this.#setItemError.set(null);
+
+    var params = new HttpParams().set('filter', filter);
     
     //O pipe é uma função dos Observable's para realizar composições de operadores da RxJS.
-    return this.#http.get<ListItem>(this.#url() + 'item/all', { responseType: 'json' }).pipe(shareReplay(),
+    return this.#http.get<ListItem>(this.#url() + 'item/filter', { responseType: 'json', params }).pipe(shareReplay(),
     tap((res) => {
       let b!: ArrayBuffer;
       const items: Item[] = [];
@@ -168,7 +171,7 @@ export class ProductService {
     );
   }
 
-  public httpUpdateItem$(item: ItemUpdate, img: any): Observable <Item> {
+  public httpUpdateItem$(item: ItemUpdate, img: any): Observable<HttpResponse<Item>> {
 
     this.#setItemError.set(null);
 
@@ -176,8 +179,8 @@ export class ProductService {
     formData.append('file', img);
     
     formData.append('item', new Blob([JSON.stringify(item)], { type: 'application/json'}))
-    return this.#http.patch<Item>(this.#url() + 'item', formData ).pipe(
-      tap((res) => this.#setItemSucess.set("Produto atualizado com sucesso!!!")),
+    return this.#http.patch<Item>(this.#url() + 'item', formData, {observe: 'response'}).pipe(
+      tap((response) => this.#setItemSucess.set("Produto atualizado com sucesso!!!")),
       catchError( (error: HttpErrorResponse) => {
         this.#setItemError.set(error.error);
         return throwError(() => error)
@@ -193,7 +196,7 @@ export class ProductService {
     formData.append('file', img);
     
     formData.append('item', new Blob([JSON.stringify(item)], { type: 'application/json'}))
-    return this.#http.post<Item>(this.#url() + 'item', formData ).pipe(
+    return this.#http.post<Item>(this.#url() + 'item', formData).pipe(
       shareReplay(),
       tap((res) => this.#setItemSucess.set("Produto criado com sucesso!!!")),
       catchError( (error: HttpErrorResponse) => {

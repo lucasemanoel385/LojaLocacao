@@ -5,34 +5,36 @@
         <h4>Agendamentos</h4>
         <input #date style="width: 7rem;" class="inputGrey" value={{schedulesToday()}} type="date" (change)="schedulerDay(date.value);">
     </div>
-    <table class="table" #tableSchedules>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Horário</th>
-            </tr>
-        </thead>
-        <tbody #bodyScheduler>
-            @if (getSchedulingList(); as listScheduling) {
-                @for (item of listScheduling; track item; let i = $index) {
-                    <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.description }}</td>
-                        <td style="width: 20px;">{{ item.time }}</td>
-                        <td style="width: 30px;"><span (click)="idScheduler = item.id; this.modalDeleteScheduling.showModal()" class="delete material-symbols-sharp">
-                            close
-                            </span>
-                        </td>
-                    </tr>
-                } @empty {
-                    <strong class="empty_if">Agendamento disponível pra essa data.</strong>
+    <div class="table_container">
+        <table class="table" #tableSchedules>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Horário</th>
+                </tr>
+            </thead>
+            <tbody #bodyScheduler>
+                @if (getSchedulingList(); as listScheduling) {
+                    @for (item of listScheduling; track item.id; let i = $index) {
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.description }}</td>
+                            <td style="width: 20px;">{{ item.time }}</td>
+                            <td style="width: 30px;"><button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete"><span (click)="idScheduler = item.id; this.modalDeleteScheduling.showModal()" class="delete material-symbols-sharp">
+                                delete
+                                </span></button>
+                            </td>
+                        </tr>
+                    } @empty {
+                        <strong class="empty_if">Agendamento disponível pra essa data.</strong>
+                    }
+                } @else {
+                    <strong class="empty_if">Carregando...</strong>
                 }
-            } @else {
-                <strong class="empty_if">Carregando...</strong>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
     <dialog class="dialog_delete" #modalDeleteScheduling>
         <h4>Deseja mesmo excluir?</h4>
         <button style="margin: 0 10px; outline: 0;" class="btn_add" (click)="deleteScheduler(modalDeleteScheduling)">Sim</button>

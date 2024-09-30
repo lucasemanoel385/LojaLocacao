@@ -37,7 +37,7 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
 })
 export class TableContractComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit{
   ngAfterViewInit(): void {
-    this.#apiServiceItem.httpGetAllItems$().subscribe();
+    //this.#apiServiceItem.httpGetAllItems$().subscribe();
   }
 
 

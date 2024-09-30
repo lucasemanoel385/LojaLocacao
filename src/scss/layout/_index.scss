@@ -9,9 +9,10 @@
 .layout {
     width: 100%;
     background-color: whitesmoke;
-    padding: 1.5em;
+    padding: 2em;
     box-sizing: border-box;
     box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.75);
+    border-radius: 10px;
 }
 
 .table_container {
@@ -57,7 +58,6 @@
             
             border-bottom: 0;
             padding: 15px;
-            font-size: 16px;
             border-left: 0;
             border-right: 0;
         }
@@ -79,7 +79,7 @@
     gap: 1em;
     .number-box { 
         top: 20px;
-        font-size: 25px;
+        font-size: 22px;
     }
 
     span {
@@ -109,7 +109,7 @@
 @media (max-width: 733px) {
 
     .layout {
-        padding: 1em;
+        padding: 1.8em;
     }
 
     .table_container {

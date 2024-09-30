@@ -22,7 +22,7 @@
                         <label for="{{is}}item">
                             Insira nome do item</label>
                         <ul id="{{is}}list" class="ul-menu">
-                            @for (ite of listFilter(); track ite; let i = $index) {
+                            @for (ite of listFilter(); track ite.id; let i = $index) {
                                 
                                 <li tabindex="0" (click)="setValueInput(is, ite);" (focus)="setValueInput(is, ite)"><span class="li-items"><img src="{{ite.imagem}}" width="70px">{{ite.cod}} - {{ite.name}}</span></li>
                                 

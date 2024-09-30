@@ -7,11 +7,13 @@ import { concatMap } from 'rxjs';
 import { SchedulingComponent } from '../scheduling/scheduling.component';
 import { ContractForMonthComponent } from '../contract-for-month/contract-for-month.component';
 import { WebSocketService } from '../../../config/webSocket/webSocket.service';
+import { ReservedItemsComponent } from '../reservedItems/reserved-items/reserved-items.component';
 
 @Component({
   selector: 'app-layout-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule, SchedulingComponent, ContractForMonthComponent],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, SchedulingComponent, 
+    ContractForMonthComponent, ReservedItemsComponent],
 templateUrl: './layout-dashboard.component.html',
   styleUrl: './layout-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

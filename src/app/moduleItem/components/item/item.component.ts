@@ -1,5 +1,5 @@
 
-import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild, inject, input, signal } from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, inject, input, signal } from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { ProductService } from '../../service/product.service';
@@ -9,19 +9,21 @@ import { ItemUpdate } from '../../interface/ItemUpdate';
 import { ItemCreate } from '../../interface/ItemCreate';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
 import { CategoryItemService } from '../../../moduleCategory/service/categoryItem.service';
-import { concat, concatMap } from 'rxjs';
+import { concat, concatMap, tap } from 'rxjs';
 import { CategoryList } from '../../../moduleCategory/interface/categoryList.interface';
 import { ArrowSelectComponent } from '../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
 import { BackHistoryButtonComponent } from '../../../componentsTemplate/button-back-navigate/back-history-button/back-history-button.component';
+import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgxMaskDirective, BackHistoryComponent, BackHistoryButtonComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgxMaskDirective, BackHistoryComponent, 
+    BackHistoryButtonComponent, NgxSpinnerModule],
   templateUrl: './item.component.html',
   styleUrl: './item.component.scss'
 })
-export class ItemComponent implements OnChanges, OnInit {
+export class ItemComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['tittleItem'].currentValue) {
@@ -48,6 +50,9 @@ export class ItemComponent implements OnChanges, OnInit {
 
   // Get methods depending of action keyboard
   #arrowSelect = new ArrowSelectComponent();
+
+  // Spinner 
+  #spinner = inject(NgxSpinnerService);
 
   //Get data Apis
   #apiServiceItem = inject(ProductService);
@@ -150,6 +155,8 @@ export class ItemComponent implements OnChanges, OnInit {
 
   submitItem() {
 
+    this.#spinner.show();
+
     this.itemContract.patchValue({
       value: this.itemContract.get('value')?.value?.replace(',', '.'),
       replacementValue: this.itemContract.get('replacementValue')?.value?.replace(',', '.'),
@@ -168,13 +175,17 @@ export class ItemComponent implements OnChanges, OnInit {
       }
       console.log(this.itemContract.value, this.selectedFile)
       this.#apiServiceItem.httpUpdateItem$(item, this.selectedFile).pipe(
+        tap(response => console.log(response.status)),
         concatMap(() => this.#apiServiceItem.httpGetItems$())
-      ).subscribe();
+      ).subscribe({
+        next: value => this.#spinner.hide(),
+        error: err => this.#spinner.hide()
+      } );
 
       setTimeout(() => {
         this.getItemError$.set(null);
         this.getItemMsgSucess$.set(null);
-      }, 5000)
+      }, 3000)
 
     } else if (this.buttonSubmit() === "Cadastrar") {
       const item: ItemCreate = {
@@ -188,13 +199,21 @@ export class ItemComponent implements OnChanges, OnInit {
 
       this.#apiServiceItem.httpCreateItem$(item, this.selectedFile).pipe(
         concatMap(() => this.#apiServiceItem.httpGetItems$())
-      ).subscribe();
+      ).subscribe({
+        next: value => this.#spinner.hide(),
+        error: err => this.#spinner.hide()
+      } );
 
       setTimeout(() => {
         this.getItemError$.set(null);
         this.getItemMsgSucess$.set(null);
-      }, 5000)
+      }, 3000)
     }
    };
+
+   ngOnDestroy(): void {
+    this.getItemError$.set(null);
+    this.getItemMsgSucess$.set(null);
+  }
    
 }

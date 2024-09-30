@@ -18,12 +18,19 @@ export class BudgetComponent implements OnInit {
   #apiCompanyService = inject(DataCompanyService);
 
   public getCompany = this.#apiCompanyService.getCompany;
+  public msgSuccess = this.#apiCompanyService.getMsgSuccess;
+  public msgError = this.#apiCompanyService.getMsgError;
 
   saveObservation(observation: string) {
 
     this.#apiCompanyService.httpSaveObservationCompany$(observation).pipe(
       concatMap(() => this.#apiCompanyService.httpGetDataCompany$())
     ).subscribe();
+
+    setTimeout(() => {
+      this.msgSuccess.set(null);
+      this.msgError.set(null);
+    }, 2000)
 
   }
 

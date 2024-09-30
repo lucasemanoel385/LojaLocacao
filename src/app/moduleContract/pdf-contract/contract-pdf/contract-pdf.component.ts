@@ -35,6 +35,7 @@ export class ContractPdfComponent implements OnInit {
     });
     this.#apiServiceContract.httpGetContractId(this.#router.snapshot.params['id']).subscribe(res => {
       this.contract.set(res);
+      this.discount.set((this.contract()!.discount / 100) * this.contract()!.value);
       let formattedObservation = res.observation.replaceAll('\n', '<br>');
       this.observation += (`<p>${formattedObservation}</p>`);
       if(this.contract()?.contractSituation === "ORCAMENTO") {
@@ -52,6 +53,8 @@ export class ContractPdfComponent implements OnInit {
 
   contract = signal<ContractId | null>(null);
   companyData = signal<GetDataCompany | null>(null);
+
+  discount = signal<undefined | number>(0);
 
   clauses = signal('');
   observation = '';

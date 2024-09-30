@@ -25,6 +25,7 @@
             <app-scheduling class="scheduling"/>
             <app-contract-for-month class="contract"/>
         </div>
+        <div class="layout_dashboard-cl2">
         <div class="tasks">
             <h4>Tarefas</h4>
             <table class="table" #tableTasks>
@@ -83,6 +84,8 @@
             </dialog>
             <!--End Dialogs-->
             <button [ngStyle]="{'display': authorization === true ? 'block' : 'none'}" class="btn_add" (click)="this.modalTasks.showModal()">Adicionar Tarefa</button>
+        </div>
+        <app-reserved-items class="reserved_items"/>
         </div>
     </div>
   

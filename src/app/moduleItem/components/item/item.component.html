@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p>></ngx-spinner>
 <div style="display: flex; align-items: center;">
     <app-back-history/>
     <h2>{{ tittle() }}</h2>
@@ -51,7 +52,7 @@
             <form class="form_img" [formGroup]="formImg" (submit)="submitItem()" enctype="multipart/form-data">
                 <section class="section_img">
                         <label class="img_item">
-                            <input style="display: none;" type="file" name="imagem" (change)="onFileSelected($event, choose)" formControlName="imagem" required>
+                            <input style="display: none;" type="file" accept="image/png, image/jpeg, iamge/jpg" name="imagem" (change)="onFileSelected($event, choose)" formControlName="imagem" required>
                             <span #choose class="span_img">Choose Image</span>
                         </label>
                 </section>
