@@ -4,11 +4,14 @@
         flex-direction: row;
         height: 100%;
         box-sizing: border-box;
+        background-color: rgb(78, 78, 78);
 
         .container-nav {
             background-color: #26282b;
             box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
             z-index: 9999;
+            border-radius: 20px 0px 0px 20px;
+            margin-left: 3px;
         }
 
         .menu {
