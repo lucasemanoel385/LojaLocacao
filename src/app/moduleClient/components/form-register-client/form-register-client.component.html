@@ -47,7 +47,7 @@
             </label>
             <label for="">
                 Cep:
-                <input (blur)="queryCep(this.cep.value, this.formRegister)" class="inputGrey" placeholder="12.345-645" type="text" name="cep" #cep="ngModel" ngModel required mask="00.000-000"/>
+                <input (blur)="queryCep(cep.value, formRegister)" class="inputGrey" placeholder="12.345-645" type="text" name="cep" #cep="ngModel" ngModel required mask="00.000-000"/>
                 @if (cep.touched && cep.invalid) {
                     <p><strong>Cep vazio</strong></p>
                 }
