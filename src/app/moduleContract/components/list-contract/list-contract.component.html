@@ -1,5 +1,9 @@
 <h2>Orçamentos / Contratos</h2>
 <app-list-table-layout (outputSearch)="filterContract($event)" routeLink="register" nameCreate="Criar orçamento" placeHolder="Encontrar orçamento">
+    <div h8 class="layout_search">
+        <label><input #search class="inputGrey" type="number" placeholder="Encontrar contrato por item"></label>
+        <button style="margin-top: 0;" class="btn-update" (click)="filterInput(search.value)"><span>Pesquisar</span></button>
+    </div>
     <table class="table" #table>
         <thead>
             <tr>
@@ -33,7 +37,7 @@
                 <td><button [routerLink]="['edit', contract.id]" class="btn-edit"><span class="material-symbols-sharp">
                     edit
                     </span></button></td>
-                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="this.modalDelete.showModal(); idContractDelete = contract.id; indexRowTable = i"><span class="material-symbols-sharp">
+                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="modalDelete.showModal(); idContractDelete = contract.id; indexRowTable = i"><span class="material-symbols-sharp">
                     delete
                     </span></button></td>
             </tr> 
@@ -41,8 +45,8 @@
     </table>
     <dialog #modalDelete class="dialog_delete">
         <h4>Deseja mesmo excluir o contrato?</h4>
-        <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(this.modalDelete)">Sim</button>
-        <button class="btn-delete" (click)="this.modalDelete.close()">Não</button>
+        <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(modalDelete)">Sim</button>
+        <button class="btn-delete" (click)="modalDelete.close()">Não</button>
     </dialog>
     <paginator-list [pageable]="getListContractPage()"
                     (nextPageOutPut)="handlePageEvent($event)"
