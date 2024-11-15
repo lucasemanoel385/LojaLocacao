@@ -24,7 +24,10 @@
 
 
 <div class="buttonsControl" #buttonsControl>
-    <app-back-history-button/>
+    @if (phone() != "") {
+        <a class="zap" href="https://wa.me/{{phone()}}" target="_blank"><img src="../../../../../assets/whatsapp.png" alt="whatsapp" width="37px" ><span class="zap-number">Chamar no WhatsApp</span></a>
+    }
+    <app-back-history-button class="media"/>
     <ng-content></ng-content>
     <button class="btn-update btn-contract" type="button" (click)="submit()" [disabled]="buttonDisabled">{{ buttonInput }}</button>
 </div>

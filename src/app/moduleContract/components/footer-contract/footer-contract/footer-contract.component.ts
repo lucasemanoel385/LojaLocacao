@@ -19,6 +19,7 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
       setTimeout(() => {
         this.editValue();
         this.editObservationAndClauses();
+        this.phone.set(this.contractId?.client.phone1 as string);
       }, 0)
     }
   }
@@ -38,6 +39,8 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   public getCreateContractError = this.#apiServiceContract.getContractCreateError;
   public getContractMsgSucess = this.#apiServiceContract.getContractSucess;
   public getContractId = this.#apiServiceContract.getContractId;
+
+  phone = signal("");
 
   buttonCreate = signal("");
   totalItem = signal(0.00);
