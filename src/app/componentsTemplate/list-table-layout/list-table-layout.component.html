@@ -1,8 +1,13 @@
 
 <div class="layout">
-    <div class="layout_search">
-        <label><input #search class="inputGrey" type="search" placeholder="{{placeHolder}}"></label>
-        <button style="margin-top: 0;" class="btn-update" (click)="emitSearch(search.value)"><span>Pesquisar</span></button>
+    <div class="layout_justify">
+        <div class="layout_search">
+            <label><input #search class="inputGrey" type="search" placeholder="{{placeHolder}}"></label>
+            <button style="margin-top: 0;" class="btn-update" (click)="emitSearch(search.value)"><span>Pesquisar</span></button>
+        </div>
+        <div class="layout_search">
+            <ng-content select="[h8]"></ng-content>
+        </div>
     </div>
     <a [routerLink]="routeLink"><button class="btn_add">{{ nameCreate }}</button></a>
     
