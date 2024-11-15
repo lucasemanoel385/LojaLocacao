@@ -10,6 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatNativeDateModule } from '@angular/material/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { tokenJWTInterceptor } from './config/interceptor-reqJwtToken/token-jwt.interceptor';
+import { switchUrlInterceptor } from './config/interceptor-switchUrl/switch-url.interceptor';
 //import { WebsocketService } from './config/webSocket/webSocket.service';
 
 registerLocaleData(localePt);
@@ -27,7 +28,7 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always'
       }
     )),
-    provideHttpClient(withInterceptors([tokenJWTInterceptor])),
+    provideHttpClient(withInterceptors([tokenJWTInterceptor, switchUrlInterceptor])),
     provideNgxMask(),
     { provide: LOCALE_ID, useValue: 'pt-Br' }, provideAnimationsAsync('noop'),
     importProvidersFrom(MatNativeDateModule),
