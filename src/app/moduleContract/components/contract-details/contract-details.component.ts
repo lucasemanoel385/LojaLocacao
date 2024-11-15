@@ -23,7 +23,7 @@ import { routes } from '../../../app.routes';
 @Component({
   selector: 'app-contract-details',
   standalone: true,
-  imports: [TableContractComponent, CurrencyPipe, FormsModule, ReactiveFormsModule, 
+  imports: [CurrencyPipe, FormsModule, ReactiveFormsModule, 
     ContractPdfComponent, RegisterContractComponent, RouterLink],
   templateUrl: './contract-details.component.html',
   styleUrl: './contract-details.component.scss',

@@ -103,7 +103,7 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       name: data.nameReason,
       cpf: data.cpfCnpj,
       rg: data.rgStateRegistration,
-      dateBirth: yyyy + "-" + MM + "-" + dd,
+      dateBirth: data.dateBirthCompanyFormation,
       cep: data.address.cep,
       street: data.address.street,
       city: data.address.city,
@@ -114,7 +114,6 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       phone2: data.phone2,
       email: data.email,
     })
- 
 
   }
 
@@ -158,14 +157,14 @@ export class FormRegisterClientComponent implements OnChanges, OnInit {
       }
       this.#serviceClient.httpUpdateClient(client).pipe(
         concatMap( () => this.#serviceClient.httpGetClient())
-        ).subscribe(res => setTimeout(() => this.#router.navigate(['../store/clients']), 2000));
+        ).subscribe();
         
       
     } else {
         console.log(form.value as ClientCreate)
         this.#serviceClient.httpCreateClient(form.value as ClientCreate).pipe(
         concatMap( () => this.#serviceClient.httpGetClient())
-        ).subscribe(res => setTimeout(() => this.#router.navigate(['../store/clients']), 2000));
+        ).subscribe();
         
     }
   }

@@ -83,7 +83,19 @@ export class ContractServiceService {
   get getContractCreateError() {
     return this.#setContractCreateError;
   }
-  
+
+  public httpGetContractsByCode(search?: string): Observable<ContractList[]> {
+
+    return this.#http.get<ContractList[]>(`${this.#url()}contract/cod/${search}`).pipe(shareReplay(), 
+    tap( (res) => {
+      console.log(res);
+      this.#setListContract.set(res);
+    }),
+    catchError( (error: HttpErrorResponse) => {
+      this.#setListContractError.set(error.error);
+      return throwError(() => error);
+    }))
+  }
 
   public httpGetContracts(search?: string, page?: number): Observable<ContractListWithPage> {
 
@@ -184,7 +196,7 @@ export class ContractServiceService {
     tap( (res) => {
       this.#setContractMsgSucess.set("Contrato reservado com sucesso");}),
     catchError( (error: HttpErrorResponse) => {
-      this.#setContractCreateError.set(error.error[0].message);
+      this.#setContractCreateError.set(error.error);
       return throwError(() => error);
     }))
   }

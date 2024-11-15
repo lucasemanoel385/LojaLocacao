@@ -59,10 +59,13 @@ export class BodyContractComponent implements OnChanges {
     formGroup.get('amount')?.setValue(novoValor.amount);
     formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
     
+
+
     setTimeout(() => {
       this.setValueTotal(indice);
+      const cod: any = document.getElementById(indice.toString() + 'cod');
+      cod.innerText = novoValor.cod;
       const img: any = document.getElementById(indice.toString() + 'img');
-
       img.src = novoValor.imagem;
     }, 0)
  
@@ -125,7 +128,9 @@ export class BodyContractComponent implements OnChanges {
     formGroup.get('name')?.setValue(novoValor.name);
     formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
 
+    const cod: any = document.getElementById(indice.toString() + 'cod');
     const img: any = document.getElementById(indice.toString() + 'img');
+    cod.innerText = novoValor.cod;
     img.src = novoValor.imagem;
 
   }
@@ -149,6 +154,7 @@ export class BodyContractComponent implements OnChanges {
 
   clearTr(index: number){
     (this.bodyForm.get('items') as FormArray).removeAt(index);
+    console.log(this.bodyForm.get('items') as FormArray);
   }
 
   addItens() {

@@ -13,10 +13,10 @@
             </thead>
             <tbody>
                 @if (listReservedItems(); as listReservedItems) {
-                    @for (item of listReservedItems; track item.id; let i = $index) {
+                    @for (item of listReservedItems; track $index; let i = $index) {
                         <tr>
-                            <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['../','item','edit', item.id]">{{ item.id }}</a></td>
-                            <td style="width: 500px; text-align: start;">{{ item.id }}</td>
+                            <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['../','item','edit', item.id]">{{ item.cod }}</a></td>
+                            <td style="width: 500px; text-align: start;">{{ item.name }}</td>
                             <td>{{ item.finalDate| formatDatePipe}}</td>
                         </tr>
                     } @empty {

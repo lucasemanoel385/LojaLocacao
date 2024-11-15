@@ -91,7 +91,7 @@
             </label>
             <label for="phone1">
                 Tel./Celular:
-                <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" name="phone1" #phone1="ngModel" [ngModel]="phone1.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
+                <input class="inputGrey" placeholder="(31) 9 8512-4578" type="tel" required name="phone1" #phone1="ngModel" [ngModel]="phone1.value" mask="(00) 0 0000-0000||(00) 0000-0000"/>
                 @if (phone1.touched && phone1.invalid) {
                     <p><strong>Campo celular vazio</strong></p>
                 }

@@ -19,7 +19,7 @@ import { ContractEdit } from '../../interface/contractEdit.interface';
 @Component({
   selector: 'app-register-contract',
   standalone: true,
-  imports: [FooterContractComponent ,BodyContractComponent ,TableContractComponent, HeaderContractComponent, BackHistoryComponent, ReactiveFormsModule],
+  imports: [FooterContractComponent ,BodyContractComponent, HeaderContractComponent, BackHistoryComponent, ReactiveFormsModule],
   templateUrl: './register-contract.component.html',
   styleUrl: './register-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -98,6 +98,7 @@ export class RegisterContractComponent implements OnChanges {
   }
 
   public submit() {
+    console.log(this.contractForm.value);
     var listItens: itensList[] = [];
 
     this.items.forEach((i) => {

@@ -3,6 +3,11 @@
     width: 100%;
     height: 100%;
 
+    .layout_justify {
+        display: flex;
+        justify-content: space-between;
+    }
+    
     .layout_search {
         display: flex; 
         align-items: center; 
@@ -31,13 +36,7 @@
     }
     
     label {
-        display: flex;
         width: 100%;
-        height: 100%;
-        gap: 10px;
-        input {
-            height: 100%;
-        }
     }
 
     @media (max-width: 733px) {
@@ -47,7 +46,12 @@
         }
 
         .btn_add {
-            width: 100px;
+            width: 100%;
+        }
+
+        .layout_justify {
+            flex-direction: column;
+            gap: 0.5em;
         }
 
     }

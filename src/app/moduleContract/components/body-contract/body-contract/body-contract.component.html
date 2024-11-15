@@ -10,7 +10,7 @@
             </tr>
             @for(item of items; track item; let is = $index) {
                 <tr [formGroup]="item" id="{{is}}">
-                    <td>{{is}}</td>
+                    <td id="{{is}}cod"></td>
                     <td class="item"><img id="{{is}}img" src="../../../../assets/Image_not_available.png" width="100px" style="aspect-ratio: 4/3;" alt="">
                     <div class="input_item input_itens">
                         <input class="inputGrey" style="width: 100%;" 

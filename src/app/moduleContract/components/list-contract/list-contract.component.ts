@@ -52,6 +52,10 @@ export class ListContractComponent implements OnInit, OnDestroy {
 
   }
 
+  filterInput(search: string) {
+    this.#apiServiceContract.httpGetContractsByCode(search).subscribe();
+  }
+
   //Paginator
   numberPage = signal(0);
   handlePageEvent(pageNumber: number) {

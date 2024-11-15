@@ -9,6 +9,10 @@
         align-items: start;
         background-size: 100%;
 
+        label {
+            color: rgb(117, 117, 117);
+        }
+
         article {
             display: flex;
             flex-direction: column;
