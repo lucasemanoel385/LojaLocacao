@@ -73,10 +73,8 @@ export class ProductService {
       const items: Item[] = [];
       res.content.forEach(a => {
         let item: Item = {
-          id: a.id,
           cod: a.cod,
           name: a.name,
-          value: a.value,
           replacementValue: a.replacementValue,
           amount: a.amount,
           category: a.category,
@@ -116,10 +114,8 @@ export class ProductService {
       const items: Item[] = [];
       res.content.forEach(a => {
         let item: Item = {
-          id: a.id,
           cod: a.cod,
           name: a.name,
-          value: a.value,
           replacementValue: a.replacementValue,
           amount: a.amount,
           category: a.category,
@@ -153,10 +149,8 @@ export class ProductService {
     return this.#http.get<Item>(`${this.#url()}item/${id}`, { responseType: 'json' }).pipe(shareReplay(),
     tap((res) => {
       let item: Item = {
-        id: res.id,
         cod: res.cod,
         name: res.name,
-        value: res.value,
         replacementValue: res.replacementValue,
         amount: res.amount,
         category: res.category,

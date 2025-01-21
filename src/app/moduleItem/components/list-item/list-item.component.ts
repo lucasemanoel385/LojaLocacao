@@ -49,8 +49,8 @@ export class ListItemComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     if (this.getListItems$() === null) {
-      console.log("sem cache")
-      this.#apiServiceItem.httpGetItems$().subscribe(res => console.log(res));
+    
+      this.#apiServiceItem.httpGetItems$().subscribe();
     }
   }
 

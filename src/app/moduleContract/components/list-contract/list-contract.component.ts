@@ -23,7 +23,7 @@ import { PagiantorList } from '../../../componentsTemplate/paginator/paginator-l
 export class ListContractComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
-    this.getListContract$() === null ? this.#apiServiceContract.httpGetContracts().subscribe() : null;
+    this.#apiServiceContract.httpGetContracts().subscribe();
   }
 
   //Get data api
@@ -53,6 +53,7 @@ export class ListContractComponent implements OnInit, OnDestroy {
   }
 
   filterInput(search: string) {
+    console.log(search);
     this.#apiServiceContract.httpGetContractsByCode(search).subscribe();
   }
 
@@ -64,7 +65,7 @@ export class ListContractComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.searchContract() != '' || this.numberPage() != 0 ? this.#apiServiceContract.httpGetContracts().subscribe() : null;
+    
   }
 
 

@@ -130,7 +130,6 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
     this.itemContract.patchValue({
       cod: data.cod.toString(),
       name: data.name,
-      value: data.value.toString().replace('.',','),
       replacementValue: data.replacementValue.toString().replace('.',','),
       amount: data.amount.toString(),
       category: data.category.name,
@@ -142,7 +141,6 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
   public itemContract = this.#fb.group({
     cod: [''],
     name: [''],
-    value: [''],
     replacementValue: [''],
     amount: [''],
     category: [''],
@@ -158,7 +156,6 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
     this.#spinner.show();
 
     this.itemContract.patchValue({
-      value: this.itemContract.get('value')?.value?.replace(',', '.'),
       replacementValue: this.itemContract.get('replacementValue')?.value?.replace(',', '.'),
     })
 
@@ -168,7 +165,6 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
         id: Number(this.idProduct()),
         cod: Number(this.itemContract.get('cod')?.value),
         name: this.itemContract.get('name')?.value as string,
-        value: Number(this.itemContract.get('value')?.value),
         replacementValue: Number(this.itemContract.get('replacementValue')?.value),
         amount: Number(this.itemContract.get('amount')?.value),
         category: this.itemContract.get('category')?.value as string,
@@ -191,7 +187,6 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
       const item: ItemCreate = {
         cod: Number(this.itemContract.get('cod')?.value),
         name: this.itemContract.get('name')?.value as string,
-        value: Number(this.itemContract.get('value')?.value),
         replacementValue: Number(this.itemContract.get('replacementValue')?.value),
         amount: Number(this.itemContract.get('amount')?.value),
         category: this.itemContract.get('category')?.value as string,

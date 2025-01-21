@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, signal } from '@angular/core';
-import { TableContractComponent, forbiddenNameValidator } from '../table-contract/table-contract.component';
 import { HeaderContractComponent } from '../header-contract/header-contract/header-contract.component';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { BodyContractComponent } from '../body-contract/body-contract/body-contract.component';
 import { FooterContractComponent } from '../footer-contract/footer-contract/footer-contract.component';
 import { Router } from '@angular/router';
@@ -15,6 +14,12 @@ import { ContractId } from '../../interface/contractId.interface';
 import { itensList } from '../../interface/itemsList';
 import { ContractEdit } from '../../interface/contractEdit.interface';
 
+export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const forbidden = nameRe.test(control.value);
+    return forbidden ? { forbiddenName: { value: control.setValue("") } } : null;
+  };
+}
 
 @Component({
   selector: 'app-register-contract',
@@ -98,12 +103,11 @@ export class RegisterContractComponent implements OnChanges {
   }
 
   public submit() {
-    console.log(this.contractForm.value);
     var listItens: itensList[] = [];
-
     this.items.forEach((i) => {
       let list: itensList = {
         id: i.get('id')?.value,
+        valueItem: i.get('value')?.value,
         amount: i.get('amount')?.value,
         total: i.get('total')?.value
       }
@@ -123,7 +127,7 @@ export class RegisterContractComponent implements OnChanges {
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
-
+      console.log(this.contractForm.value)
       this.#apiServiceContract.httpEditContract(contract).pipe(
         concatMap(() => this.#apiServiceContract.httpGetContracts()),
       ).subscribe(() => location.reload());
@@ -144,7 +148,7 @@ export class RegisterContractComponent implements OnChanges {
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
-  
+      console.log(this.contractForm.value)
       this.#apiServiceContract.httpCreateContract(contract).pipe(
         tap((res) => {
          this.#router.navigate(['store/orcamento', 'edit', res.id])

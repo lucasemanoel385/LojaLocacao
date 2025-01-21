@@ -4,7 +4,6 @@ import { ContractId } from './../../interface/contractId.interface';
 import { style } from '@angular/animations';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, ViewChildren, inject, signal, Output, EventEmitter, OnDestroy } from '@angular/core';
 
-import { TableContractComponent } from '../table-contract/table-contract.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContractServiceService } from '../../service/contract-service.service';
 import { CurrencyPipe } from '@angular/common';

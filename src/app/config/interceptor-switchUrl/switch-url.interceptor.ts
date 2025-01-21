@@ -18,7 +18,7 @@ export const switchUrlInterceptor: HttpInterceptorFn = (req, next) => {
             url: newUrl
           });
           console.log(fallbackReq);
-          // Retenta com a nova URL
+          // Retry com a nova URL
           return next(fallbackReq);
         }
         return throwError(() => error);

@@ -4,7 +4,6 @@ import { ProductService } from '../../../../moduleItem/service/product.service';
 import { ContractServiceService } from '../../../service/contract-service.service';
 import { CurrencyPipe } from '@angular/common';
 import { Item } from '../../../../moduleItem/interface/Item';
-import { forbiddenNameValidator } from '../../table-contract/table-contract.component';
 import { ContractId } from '../../../interface/contractId.interface';
 import { ContractItens } from '../../../interface/contractItens.interface';
 import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
@@ -54,11 +53,11 @@ export class BodyContractComponent implements OnChanges {
   setValueInputEdit(indice: number, novoValor: ContractItens) {
     
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
-    formGroup.get('id')?.setValue(novoValor.id);
+    formGroup.get('id')?.setValue(novoValor.cod);
     formGroup.get('name')?.setValue(novoValor.name);
     formGroup.get('amount')?.setValue(novoValor.amount);
     formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
-    
+    console.log(novoValor.value);
 
 
     setTimeout(() => {
@@ -76,31 +75,27 @@ export class BodyContractComponent implements OnChanges {
   filterItem(e: Event, is: number) {
     const target = e.target as HTMLInputElement;
     const valueInput = target.value.toUpperCase();
-    const lista = this.listItem$();
-    
-    let list!: Item[];
-    
+    this.putList(is);
+
     if(valueInput.length > 3 ) {
       //list = lista!.filter(a => a.name.toUpperCase().indexOf(valueInput) > -1);
    
         this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
-  
+        this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
     } else if(valueInput.length < 2 &&  valueInput.match(/[0-9]/)) {
       //list = lista!.filter(a => a.cod.toString().indexOf(valueInput) > -1);
         this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
-      
+        this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
     }
-    
-    this.putList(is);
-    this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
-    
   }
   
 
   putList(index: number) {
     const ul: HTMLElement = document.getElementById(index.toString() + 'list') as HTMLElement;
-      ul.style.display = 'list-item';
+    if(ul) {
       this.ulIdentifier = ul.id;
+      ul.style.display = 'list-item';
+    }
   }
 
   listFilter = signal<Item[] | null>(null);
@@ -122,11 +117,11 @@ export class BodyContractComponent implements OnChanges {
 
   //Set inputs of item
   setValueInput(indice: number, novoValor: Item) {
-    
+    console.log(novoValor.cod);
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
-    formGroup.get('id')?.setValue(novoValor.id);
+    formGroup.get('id')?.setValue(novoValor.cod);
     formGroup.get('name')?.setValue(novoValor.name);
-    formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
+    //formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
 
     const cod: any = document.getElementById(indice.toString() + 'cod');
     const img: any = document.getElementById(indice.toString() + 'img');
