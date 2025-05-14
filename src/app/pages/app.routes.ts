@@ -14,6 +14,7 @@ import { EditCategoryComponent } from '../moduleCategory/components/edit-categor
 import { CreateCategoryComponent } from '../moduleCategory/components/create-category/create-category.component';
 import { TemplateAdminComponent } from '../moduleAdmin/components/template-admin/template-admin.component';
 import { ContractPdfComponent } from '../moduleContract/pdf-contract/contract-pdf/contract-pdf.component';
+import { VerifyItemComponent } from '../moduleVerifyItem/components/verify-item/verify-item.component';
 
 
 
@@ -59,6 +60,10 @@ export const routesStore: Routes = [
             {
                 path: 'item/edit/:id',
                 component: EditItemComponent
+            },
+            {
+                path: 'checkItem',
+                component: VerifyItemComponent
             },
             {
                 path: 'category',
