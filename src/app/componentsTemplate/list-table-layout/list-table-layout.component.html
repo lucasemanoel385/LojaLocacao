@@ -2,18 +2,19 @@
 <div class="layout">
     <div class="layout_justify">
         <div class="layout_search">
-            <label><input #search class="inputGrey" type="search" placeholder="{{placeHolder}}"></label>
-            <button style="margin-top: 0;" class="btn-update" (click)="emitSearch(search.value)"><span>Pesquisar</span></button>
+            <label><input #search class="inputGrey" type="search" placeholder="{{placeHolder}}" (keyup.enter)="emitSearch(search.value)"></label>
+            <button style="margin-top: 0;" class="btn-update" type="button" (click)="emitSearch(search.value)"><span>Pesquisar</span></button>
         </div>
-        <div class="layout_search">
-            <ng-content select="[h8]"></ng-content>
-        </div>
+        <ng-content select="[h8]"></ng-content>
     </div>
-    <a [routerLink]="routeLink"><button class="btn_add">{{ nameCreate }}</button></a>
+    @if(nameCreate) {
+        <a [routerLink]="routeLink"><button class="btn_add">{{ nameCreate }}</button></a>
+    }
     
-    <section>
-        <ng-content></ng-content>
+    <section class="table_container_layout">
+        <ng-content select="content"></ng-content>
     </section>
+    <ng-content select="[paginator-container]"></ng-content>
 </div>
 
 

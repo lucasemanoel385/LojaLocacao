@@ -5,7 +5,7 @@
     width: 240px;
     align-items: center;
     padding: 2em 0em 1em 0em;
-    gap: 5.5em;
+    gap: 4em;
     
     
 
@@ -59,7 +59,7 @@
     @media (max-height: 669px) {
 
         :host {
-            gap: 1em;
+            gap: 5em;
         }
 
         .logout {

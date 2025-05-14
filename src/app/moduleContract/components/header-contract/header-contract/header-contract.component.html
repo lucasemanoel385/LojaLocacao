@@ -19,28 +19,32 @@
                 <p class="balloon"><strong>Cpf vazio ou invalido</strong></p>
             }
         </div>
-        <div class="responsive_input_date">
-            <div class="input-style-date">
-                <label for="dateOf">Data da retirada</label>
-                <input #dateOf class="inputGrey" type="date" id="dateOf" formControlName="dateOf" required>
-                
-                @if (headerForm.get('dateOf')?.touched && headerForm.get('dateOf')?.invalid) {
-                    <p><strong>Data retirada vazio</strong></p>
-                }
-            </div>
-    
-            <div class="input-style-date">
-                <label for="dateUntil">Data da entrega</label>
-                <input class="inputGrey" id="dateUntil" class="inputGrey" type="date" formControlName="dateUntil" required>
-            
-                @if (headerForm.get('dateUntil')?.touched && headerForm.get('dateUntil')?.invalid) {
-                    <p><strong>Data entrega vazio</strong></p>
-                }
-            </div>
+        <div class="input-style-date">
+            <label for="dateTrialDress">Data do Evento</label>
+            <input #dateEvent class="inputGrey" id="dateTrialDress" class="inputGrey" type="date" formControlName="dateEvent" (change)="setDateAllDates(dateEvent.value)">
         </div>
-    
+        <div class="input-style-date">
+            <label for="dateOf">Data da Retirada</label>
+            <input #dateOf class="inputGrey" type="date" id="dateOf" formControlName="dateOf" value="{{allDateForInputs()}}" required>
+                
+            @if (headerForm.get('dateOf')?.touched && headerForm.get('dateOf')?.invalid) {
+                <p><strong>Data retirada vazio</strong></p>
+            }
+        </div>
+        <div class="input-style-date">
+            <label for="dateTrialDress">Data da Prova</label>
+            <input class="inputGrey" id="dateTrialDress" class="inputGrey" type="date" formControlName="dateTrialDress" value="{{allDateForInputs()}}">
+        </div>
+        <div class="input-style-date">
+            <label for="dateUntil">Data da Devolução</label>
+            <input class="inputGrey" id="dateUntil" class="inputGrey" type="date" formControlName="dateUntil" value="{{allDateForInputs()}}" required>
+        
+            @if (headerForm.get('dateUntil')?.touched && headerForm.get('dateUntil')?.invalid) {
+                <p><strong>Data entrega vazio</strong></p>
+            }
+        </div>
         <div class="input-style">
-            <input #discountInput class="inputGrey" id="discount" type="number" formControlName="discount" placeholder="Desconto em %">
+            <input #discountInput class="inputGrey" id="discount" type="text" formControlName="discount" placeholder="Desconto em R$0,00" required mask="separator.2" thousandSeparator="." decimalMarker="," [leadZero]="true">
             <label for="discount">
                 Desconto</label>
         </div>

@@ -9,6 +9,8 @@ export interface ContractId {
     dateContract: Date,
     dateOf: Date,
     dateUntil: Date,
+    dateTrialDress: Date,
+    dateEvent: Date,
     discount: number,
     payment: PaymentsList[]
     seller: string,

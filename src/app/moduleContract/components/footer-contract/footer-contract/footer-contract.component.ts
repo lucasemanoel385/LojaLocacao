@@ -77,7 +77,7 @@ export class FooterContractComponent implements DoCheck, OnChanges, OnDestroy {
   }
 
   discount() {
-    let discount = (this.totalItem() * (this.footerForm.get('discount')?.value as number)) / 100;
+    let discount = this.footerForm.get('discount')?.value as number;
     this.totalDiscount.set(discount);
   }
 

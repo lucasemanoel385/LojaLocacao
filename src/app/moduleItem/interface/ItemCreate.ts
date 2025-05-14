@@ -1,8 +1,8 @@
 
 export interface ItemCreate {
         cod: number,
+        reference: string,
         name: string,
-        value: number,
         replacementValue: number,
         amount: number,
         category: string,

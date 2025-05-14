@@ -18,6 +18,14 @@
     a {
         text-decoration: underline;
     }
+
+    @media (max-width: 733px) {
+
+        .layout_search {
+            max-width: 100%;
+        }
+
+    }
     
 }
 

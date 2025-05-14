@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, signal } from '@angular/core';
-import { BackHistoryComponent } from '../../../../componentsTemplate/back-history/back-history.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClientList } from '../../../../moduleClient/interface/clientList.interface';
 import { ContractServiceService } from '../../../service/contract-service.service';
@@ -8,11 +7,12 @@ import { CpfCnpjPipe } from '../../../../moduleClient/components/pipes/cpf-cnpj.
 import { ContractId } from '../../../interface/contractId.interface';
 import { FormatDatePipe } from '../../../../moduleClient/components/pipes/format-date.pipe';
 import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-header-contract',
   standalone: true,
-  imports: [BackHistoryComponent, CpfCnpjPipe, ReactiveFormsModule],
+  imports: [CpfCnpjPipe, ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './header-contract.component.html',
   styleUrl: './header-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,12 +23,24 @@ export class HeaderContractComponent implements OnChanges{
     
     if (changes['contractId'].currentValue) {
       this.editHeader(this.contractId as ContractId);
+      this.idContract.set((this.contractId as ContractId).id)
     }
   }
 
   @Input() headerForm!: FormGroup;
   @Input() contractId!: ContractId | null;
   @Output() client = new EventEmitter<number>;
+
+  idContract = signal<number | null>(null);
+
+  allDateForInputs = signal<string | null>(null);
+
+  public setDateAllDates(date: string) {
+    if(!this.idContract()) {
+      this.allDateForInputs.set(date);
+    }
+    
+  }
 
   //Class with methods for actions of keyboard
   #arrowSelect = new ArrowSelectComponent();
@@ -45,10 +57,13 @@ export class HeaderContractComponent implements OnChanges{
 
   //edit values of input if @Input have data
   editHeader(contract: ContractId) {
+    console.log(contract)
     this.headerForm.patchValue({
       client: new CpfCnpjPipe().transform(contract.client.cpfCnpj) + ' - ' + contract.client.nameReason,
       dateOf: new FormatDatePipe().transformInputDate(contract.dateOf),
       dateUntil: new FormatDatePipe().transformInputDate(contract.dateUntil),
+      dateTrialDress: contract.dateTrialDress,
+      dateEvent: contract.dateEvent,
       discount: contract.discount,
       seller: contract.seller,
     })

@@ -10,13 +10,7 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
   styleUrl: './page-spa.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageSPAComponent implements OnInit{
+export class PageSPAComponent {
 
-  #router = inject(ActivatedRoute);
-
-  ngOnInit(): void {
-    console.log(this.#router.snapshot.params['id']);
-  
-  }
 
 }

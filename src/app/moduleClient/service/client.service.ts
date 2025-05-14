@@ -58,7 +58,9 @@ export class ClientService {
   }
 
   public httpCreateClient(client: ClientCreate): Observable<ClientCreate>{
-    console.log(client)
+    
+    this.#setClientMsgSucess.set(null);
+    this.#setClientError.set(null);
     return this.#http.post<ClientCreate>(`${this.#url()}client`, client ).pipe(shareReplay(),
     tap( (res) => this.#setClientMsgSucess.set("Cliente cadastrado com sucesso")),
     catchError( (error: HttpErrorResponse) => {
@@ -125,6 +127,9 @@ export class ClientService {
   }
 
   public httpUpdateClient(client: UpdateClient): Observable<ClientCreate>{
+    this.#setClientMsgSucess.set(null);
+    this.#setClientError.set(null);
+    
     return this.#http.patch<ClientCreate>(`${this.#url()}client`, client ).pipe(shareReplay(),
     tap( (res) => this.#setClientMsgSucess.set("Cliente atualizado com sucesso!!!")),
     catchError( (error: HttpErrorResponse) => {

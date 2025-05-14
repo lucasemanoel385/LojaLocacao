@@ -29,13 +29,13 @@ export class ContractPdfComponent implements OnInit {
     this.#apiServiceDataCompnay.httpGetDataCompany$().subscribe(res => {
       this.companyData.set(res);
       let formattedClauses = res.clauses ? res.clauses.replaceAll('\n', '<br>') : "";
-      this.clauses.set(`<p>${formattedClauses}</p>`);
+      this.clauses.set(`<p class="paragraph-clauses">${formattedClauses}</p>`);
       let formattedObservation = res.observation ? res.observation.replaceAll('\n', '<br>') : ""; 
-      this.observation += (`<p>${formattedObservation}</p><br>`);
+      this.observation += (`${formattedObservation}<br>`);
     });
     this.#apiServiceContract.httpGetContractId(this.#router.snapshot.params['id']).subscribe(res => {
       this.contract.set(res);
-      this.discount.set((this.contract()!.discount / 100) * this.contract()!.value);
+      this.discount.set(this.contract()!.discount);
       let formattedObservation = res.observation.replaceAll('\n', '<br>');
       this.observation += (`<p>${formattedObservation}</p>`);
       if(this.contract()?.contractSituation === "ORCAMENTO") {

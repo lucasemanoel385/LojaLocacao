@@ -1,3 +1,4 @@
+import { Message } from '@stomp/stompjs';
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -17,7 +18,9 @@ export const tokenJWTInterceptor: HttpInterceptorFn = (req, next) => {
     return next(authReq).pipe(
       catchError( 
       (error: HttpErrorResponse) => {
-        if(error.status === 403) {
+        console.log(error.error);
+        if(error.error.message === "Token JWT invalido ou expirado!") {
+          console.log(error.error.message);
           localStorage.clear();
           router.navigate(['../login'])
         }

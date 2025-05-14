@@ -9,28 +9,29 @@
         align-items: center;
         background-image: url('../../../../assets/logopequeno.png');
         background-repeat: no-repeat;
-        background-position-y: 300px;
+        background-position-y: 200px;
         page-break-before: always;
         box-sizing: border-box;
         
-        h5, span, h3, p {
-            font-size: 14px;
+        h5, span, h3, p, strong, td {
+            font-size: 13px;
             margin: 0;
         }
 
-        h3 {
-            margin: 5px;
-            font-size: 18px;
+        h5 {
+            font-size: 14px;
         }
 
-     
+        h3 {
+            font-size: 16px;
+        }
     }
 
     header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 10px;
+        gap: 50px;
 
         div {
             text-align: center;
@@ -40,7 +41,7 @@
     .layout_content {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 3px;
         width: 100%;
     }
 
@@ -48,25 +49,27 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        min-height: 3em;
         width: 100%;
         border: 1px solid rgb(202, 202, 202);
-        padding: 10px;
+        padding: 5px 10px;
         box-sizing: border-box;
     }
 
     .content_information {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 5px;
         width: 50%;
     }
 
     .section_products {
         border: 1px solid rgb(202, 202, 202);
-        padding: 15px;
+        padding: 8px 15px;
     }
 
     .table {
+        width: 100%;
         margin: 0;
         
         td, tr {
@@ -87,12 +90,16 @@
         }
     }
 
+    .table-cod {
+        width: 60px;
+    }
+
     .products_value_obeservation {
         display: flex;
         justify-content: space-between;
         width: 100%;
  
-        padding: 15px 0;
+        padding: 15px 0 0 0;
     }
 
     .products_observations {
@@ -119,14 +126,12 @@
     .clauses {
         page-break-inside: auto;
         margin: 10px 0;
-
-
     }
 
     .section_signature {
         display: flex; 
         justify-content: space-around; 
-        margin-top: 20px; 
+        margin-top: 10px; 
         page-break-inside: avoid;
     }
 
@@ -136,7 +141,7 @@
         text-align: center;
 
         p {
-            font-size: 18px;
+            font-size: 14px;
         }
     }
 

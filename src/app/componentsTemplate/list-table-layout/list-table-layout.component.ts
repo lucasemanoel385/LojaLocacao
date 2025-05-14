@@ -13,7 +13,7 @@ export class ListTableLayoutComponent {
 
   @Input() routeLink!: string;
 
-  @Input() nameCreate!: string;
+  @Input() nameCreate?: string;
   
   @Input() placeHolder!: string;
 

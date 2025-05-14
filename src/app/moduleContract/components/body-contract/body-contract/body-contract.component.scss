@@ -12,12 +12,11 @@ li{
         background-color: rgb(220, 220, 220);
 
         span {
-            font-size: 17px;
+            
         }
 
         img {
-            transition: all 0.2s ease;
-            width: 80px;
+           
         }
     }
     }
@@ -26,11 +25,13 @@ li{
     width: 100%;
     display: flex;
     flex-direction: column;
+
 }
 
 table{
     border-left: 0;
     width: 100%;
+    min-width: 950px;
 }
 
 table ,th, td{
@@ -63,7 +64,7 @@ td {
     align-items: center;
     text-align: center;
     gap: 15px;
-    min-width: 300px;
+    min-width: 400px;
 }
 
 .input_item {
@@ -105,11 +106,20 @@ td {
     }
 }
 
+::-webkit-scrollbar {
+    height: 5px;
+}
 
-@media (max-width: 733px) {
+
+@media (max-width: 1376px) {
 
     .table {
         overflow-x: auto;
     }
 
+    .li-items {
+        flex-direction: column;
+    }
 }
+
+

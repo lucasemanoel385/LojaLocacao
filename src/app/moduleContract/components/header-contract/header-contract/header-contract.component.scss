@@ -16,13 +16,6 @@
 }
 
 
-
-.responsive_input_date {
-    display: flex;
-    gap: 4em;
-
-}
-
 .input-style-date, .input-style, .input-phone, .input-client{
     position: relative;
     height: 2em;
@@ -104,13 +97,6 @@
 
     .input-style, .input-style-date, .input-client {
         width: 100%;
-    }
-
-    .responsive_input_date {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        gap: 1em;
     }
 
 }

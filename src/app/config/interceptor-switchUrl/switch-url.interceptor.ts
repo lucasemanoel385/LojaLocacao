@@ -9,16 +9,16 @@ export const switchUrlInterceptor: HttpInterceptorFn = (req, next) => {
         if(!navigator.onLine || error.status === 0) {
           console.error('Erro de rede detectado: net::ERR_INTERNET_DISCONNECTED');
           const secondaryUrl = environment.apiSecond;
-          
+          console.log(secondaryUrl);
           // Modifica a URL na requisição original
-          const newUrl = req.url.replace(environment.api, secondaryUrl);
-      
+          let newUrl = req.url.replace(environment.api, secondaryUrl);
+          console.log(newUrl);
           // Cria uma nova requisição clonando a original, mas com a URL substituída
-          const fallbackReq = req.clone({
+          let fallbackReq = req.clone({
             url: newUrl
           });
           console.log(fallbackReq);
-          // Retenta com a nova URL
+          // Retry com a nova URL
           return next(fallbackReq);
         }
         return throwError(() => error);

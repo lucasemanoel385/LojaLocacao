@@ -7,9 +7,13 @@
         <div class="layout_content">
             <form class="form_data" id="register" [formGroup]="itemContract" enctype="multipart/form-data" >
                 <section class="section_label">
-                    <label class="label_form_data">
+                    <!--<label class="label_form_data">
                         <span>Cód. Produto:</span>
-                        <input id="codItem" class="inputGrey" type="number" placeholder="Nome do item" formControlName="cod" required [readOnly]="isReadOnlyCodItem()">
+                        <input id="codItem" class="inputGrey" type="number" placeholder="Codigo item" formControlName="cod" required>
+                    </label>-->
+                    <label class="label_form_data">
+                        <span>Referência:</span>
+                        <input class="inputGrey" type="text" placeholder="Referência do item" formControlName="reference" required>
                     </label>
                     <label class="label_form_data">
                         <span>Nome do produto:</span>
@@ -18,10 +22,6 @@
                     <label class="label_form_data">
                         <span>Quantidade:</span>
                         <input type="text" class="inputGrey" placeholder="Unidades do item" formControlName="amount" required>
-                    </label>
-                    <label class="label_form_data">
-                        <span>Valor:</span>
-                        <input type="text" class="inputGrey" placeholder="100,20 ou 1000,30" formControlName="value" required>
                     </label>
                     <label class="label_form_data">
                         <span>Valor da reposição:</span>
@@ -64,7 +64,7 @@
             } @else if(getItemMsgSucess$()) {
             <span class="success_api">{{ getItemMsgSucess$() }}</span>
         }
-    </div>
+        </div>
  
         <span class="span_button">
             <app-back-history-button/>

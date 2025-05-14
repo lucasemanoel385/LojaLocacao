@@ -3,7 +3,7 @@
 <div class="schedules">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h4>Agendamentos</h4>
-        <input #date style="width: 7rem;" class="inputGrey" value={{schedulesToday()}} type="date" (change)="schedulerDay(date.value);">
+        <input #date style="width: 7.5rem;" class="inputGrey" value={{schedulesToday()}} type="date" (change)="schedulerDay(date.value);">
     </div>
     <div class="table_container">
         <table class="table" #tableSchedules>
@@ -21,13 +21,13 @@
                             <td>{{ item.name }}</td>
                             <td>{{ item.description }}</td>
                             <td style="width: 20px;">{{ item.time }}</td>
-                            <td style="width: 30px;"><button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete"><span (click)="idScheduler = item.id; this.modalDeleteScheduling.showModal()" class="delete material-symbols-sharp">
+                            <td style="width: 30px;"><button style="height: 2em; width: 4em; margin-top: 0;" class="btn-delete"><span (click)="idScheduler = item.id; modalDeleteScheduling.showModal()" class="delete material-symbols-sharp">
                                 delete
                                 </span></button>
                             </td>
                         </tr>
                     } @empty {
-                        <strong class="empty_if">Agendamento disponível pra essa data.</strong>
+                        <strong class="empty_if">Agendamento disponível para esta data.</strong>
                     }
                 } @else {
                     <strong class="empty_if">Carregando...</strong>
@@ -38,7 +38,7 @@
     <dialog class="dialog_delete" #modalDeleteScheduling>
         <h4>Deseja mesmo excluir?</h4>
         <button style="margin: 0 10px; outline: 0;" class="btn_add" (click)="deleteScheduler(modalDeleteScheduling)">Sim</button>
-        <button class="btn-delete" style="outline: 0;" (click)="this.modalDeleteScheduling.close()">Não</button>
+        <button class="btn-delete" style="outline: 0;" (click)="modalDeleteScheduling.close()">Não</button>
     </dialog>
     <dialog class="dialog" #modalSchedules>
         <div class="dialog_layout">
@@ -79,6 +79,6 @@
         </div>
         
     </dialog>
-    <button class="btn_add" (click)="this.modalSchedules.showModal()">Adicionar agendamento</button>
+    <button class="btn_add" (click)="modalSchedules.showModal()">Adicionar agendamento</button>
 </div>
 <!-- END CONTAINER SCHEDULES -->

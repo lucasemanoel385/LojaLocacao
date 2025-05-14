@@ -1,57 +1,61 @@
 <h2>Orçamentos / Contratos</h2>
 <app-list-table-layout (outputSearch)="filterContract($event)" routeLink="register" nameCreate="Criar orçamento" placeHolder="Encontrar orçamento">
     <div h8 class="layout_search">
-        <label><input #search class="inputGrey" type="number" placeholder="Encontrar contrato por item"></label>
+        <label><input #search class="inputGrey" type="text" placeholder="Encontrar contrato por item"></label>
         <button style="margin-top: 0;" class="btn-update" (click)="filterInput(search.value)"><span>Pesquisar</span></button>
     </div>
-    <table class="table" #table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>CPF/CNPJ</th>
-                <th>Cliente</th>
-                <th>Data Reserva</th>
-                <th>Data Retorno</th>
-                <th>Vendedor</th>
-                <th>Situação</th>
-                <th>Editar</th>
-                <th>Excluir</th>
-            </tr>
-        </thead>
-    
-        @for (contract of getListContract$(); track contract; let i = $index) {
-            <tr #tr>
-                <td style="width: 50px;"><a [routerLink]="['edit', contract.id]">{{ contract.id }}</a></td>
-                <td style="width: 150px;">{{ contract.cpf | cpfCnpj }}</td>
-                <td style="width: 250px; text-align: start;">{{ contract.nameClient }}</td>
-                <td style="width: 150px;">{{ contract.dateReserve | formatDatePipe}}</td>
-                <td style="width: 150px;">{{ contract.dateFinal | formatDatePipe }}</td>
-                <td style="width: 150px;">{{ contract.seller }}</td>
-                @switch (contract.situation) {
-                    @case ("ORCAMENTO") {
-                        <td style="width: 150px;">Orçamento</td>
-                    } @case ("RESERVADO") {
-                        <td style="width: 150px;">Reservado</td>
+    <content>
+        <table class="table" #table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>CPF/CNPJ</th>
+                    <th>Cliente</th>
+                    <th>Data Reserva</th>
+                    <th>Data Retorno</th>
+                    <th>Vendedor</th>
+                    <th>Situação</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+        
+            @for (contract of getListContract$(); track contract; let i = $index) {
+                <tr #tr>
+                    <td style="width: 50px;"><a [routerLink]="['edit', contract.id]">{{ contract.id }}</a></td>
+                    <td style="width: 150px;">{{ contract.cpf | cpfCnpj }}</td>
+                    <td style="width: 250px; text-align: start;">{{ contract.nameClient }}</td>
+                    <td style="width: 150px;">{{ contract.dateReserve | formatDatePipe}}</td>
+                    <td style="width: 150px;">{{ contract.dateFinal | formatDatePipe }}</td>
+                    <td style="width: 150px;">{{ contract.seller }}</td>
+                    @switch (contract.situation) {
+                        @case ("ORCAMENTO") {
+                            <td style="width: 150px;">Orçamento</td>
+                        } @case ("RESERVADO") {
+                            <td style="width: 150px;">Reservado</td>
+                        }
                     }
-                }
-                <td><button [routerLink]="['edit', contract.id]" class="btn-edit"><span class="material-symbols-sharp">
-                    edit
-                    </span></button></td>
-                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="modalDelete.showModal(); idContractDelete = contract.id; indexRowTable = i"><span class="material-symbols-sharp">
-                    delete
-                    </span></button></td>
-            </tr> 
-        }
-    </table>
-    <dialog #modalDelete class="dialog_delete">
-        <h4>Deseja mesmo excluir o contrato?</h4>
-        <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(modalDelete)">Sim</button>
-        <button class="btn-delete" (click)="modalDelete.close()">Não</button>
-    </dialog>
-    <paginator-list [pageable]="getListContractPage()"
-                    (nextPageOutPut)="handlePageEvent($event)"
-                    (previousPageOutPut)="handlePageEvent($event)"
+                    <td><button [routerLink]="['edit', contract.id]" class="btn-edit"><span class="material-symbols-sharp">
+                        edit
+                        </span></button></td>
+                    <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="modalDelete.showModal(); idContractDelete = contract.id; indexRowTable = i"><span class="material-symbols-sharp">
+                        delete
+                        </span></button></td>
+                </tr> 
+            }
+        </table>
+        <dialog #modalDelete class="dialog_delete" (keydown)="false">
+            <h4>Deseja mesmo excluir o contrato?</h4>
+            <button style="margin: 0 10px;" class="btn_add" (click)="deleteContract(modalDelete)">Sim</button>
+            <button class="btn-delete" (click)="modalDelete.close()">Não</button>
+        </dialog>
+    </content>
+    
+    <paginator-list paginator-container [pageable]="getListContractPage()"
+        (nextPageOutPut)="handlePageEvent($event)"
+        (previousPageOutPut)="handlePageEvent($event)"
     />
+   
 </app-list-table-layout>
 
 

@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, ViewChildren, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnChanges, OnDestroy, OnInit, Signal, SimpleChanges, ViewChild, ViewChildren, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { catchError, concatMap, pipe, throwError } from 'rxjs';
+import { Subscription, catchError, concatMap, pipe, throwError } from 'rxjs';
 import { ListTableLayoutComponent } from '../../../componentsTemplate/list-table-layout/list-table-layout.component';
 import { ProductService } from '../../service/product.service';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { PagiantorList } from '../../../componentsTemplate/paginator/paginator-list/paginator-list.component';
+import { ListItem } from '../../interface/ListItem';
 
 
 
@@ -32,6 +33,7 @@ export class ListItemComponent implements OnInit, OnDestroy{
   //o $ é uma convenção pra dizer que ele é um observable
   public getListItems$ = this.#apiServiceItem.getItemList;
   public getListItemPage$ = this.#apiServiceItem.getItemListPage;
+  public getError$ = this.#apiServiceItem.getItemError;
 
   // paging(): number[] {
   //   let numeros: number[] = [];
@@ -47,12 +49,17 @@ export class ListItemComponent implements OnInit, OnDestroy{
       subscribe();
   }*/
 
+  private subscriptions: Subscription[] = [];
+
   ngOnInit(): void {
     if (this.getListItems$() === null) {
-      console.log("sem cache")
-      this.#apiServiceItem.httpGetItems$().subscribe(res => console.log(res));
+      this.subscriptions.push(
+        this.#apiServiceItem.httpGetItems$().subscribe());
     }
   }
+
+  numberPage = signal(0);
+  searchI = signal('');
 
   idProductDelete!: number;
   deleteRowTableList!: number;
@@ -60,21 +67,17 @@ export class ListItemComponent implements OnInit, OnDestroy{
   deleteProduct(modalDelete: HTMLDialogElement) {
  
     this.#apiServiceItem.httpDeleteItem$(this.idProductDelete).pipe(
-      concatMap(() => this.#apiServiceItem.httpGetItems$())
+      concatMap(() => this.#apiServiceItem.httpGetItems$(this.numberPage(), this.searchI()))
       ).
-      subscribe(res => modalDelete.close());
+      subscribe(res => {this.getError$.set(null); modalDelete.close();});
       
-      this.getListItems$()?.splice(this.deleteRowTableList,1);
+      
   }
-
-  searchI = signal('');
 
   searchItem(search: string) {
     this.searchI.set(search);
     this.#apiServiceItem.httpGetItems$(0 ,search).subscribe();
   }
-
-  numberPage = signal(0);
 
   handlePageEvent(pageNumber: number) {
     this.numberPage.set(pageNumber);
@@ -82,6 +85,11 @@ export class ListItemComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
+
+    this.getError$.set(null);
+
+    this.subscriptions.forEach(i => i.unsubscribe());
+
     if(this.searchI() != '' || this.numberPage() != 0) {
       this.#apiServiceItem.httpGetItems$().subscribe();
     }

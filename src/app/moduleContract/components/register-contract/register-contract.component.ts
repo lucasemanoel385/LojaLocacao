@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, signal } from '@angular/core';
-import { TableContractComponent, forbiddenNameValidator } from '../table-contract/table-contract.component';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { HeaderContractComponent } from '../header-contract/header-contract/header-contract.component';
 import { BackHistoryComponent } from '../../../componentsTemplate/back-history/back-history.component';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { BodyContractComponent } from '../body-contract/body-contract/body-contract.component';
 import { FooterContractComponent } from '../footer-contract/footer-contract/footer-contract.component';
 import { Router } from '@angular/router';
@@ -15,6 +14,12 @@ import { ContractId } from '../../interface/contractId.interface';
 import { itensList } from '../../interface/itemsList';
 import { ContractEdit } from '../../interface/contractEdit.interface';
 
+export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const forbidden = nameRe.test(control.value);
+    return forbidden ? { forbiddenName: { value: control.setValue("") } } : null;
+  };
+}
 
 @Component({
   selector: 'app-register-contract',
@@ -24,7 +29,8 @@ import { ContractEdit } from '../../interface/contractEdit.interface';
   styleUrl: './register-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterContractComponent implements OnChanges {
+export class RegisterContractComponent implements OnChanges, OnDestroy {
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['contractId'].currentValue) {
       this.switchStatus(this.contractId as ContractId);
@@ -69,7 +75,9 @@ export class RegisterContractComponent implements OnChanges {
   public contractForm = this.#fb.group({
       client: [''],
       dateOf: [''],
-      dateUntil: [],
+      dateUntil: [''],
+      dateTrialDress: [],
+      dateEvent: [],
       discount: [0],
       seller : [''],
       items: this.#fb.array([], Validators.required),
@@ -79,7 +87,8 @@ export class RegisterContractComponent implements OnChanges {
 
   addItens() {
     const addNewItem = this.#fb.group({
-      id: [, Validators.required],
+      id: [],
+      cod: [, Validators.required],
       name: [, Validators.required],
       amount: [, [forbiddenNameValidator(/-/i)]],
       value: [],
@@ -98,12 +107,12 @@ export class RegisterContractComponent implements OnChanges {
   }
 
   public submit() {
-    console.log(this.contractForm.value);
     var listItens: itensList[] = [];
-
     this.items.forEach((i) => {
       let list: itensList = {
         id: i.get('id')?.value,
+        cod: i.get('cod')?.value,
+        valueItem: i.get('value')?.value,
         amount: i.get('amount')?.value,
         total: i.get('total')?.value
       }
@@ -114,45 +123,49 @@ export class RegisterContractComponent implements OnChanges {
 
       const contract: ContractEdit = {
         contractId: Number(this.contractId.id),
-        clientId: this.contractId.client.id,
+        clientId: this.clientId,
         dateOf: this.contractForm.get('dateOf')?.value,
         dateUntil: this.contractForm.get('dateUntil')?.value,
+        dateTrialDress: this.contractForm.get('dateTrialDress')?.value,
+        dateEvent: this.contractForm.get('dateEvent')?.value,
         discount: this.contractForm.get('discount')?.value as number,
         items : listItens,
         seller: this.contractForm.get('seller')?.value as string,
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
-
+      console.log(this.contractForm.value)
       this.#apiServiceContract.httpEditContract(contract).pipe(
         concatMap(() => this.#apiServiceContract.httpGetContracts()),
-      ).subscribe(() => location.reload());
-
-      setTimeout(() => {
-        this.getCreateContractError.set(null);
-        this.getContractMsgSucess.set(null);
-      }, 5000);
+      ).subscribe(res => location.reload());
 
     } else {
       const contract: ContractCreate = {
         client: this.clientId,
         dateOf: this.contractForm.get('dateOf')?.value,
         dateUntil: this.contractForm.get('dateUntil')?.value,
+        dateTrialDress: this.contractForm.get('dateTrialDress')?.value,
+        dateEvent: this.contractForm.get('dateEvent')?.value,
         discount: this.contractForm.get('discount')?.value as number,
         seller : this.contractForm.get('seller')?.value as string,
         items : listItens,
         observation: this.contractForm.get('observation')?.value as string,
         annotations: this.contractForm.get('annotations')?.value as string,
       }
-  
+      console.log(this.contractForm.value)
       this.#apiServiceContract.httpCreateContract(contract).pipe(
         tap((res) => {
          this.#router.navigate(['store/orcamento', 'edit', res.id])
         }),
         concatMap(() => this.#apiServiceContract.httpGetContracts())
-      ).subscribe();
+      ).subscribe(res => location.reload());
 
       }
+    }
+
+    ngOnDestroy(): void {
+      this.getCreateContractError.set(null);
+       this.getContractMsgSucess.set(null);
     }
 
 }

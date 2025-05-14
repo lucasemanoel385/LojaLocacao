@@ -3,5 +3,6 @@ export interface Pageable {
         totalElements: number,
         totalPages: number,
         size: number,
+        page?: number,
         number: number
 }

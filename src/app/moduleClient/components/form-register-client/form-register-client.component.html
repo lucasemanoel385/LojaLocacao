@@ -5,13 +5,13 @@
 <div class="layout">
     <div class="form_layout">
         <form id="register" #formRegister="ngForm" (ngSubmit)="submitForm(formRegister)">
-            <label for="">
+            <!--<label for="">
                 <span>Tipo</span>
                 <select (change)="setPerson()" style="height: 100%;" class="inputGrey" name="type" #type="ngModel" [ngModel]="type.value" required>
                     <option value="Física">Física</option>
                     <option value="Jurídica">Jurídica</option>
                 </select>
-            </label>
+            </label>-->
             <label for="">
                 <span [innerText]="nameReason()"></span>
                 <input 
@@ -35,19 +35,19 @@
             </label>
             <label for="">
                 <span [innerText]="rgInsc()"></span>
-                <input class="inputGrey" placeholder="12.234.567-8" type="text" name="rg" #rg="ngModel" [ngModel]="rg.value" required/>
+                <input class="inputGrey" placeholder="12.234.567-8" type="text" name="rg" #rg="ngModel" [ngModel]="rg.value"/>
                 @if (rg.touched && rg.invalid) {
                     <p><strong>Incompleto ou vazio</strong></p>
                 }
             </label>
             <label for="">
                 <span [innerText]="dateBirthC()"></span>
-                <input class="inputGrey" type="date" name="dateBirth" #dateBirth="ngModel" [ngModel]="dateBirth.value" required/>
+                <input class="inputGrey" type="date" name="dateBirth" #dateBirth="ngModel" [ngModel]="dateBirth.value"/>
         
             </label>
             <label for="">
                 Cep:
-                <input (blur)="queryCep(this.cep.value, this.formRegister)" class="inputGrey" placeholder="12.345-645" type="text" name="cep" #cep="ngModel" ngModel required mask="00.000-000"/>
+                <input (blur)="queryCep(cep.value, formRegister)" class="inputGrey" placeholder="12.345-645" type="text" name="cep" #cep="ngModel" ngModel required mask="00.000-000"/>
                 @if (cep.touched && cep.invalid) {
                     <p><strong>Cep vazio</strong></p>
                 }
@@ -80,6 +80,13 @@
                 <input class="inputGrey" placeholder="Savassi" type="text" name="district" #district="ngModel" [ngModel]="district.value" required/>
                 @if (district.touched && district.invalid) {
                     <p><strong>Campo bairro vazio</strong></p>
+                }
+            </label>
+            <label for="">
+                Complemento:
+                <input class="inputGrey" placeholder="Bloco 322" type="text" name="complement" #complement="ngModel" [ngModel]="complement.value"/>
+                @if (complement.touched && complement.invalid) {
+                    <p><strong>Campo complemento vazio</strong></p>
                 }
             </label>
             <label for="">

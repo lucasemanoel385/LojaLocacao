@@ -7,6 +7,7 @@ export interface UpdateClient {
     cep: string,
     city: string,
     district: string,
+    complement: string,
     street: string,
     number: string,
     uf: string,

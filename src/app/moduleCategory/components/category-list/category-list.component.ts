@@ -29,27 +29,26 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     }
   }
 
+  numberPage = signal(0);
+  searchCategory = signal('');
+
   idCategory!: any;
   indexTableList!: any;
 
   public deleteCategory(modalDelete: HTMLDialogElement) {
     this.#serviceCategory.httpDeleteCategory(this.idCategory).pipe(
-      concatMap(() => this.#serviceCategory.httpGetListCategory())
+      concatMap(() => this.#serviceCategory.httpGetListCategory(this.searchCategory(), this.numberPage()))
     ).subscribe(res => modalDelete.close());
     setTimeout(() => {
       this.getDeleteMsgError.set(null);
     }, 5000)
   }
 
-  searchCategory = signal('');
-
   filterCategory(search: string) {
     this.searchCategory.set(search);
     this.#serviceCategory.httpGetListCategory(search).subscribe();
 
   }
-
-  numberPage = signal(0);
 
   handlePageEvent(pageNumber: number) {
     this.numberPage.set(pageNumber);

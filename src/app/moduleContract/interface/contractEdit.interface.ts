@@ -5,6 +5,8 @@ export interface ContractEdit {
     clientId: number,
     dateOf: any,
     dateUntil: any,
+    dateTrialDress: any,
+    dateEvent: any,
     discount: number,
     items: itensList[],
     seller: string,

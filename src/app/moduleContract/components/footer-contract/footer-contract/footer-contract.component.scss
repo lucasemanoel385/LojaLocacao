@@ -26,6 +26,7 @@
     b {
         display: flex;
         padding: 15px;
+        flex-direction: column;
         justify-content: end;
         font-weight: 600;
     }
@@ -72,12 +73,13 @@
         display: none;
         color: white;
         padding: 0 1em;
-        animation: leftToRightZap 0.5s ease-out;
+        animation: leftToRightZap 0.8s ease-out;
         height: 37px;
         align-items: center;
         width: 100%;
         white-space: nowrap;
         transition: all 0.5s;
+        overflow-x: hidden;
         &:hover {
             background-color: rgb(33, 138, 33);
         }

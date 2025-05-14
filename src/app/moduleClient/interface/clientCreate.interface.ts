@@ -8,6 +8,7 @@ export interface ClientCreate {
     rgStateRegistration: string,
     dateBirthCompanyFormation: any,
     address: Address,
+    complement: string,
     email: string,
     phone1: string,
     phone2: string

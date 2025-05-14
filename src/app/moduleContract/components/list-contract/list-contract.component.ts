@@ -23,7 +23,7 @@ import { PagiantorList } from '../../../componentsTemplate/paginator/paginator-l
 export class ListContractComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
-    this.getListContract$() === null ? this.#apiServiceContract.httpGetContracts().subscribe() : null;
+    this.#apiServiceContract.httpGetContracts().subscribe();
   }
 
   //Get data api
@@ -33,19 +33,20 @@ export class ListContractComponent implements OnInit, OnDestroy {
 
   idContractDelete!: number;
 
+  numberPage = signal(0);
+  searchContract = signal('');
+
   //Index for delete of list
   indexRowTable!: number;
 
   deleteContract(modal: HTMLDialogElement) {
     this.#apiServiceContract.httpDeleteContractId(this.idContractDelete).pipe(
-      concatMap(() => this.#apiServiceContract.httpGetContracts())
+      concatMap(() => this.#apiServiceContract.httpGetContracts(this.searchContract(),this.numberPage()))
     ).subscribe(() => modal.close());
     
-    this.getListContract$()?.splice(this.indexRowTable,1)
   }
 
   //Filter Contract
-  searchContract = signal('');
   filterContract(search: string) {
     this.searchContract.set(search);
     this.#apiServiceContract.httpGetContracts(search, 0).subscribe();
@@ -57,14 +58,13 @@ export class ListContractComponent implements OnInit, OnDestroy {
   }
 
   //Paginator
-  numberPage = signal(0);
   handlePageEvent(pageNumber: number) {
     this.numberPage.set(pageNumber);
     this.#apiServiceContract.httpGetContracts(this.searchContract(), pageNumber).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.searchContract() != '' || this.numberPage() != 0 ? this.#apiServiceContract.httpGetContracts().subscribe() : null;
+    
   }
 
 

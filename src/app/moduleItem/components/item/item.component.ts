@@ -78,7 +78,8 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
         const readerTarget = e.target;
         console.log(readerTarget)
         const img = readerTarget?.result;
-        spanImg.innerHTML = `<img width = '100%' height = '100%' src='${img}'>`;
+        spanImg.innerHTML = `<img height="100%" width="100%" src='${img}'>`;
+  
       });
       reader.readAsDataURL(file);
     }
@@ -129,20 +130,20 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
     console.log(data)
     this.itemContract.patchValue({
       cod: data.cod.toString(),
+      reference: data.reference,
       name: data.name,
-      value: data.value.toString().replace('.',','),
       replacementValue: data.replacementValue.toString().replace('.',','),
       amount: data.amount.toString(),
       category: data.category.name,
     })
-    this.spanImg.nativeElement.innerHTML = `<img width = '100%' height = '100%' src='${data.imagem}'>`;
+    this.spanImg.nativeElement.innerHTML = `<img height="100%" width="100%" src='${data.imagem}'>`;
   }
 
   #fb = inject(FormBuilder);
   public itemContract = this.#fb.group({
     cod: [''],
+    reference: [''],
     name: [''],
-    value: [''],
     replacementValue: [''],
     amount: [''],
     category: [''],
@@ -158,17 +159,15 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
     this.#spinner.show();
 
     this.itemContract.patchValue({
-      value: this.itemContract.get('value')?.value?.replace(',', '.'),
       replacementValue: this.itemContract.get('replacementValue')?.value?.replace(',', '.'),
     })
 
     if(this.buttonSubmit() === "Salvar") {
 
       const item: ItemUpdate = {
-        id: Number(this.idProduct()),
         cod: Number(this.itemContract.get('cod')?.value),
+        reference: this.itemContract.get('reference')?.value as string,
         name: this.itemContract.get('name')?.value as string,
-        value: Number(this.itemContract.get('value')?.value),
         replacementValue: Number(this.itemContract.get('replacementValue')?.value),
         amount: Number(this.itemContract.get('amount')?.value),
         category: this.itemContract.get('category')?.value as string,
@@ -190,8 +189,8 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
     } else if (this.buttonSubmit() === "Cadastrar") {
       const item: ItemCreate = {
         cod: Number(this.itemContract.get('cod')?.value),
+        reference: this.itemContract.get('reference')?.value as string,
         name: this.itemContract.get('name')?.value as string,
-        value: Number(this.itemContract.get('value')?.value),
         replacementValue: Number(this.itemContract.get('replacementValue')?.value),
         amount: Number(this.itemContract.get('amount')?.value),
         category: this.itemContract.get('category')?.value as string,

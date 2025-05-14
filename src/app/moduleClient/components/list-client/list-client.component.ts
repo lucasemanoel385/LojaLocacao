@@ -28,12 +28,11 @@ export class ListClientComponent implements OnInit, OnDestroy{
   public getListClient = this.#serviceClient.getListClient;
   public getListClientPageable = this.#serviceClient.getListClientPageable;
   public getDeleteMsgError = this.#serviceClient.getClientDeleteError;
-
-
+  numberPage = signal(0);
+  searchClient = signal('');
   public idClient!: number;
   
   // Filter client
-  searchClient = signal('');
   public filterClient(search: any) {
     this.searchClient.set(search);
     this.#serviceClient.httpGetClient(search).subscribe();
@@ -42,7 +41,7 @@ export class ListClientComponent implements OnInit, OnDestroy{
   public deleteClient(modalClient: HTMLDialogElement) {
 
     this.#serviceClient.httpDeleteClientId(this.idClient).pipe(
-      concatMap( () => this.#serviceClient.httpGetClient())
+      concatMap( () => this.#serviceClient.httpGetClient(this.searchClient(), this.numberPage()))
       ).subscribe(res => modalClient.close());
 
       setTimeout(() => {
@@ -50,9 +49,7 @@ export class ListClientComponent implements OnInit, OnDestroy{
       }, 5000)
   
   }
-
   // paginator
-  numberPage = signal(0);
   handlePageEvent(pageNumber: number) {
     this.numberPage.set(pageNumber);
     this.#serviceClient.httpGetClient(this.searchClient() ,pageNumber).subscribe();

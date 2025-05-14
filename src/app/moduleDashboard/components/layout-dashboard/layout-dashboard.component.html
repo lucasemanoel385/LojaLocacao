@@ -8,7 +8,7 @@
             </div>
       
    
-            <div class="box" style="background-color: rgb(36, 191, 139);">
+            <!--<div class="box" style="background-color: rgb(36, 191, 139);">
                 <span>ORÇAMENTOS RESERVADOS NO MÊS</span>
                 <span class="number-box">{{getDataBudgetMonth()?.countContractMonthReserve}}</span>
             </div>
@@ -16,14 +16,14 @@
             <div class="box" style="background-color: red;">
                 <span>ORÇAMENTOS VENCIDOS NO MÊS</span>
                 <span class="number-box">0</span>
-            </div>
+            </div>-->
 
     </div>
     <!-- END DATA ANALYTICS -->
     <div class="layout_dashboard-main">
         <div class="layout_dashboard-cl1">
             <app-scheduling class="scheduling"/>
-            <app-contract-for-month class="contract"/>
+            <app-reserved-items class="reserved_items"/>
         </div>
         <div class="layout_dashboard-cl2">
         <div class="tasks">
@@ -85,7 +85,8 @@
             <!--End Dialogs-->
             <button [ngStyle]="{'display': authorization === true ? 'block' : 'none'}" class="btn_add" (click)="this.modalTasks.showModal()">Adicionar Tarefa</button>
         </div>
-        <app-reserved-items class="reserved_items"/>
+        <app-contract-for-month class="contract"/>
+        
         </div>
     </div>
   

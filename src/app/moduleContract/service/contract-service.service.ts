@@ -84,12 +84,19 @@ export class ContractServiceService {
     return this.#setContractCreateError;
   }
 
-  public httpGetContractsByCode(search?: string): Observable<ContractList[]> {
+  public httpGetContractsByCode(search: string): Observable<ContractListWithPage> {
 
-    return this.#http.get<ContractList[]>(`${this.#url()}contract/cod/${search}`).pipe(shareReplay(), 
+    return this.#http.get<ContractListWithPage>(`${this.#url()}contract/cod`, {params: {search}}).pipe(shareReplay(), 
     tap( (res) => {
-      console.log(res);
-      this.#setListContract.set(res);
+      this.#setListContract.set(res.content);
+      const page: Pageable = {
+        numberOfElements: res.numberOfElements,
+        totalElements: res.totalElements,
+        totalPages: res.totalPages,
+        size: res.size,
+        number: res.number
+      }
+      this.#setListContractPage.set(page);
     }),
     catchError( (error: HttpErrorResponse) => {
       this.#setListContractError.set(error.error);
@@ -140,6 +147,7 @@ export class ContractServiceService {
         let itens: ContractItens = {
           id: i.id,
           cod: i.cod,
+          reference: i.reference,
           amount: i.amount,
           imagem: ImgBuffer.prototype.base64ToArrayBuffer(i.imagem),
           name: i.name,

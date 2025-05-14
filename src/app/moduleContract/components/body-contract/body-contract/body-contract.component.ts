@@ -1,18 +1,19 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../../moduleItem/service/product.service';
 import { ContractServiceService } from '../../../service/contract-service.service';
 import { CurrencyPipe } from '@angular/common';
 import { Item } from '../../../../moduleItem/interface/Item';
-import { forbiddenNameValidator } from '../../table-contract/table-contract.component';
 import { ContractId } from '../../../interface/contractId.interface';
 import { ContractItens } from '../../../interface/contractItens.interface';
 import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
+import { Subject, debounce, debounceTime, fromEvent } from 'rxjs';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-body-contract',
   standalone: true,
-  imports: [ReactiveFormsModule, CurrencyPipe, ArrowSelectComponent],
+  imports: [ReactiveFormsModule, CurrencyPipe, ArrowSelectComponent, NgxMaskDirective],
   templateUrl: './body-contract.component.html',
   styleUrl: './body-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -55,16 +56,17 @@ export class BodyContractComponent implements OnChanges {
     
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
     formGroup.get('id')?.setValue(novoValor.id);
+    formGroup.get('cod')?.setValue(novoValor.cod);
     formGroup.get('name')?.setValue(novoValor.name);
     formGroup.get('amount')?.setValue(novoValor.amount);
     formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
-    
+    console.log(novoValor.value);
 
 
     setTimeout(() => {
       this.setValueTotal(indice);
-      const cod: any = document.getElementById(indice.toString() + 'cod');
-      cod.innerText = novoValor.cod;
+      const reference: any = document.getElementById(indice.toString() + 'reference');
+      reference.innerText = novoValor.reference;
       const img: any = document.getElementById(indice.toString() + 'img');
       img.src = novoValor.imagem;
     }, 0)
@@ -76,43 +78,34 @@ export class BodyContractComponent implements OnChanges {
   filterItem(e: Event, is: number) {
     const target = e.target as HTMLInputElement;
     const valueInput = target.value.toUpperCase();
-    const lista = this.listItem$();
-    
-    let list!: Item[];
-    
-    if(valueInput.length > 3 ) {
-      //list = lista!.filter(a => a.name.toUpperCase().indexOf(valueInput) > -1);
-   
-        this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
-  
-    } else if(valueInput.length < 2 &&  valueInput.match(/[0-9]/)) {
-      //list = lista!.filter(a => a.cod.toString().indexOf(valueInput) > -1);
-        this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
-      
+    if(valueInput === '') {
+      this.listOut(is)
+    } else {
+      this.putList(is);
     }
-    
-    this.putList(is);
+    this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
     this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
-    
   }
   
 
   putList(index: number) {
     const ul: HTMLElement = document.getElementById(index.toString() + 'list') as HTMLElement;
-      ul.style.display = 'list-item';
+    if(ul) {
       this.ulIdentifier = ul.id;
+      ul.style.display = 'list-item';
+    }
   }
 
   listFilter = signal<Item[] | null>(null);
 
-  listOut(e: Event, index: number){
-    const t: any = document.getElementById(index.toString() + 'list');
+  listOut(index?: number){
+    const t: any = document.getElementById((index as number).toString() + 'list');
     setTimeout(() => {
-      if(e) {
+    
         t.style.display = 'none';
         let list!: Item[];
         this.listFilter.set(list);
-      }
+
     }, 160)
   }
 
@@ -122,15 +115,15 @@ export class BodyContractComponent implements OnChanges {
 
   //Set inputs of item
   setValueInput(indice: number, novoValor: Item) {
-    
+    console.log(novoValor.cod);
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
-    formGroup.get('id')?.setValue(novoValor.id);
+    formGroup.get('cod')?.setValue(novoValor.cod);
     formGroup.get('name')?.setValue(novoValor.name);
-    formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
+    //formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
 
-    const cod: any = document.getElementById(indice.toString() + 'cod');
+    const reference: any = document.getElementById(indice.toString() + 'reference');
     const img: any = document.getElementById(indice.toString() + 'img');
-    cod.innerText = novoValor.cod;
+    reference.innerText = novoValor.reference;
     img.src = novoValor.imagem;
 
   }

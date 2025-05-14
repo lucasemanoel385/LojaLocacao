@@ -73,10 +73,9 @@ export class ProductService {
       const items: Item[] = [];
       res.content.forEach(a => {
         let item: Item = {
-          id: a.id,
           cod: a.cod,
+          reference: a.reference,
           name: a.name,
-          value: a.value,
           replacementValue: a.replacementValue,
           amount: a.amount,
           category: a.category,
@@ -116,10 +115,9 @@ export class ProductService {
       const items: Item[] = [];
       res.content.forEach(a => {
         let item: Item = {
-          id: a.id,
           cod: a.cod,
+          reference: a.reference,
           name: a.name,
-          value: a.value,
           replacementValue: a.replacementValue,
           amount: a.amount,
           category: a.category,
@@ -153,10 +151,9 @@ export class ProductService {
     return this.#http.get<Item>(`${this.#url()}item/${id}`, { responseType: 'json' }).pipe(shareReplay(),
     tap((res) => {
       let item: Item = {
-        id: res.id,
         cod: res.cod,
+        reference: res.reference,
         name: res.name,
-        value: res.value,
         replacementValue: res.replacementValue,
         amount: res.amount,
         category: res.category,
@@ -211,6 +208,7 @@ export class ProductService {
     return this.#http.delete(`${this.#url()}item/${id}`).pipe(
       shareReplay(),
       catchError( (error: HttpErrorResponse) => {
+        this.#setItemError.set(error.error);
         return throwError(() => error);
       })
     )

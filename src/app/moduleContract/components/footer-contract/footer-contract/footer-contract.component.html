@@ -1,11 +1,11 @@
 <div class="informations_contract_values" [formGroup]="footerForm">
     <div class="annotations">
         <label for="observation">Orçamento - Observação orçamento/contrato:</label>
-        <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="observation" cols="30" rows="10" formControlName="observation" maxlength="200"></textarea>
+        <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="observation" cols="30" rows="10" formControlName="observation" maxlength="300"></textarea>
     </div>
     <div class="annotations">
         <label for="annotations">Anotações:</label>
-        <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="annotations" cols="30" rows="10" formControlName="annotations" maxlength="200"></textarea>
+        <textarea style="width: 80%; height: 60%; font-size: 16px;" class="fontHelvetica" id="annotations" cols="30" rows="10" formControlName="annotations" maxlength="300"></textarea>
     </div>
     <div class="all_values">
         <b class="alert">Total Itens:&nbsp;<span> {{totalItem() | currency : "BRL"}}</span></b>

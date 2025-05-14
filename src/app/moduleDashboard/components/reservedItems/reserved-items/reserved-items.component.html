@@ -6,18 +6,22 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id.Item</th>
+                    <th>Cód.Item</th>
+                    <th>Referência</th>
                     <th>Item</th>
-                    <th>Data da reserva</th>
+                    <th>Data da retirada</th>
+                    <th>Data da devolução</th>
                 </tr>
             </thead>
             <tbody>
                 @if (listReservedItems(); as listReservedItems) {
                     @for (item of listReservedItems; track $index; let i = $index) {
                         <tr>
-                            <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['../','item','edit', item.id]">{{ item.cod }}</a></td>
+                            <td style="width: 20px;"><a style="text-decoration: underline;" [routerLink]="['../','item','edit', item.cod]">{{ item.cod }}</a></td>
+                            <td>{{item.reference}}</td>
                             <td style="width: 500px; text-align: start;">{{ item.name }}</td>
-                            <td>{{ item.finalDate| formatDatePipe}}</td>
+                            <td>{{ item.startDate | formatDatePipe}}</td>
+                            <td>{{ item.finalDate | formatDatePipe}}</td>
                         </tr>
                     } @empty {
                         <strong class="empty_if">Nenhum item reservado</strong>
