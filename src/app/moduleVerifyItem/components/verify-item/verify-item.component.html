@@ -38,7 +38,7 @@
             @for (item of getListItems$(); track item.cod; let i = $index) {
                 <tr #tr>
                     <td style="width: 100px; padding: 0;"><a style="text-decoration: underline; cursor: pointer;" [routerLink]="['../item/edit', item.cod]">{{item.cod}}</a></td>
-                    <td style="width: 120px; height: 150px; padding: 0;"><img style="width: 85px; height: 100%;" src="{{item.image}}" alt="">
+                    <td style="width: 120px; height: 150px; padding: 0;"><img style="width: 85px; height: 100%; object-fit: contain;" src="{{item.image}}" alt="">
                     </td>
                     <td style="width: 200px;"><a style="text-decoration: underline; cursor: pointer;" [routerLink]="['../orcamento/edit', item.contractId]">{{item.nameClient}}</a></td>
                     <td style="padding: 0;">{{ item.reference }}</td>
