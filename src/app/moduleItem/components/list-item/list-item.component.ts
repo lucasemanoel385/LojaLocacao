@@ -34,6 +34,7 @@ export class ListItemComponent implements OnInit, OnDestroy{
   public getListItems$ = this.#apiServiceItem.getItemList;
   public getListItemPage$ = this.#apiServiceItem.getItemListPage;
   public getError$ = this.#apiServiceItem.getItemError;
+  loading = signal(false);
 
   // paging(): number[] {
   //   let numeros: number[] = [];
@@ -49,12 +50,18 @@ export class ListItemComponent implements OnInit, OnDestroy{
       subscribe();
   }*/
 
+  selectedCategorySearch: string | null = "cod";
+
   private subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
     if (this.getListItems$() === null) {
       this.subscriptions.push(
-        this.#apiServiceItem.httpGetItems$().subscribe());
+        this.#apiServiceItem.httpGetItems$().subscribe({
+          complete: () => this.loading.set(true),
+        }));
+    } else {
+      this.loading.set(true);
     }
   }
 
@@ -74,14 +81,22 @@ export class ListItemComponent implements OnInit, OnDestroy{
       
   }
 
+  filterCategorySearch(category: string) {
+    this.selectedCategorySearch = category;
+  }
+
   searchItem(search: string) {
+    this.loading.set(false);
     this.searchI.set(search);
-    this.#apiServiceItem.httpGetItems$(0 ,search).subscribe();
+    this.#apiServiceItem.httpGetItems$(0 ,search, this.selectedCategorySearch as string)
+    .subscribe({
+      complete: () => {this.loading.set(true);}
+    });
   }
 
   handlePageEvent(pageNumber: number) {
     this.numberPage.set(pageNumber);
-    this.#apiServiceItem.httpGetItems$(pageNumber, this.searchI()).subscribe();
+    this.#apiServiceItem.httpGetItems$(pageNumber, this.searchI(), this.selectedCategorySearch as string).subscribe();
   }
 
   ngOnDestroy(): void {

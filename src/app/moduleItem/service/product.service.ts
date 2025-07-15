@@ -12,8 +12,6 @@ import { ItemCreate } from '../interface/ItemCreate';
 import { Pageable } from '../interface/Pageable';
 import { ListItem } from '../interface/ListItem';
 import { ImgBuffer } from './imgBuffer';
-import { map } from 'rxjs';
-
 
 @Injectable({
   providedIn: 'root'
@@ -52,15 +50,15 @@ export class ProductService {
     return this.#setAllItemList.asReadonly();
   }
   
-  public httpGetItems$(page?: number, search?: string): Observable <ListItem> {
+  public httpGetItems$(page?: number, search?: string, filterCategorySearch?: string): Observable <ListItem> {
 
    var params ;
   
-   if (page && search) {
-    params = new HttpParams().set('search', search).set('page', page);
+   if (page && search && filterCategorySearch) {
+    params = new HttpParams().set('search', search).set('page', page).set('filterCategorySearch', filterCategorySearch);
  
-   } else if (search) {
-    params = new HttpParams().set('search', search);
+   } else if (search && filterCategorySearch) {
+    params = new HttpParams().set('search', search).set('filterCategorySearch', filterCategorySearch);
 
    } else {
       params = new HttpParams().set('page', page as number);

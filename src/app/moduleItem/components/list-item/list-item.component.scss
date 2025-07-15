@@ -35,11 +35,58 @@
         }
     }
 
+    .category-search{
+        display: flex;
+        gap: 0.2em;
+        padding: 0 0 0.5em 0;
+    }
+
+    .category-search_radio{
+        display: flex;
+        
+        input{
+            accent-color: #0090d9;
+        }
+
+        label{
+            font-weight: 600;
+        }
+    }
+
+    .loading-spinner {
+        position: relative;
+        margin: 1em 0;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        border: 8px solid rgb(48, 48, 48);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        border-top-color: #0090d9;
+    }
+
+    @keyframes spin {
+
+        to{
+          transform: rotate(360deg);
+        }
+        
+    }
+
     @media (max-width: 733px) {
         
 
         #td-replacement {
             display: none;
+        }
+
+        .category-search{
+            display: flex;
+            align-items: center;
+        }
+
+        .loading-spinner{
+            left: 40%;
         }
 
     }
