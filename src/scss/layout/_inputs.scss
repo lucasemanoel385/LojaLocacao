@@ -35,7 +35,7 @@
     height: 2rem;
     outline: 0;
     border: 0;
-    border-bottom: 2px solid rgb(174, 174, 174);
+    border-bottom: 4px solid rgb(174, 174, 174);
    
     background-color: rgb(238, 238, 238);
     padding: 10px;
@@ -47,12 +47,12 @@
     }
 
     &.ng-invalid.ng-touched{
-        border-bottom: 2px solid red;
+        border-bottom: 4px solid red;
         transition: 0.5s ease-in-out;
     }
     &:focus, 
     &:valid{
-        border-bottom: 2px solid cornflowerblue;
+        border-bottom: 4px solid cornflowerblue;
     }
 
     // ~ quer dizer que o proximo elemento label

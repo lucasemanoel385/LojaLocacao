@@ -1,7 +1,7 @@
 export const environment = {
     env: "prod",
     api: '',
-    apiSecond: '',
-    assets: ''
+    apiSecond: 'http://localhost:8080/',
+    assets: 'http://localhost:4200/assets/'
 
 };

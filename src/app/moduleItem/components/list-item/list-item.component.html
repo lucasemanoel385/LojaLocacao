@@ -1,7 +1,25 @@
 <h2>Produtos</h2>
-
-<app-list-table-layout (outputSearch)="searchItem($event)" routeLink="register" nameCreate="Criar item" placeHolder="Encontrar item">
+<app-list-table-layout (outputSearch)="searchItem($event)" routeLink="register" nameCreate="Criar item"
+    placeHolder="Encontrar item">
+    <div h9 class="category-search">
+        <div class="category-search_radio" (click)="filterCategorySearch(cod.value)">
+            <input #cod type="radio" name="categorySearch" [checked]="selectedCategorySearch === 'cod'" id="radio-cod"
+                value="cod">
+            <label for="radio-cod">Cód.</label>
+        </div>
+        <div class="category-search_radio" (click)="filterCategorySearch(reference.value)">
+            <input #reference type="radio" name="categorySearch" [checked]="selectedCategorySearch === 'reference'"
+                id="radio-ref" value="reference">
+            <label for="radio-ref">Reference</label>
+        </div>
+        <div class="category-search_radio" (click)="filterCategorySearch(nameProduct.value)">
+            <input #nameProduct type="radio" name="categorySearch" [checked]="selectedCategorySearch === 'nameProduct'"
+                id="radio-name" value="nameProduct">
+            <label for="radio-name">Nome do produto</label>
+        </div>
+    </div>
     <content>
+        @if (loading()) {
         <table class="table" #table>
             <thead>
                 <tr>
@@ -15,44 +33,51 @@
                     <th>Excluir</th>
                 </tr>
             </thead>
-    
+
             @for (item of getListItems$(); track item.cod; let i = $index) {
-                <tr #tr>
-                    <td style="width: 100px; padding: 0;"><a [routerLink]="['edit', item.cod]">{{item.cod}}</a></td>
-                    <td style="width: 120px; height: 150px; padding: 0;"><img style="width: 85px; height: 100%;" src="{{item.imagem}}" alt="">
-                    </td>
-                    <td>{{ item.reference }}</td>
-                    <td style="width: 400px; padding: 0;">{{item.name}}</td>
-                    <td>{{item.amount}}</td>
-                    <td id="td-replacement">{{item.replacementValue | currency : "BRL"}}</td>
-                    <td><button [routerLink]="['edit', item.cod]" class="btn-edit"><span class="material-symbols-sharp">
-                        edit
-                        </span></button></td>
-                    <td><button style="height: 2.5em; width: 3em; margin-top: 0;" 
-                        class="btn-delete" 
+            <tr #tr>
+                <td style="width: 100px; padding: 0;"><a [routerLink]="['edit', item.cod]">{{item.cod}}</a></td>
+                <td style="width: 120px; height: 150px; padding: 0;"><img
+                        style="width: 85px; height: 100%; object-fit: contain;" src="{{item.imagem}}" alt="">
+                </td>
+                <td>{{ item.reference }}</td>
+                <td style="width: 400px; padding: 0;">{{item.name}}</td>
+                <td>{{item.amount}}</td>
+                <td id="td-replacement">{{item.replacementValue}}</td>
+                <td><a [routerLink]="['edit', item.cod]" target="_blank">
+                        <button class="btn-edit">
+                            <span class="material-symbols-sharp">
+                                edit
+                            </span>
+                        </button>
+                    </a>
+                </td>
+                <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete"
                         (click)="idProductDelete = item.cod; deleteRowTableList = i; modalDelete.showModal()">
                         <span class="material-symbols-sharp">
-                        delete
-                        </span></button></td>
-                </tr> 
+                            delete
+                        </span></button>
+                </td>
+            </tr>
             }
         </table>
         <dialog #modalDelete class="dialog_delete" (keydown)="false">
             <h4>Deseja mesmo excluir?</h4>
             @if (getError$()) {
-                <span class="error_api">{{ getError$() }}</span>
-            } 
-            <button type="button" style="margin: 0 10px;" class="btn_add" (click)="deleteProduct(modalDelete)">Sim</button>
-            <button type="button" class="btn-delete" (click)="modalDelete.close(); this.getError$.set(null)">Não</button>
+            <span class="error_api">{{ getError$() }}</span>
+            }
+            <button type="button" style="margin: 0 10px;" class="btn_add"
+                (click)="deleteProduct(modalDelete)">Sim</button>
+            <button type="button" class="btn-delete"
+                (click)="modalDelete.close(); this.getError$.set(null)">Não</button>
         </dialog>
+        } @else {
+            <div class="loading-spinner"></div>
+        }
+
     </content>
-    
-    <paginator-list paginator-container [pageable]="getListItemPage$()"
-                    (nextPageOutPut)="handlePageEvent($event)"
-                    (previousPageOutPut)="handlePageEvent($event)"
-    />
+
+    <paginator-list paginator-container [pageable]="getListItemPage$()" (nextPageOutPut)="handlePageEvent($event)"
+        (previousPageOutPut)="handlePageEvent($event)" />
 
 </app-list-table-layout>
-
-
-

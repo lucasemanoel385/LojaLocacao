@@ -1,3 +1,4 @@
+import { style } from '@angular/animations';
 
 import {Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, inject, input, signal } from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -78,7 +79,7 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
         const readerTarget = e.target;
         console.log(readerTarget)
         const img = readerTarget?.result;
-        spanImg.innerHTML = `<img height="100%" width="100%" src='${img}'>`;
+        spanImg.innerHTML = `<img height="100%" width="100%" src='${img}' alt="Imagem do produto" style="object-fit:contain;">`;
   
       });
       reader.readAsDataURL(file);
@@ -136,7 +137,7 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
       amount: data.amount.toString(),
       category: data.category.name,
     })
-    this.spanImg.nativeElement.innerHTML = `<img height="100%" width="100%" src='${data.imagem}'>`;
+    this.spanImg.nativeElement.innerHTML = `<img height="100%" width="100%" src='${data.imagem}' alt="Imagem do produto" style="object-fit:contain;">`;
   }
 
   #fb = inject(FormBuilder);
@@ -159,7 +160,7 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
     this.#spinner.show();
 
     this.itemContract.patchValue({
-      replacementValue: this.itemContract.get('replacementValue')?.value?.replace(',', '.'),
+      replacementValue: this.itemContract.get('replacementValue')?.value,
     })
 
     if(this.buttonSubmit() === "Salvar") {
@@ -168,7 +169,7 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
         cod: Number(this.itemContract.get('cod')?.value),
         reference: this.itemContract.get('reference')?.value as string,
         name: this.itemContract.get('name')?.value as string,
-        replacementValue: Number(this.itemContract.get('replacementValue')?.value),
+        replacementValue: this.itemContract.get('replacementValue')?.value as string,
         amount: Number(this.itemContract.get('amount')?.value),
         category: this.itemContract.get('category')?.value as string,
       }
@@ -191,7 +192,7 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
         cod: Number(this.itemContract.get('cod')?.value),
         reference: this.itemContract.get('reference')?.value as string,
         name: this.itemContract.get('name')?.value as string,
-        replacementValue: Number(this.itemContract.get('replacementValue')?.value),
+        replacementValue: this.itemContract.get('replacementValue')?.value as string,
         amount: Number(this.itemContract.get('amount')?.value),
         category: this.itemContract.get('category')?.value as string,
       }

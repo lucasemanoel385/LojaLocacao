@@ -20,7 +20,7 @@
                             <td>{{ client.name }}</td>
                             <td>{{ client.cpfCnpj | cpfCnpj}}</td>
                             <td class="table_td_phone">{{client.phone1 | phone}} / {{ client.phone2 | phone}}</td>
-                            <td><a [routerLink]="['edit', client.id]"><button class="btn-edit"><span class="material-symbols-sharp">
+                            <td><a [routerLink]="['edit', client.id]" target="_blank"><button class="btn-edit"><span class="material-symbols-sharp">
                                 edit
                                 </span></button></a></td>
                             <td><button (click)="idClient = client.id; modalDelete.showModal()" style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete"><span class="material-symbols-sharp">

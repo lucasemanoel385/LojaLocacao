@@ -1,4 +1,3 @@
-
 :host {
     width: 100%;
     height: 100%;
@@ -17,6 +16,22 @@
 
     a {
         text-decoration: underline;
+    }
+
+    .table{
+        max-height: 100%;
+    }
+
+    td{
+        padding: 8px;
+    }
+
+    .tr-list{
+        border-radius: 30px;
+        border-width: 5px;
+        height: 90px;
+        max-height: 90px;
+        box-sizing: border-box;
     }
 
     @media (max-width: 733px) {
