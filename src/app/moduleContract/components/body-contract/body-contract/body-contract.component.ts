@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../../moduleItem/service/product.service';
 import { ContractServiceService } from '../../../service/contract-service.service';
@@ -7,7 +7,7 @@ import { Item } from '../../../../moduleItem/interface/Item';
 import { ContractId } from '../../../interface/contractId.interface';
 import { ContractItens } from '../../../interface/contractItens.interface';
 import { ArrowSelectComponent } from '../../../../componentsTemplate/arrowSelect/arrow-select/arrow-select.component';
-import { Subject, debounce, debounceTime, fromEvent } from 'rxjs';
+import { EMPTY, Subject, debounce, debounceTime, fromEvent, switchMap, takeUntil } from 'rxjs';
 import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
@@ -18,7 +18,28 @@ import { NgxMaskDirective } from 'ngx-mask';
   styleUrl: './body-contract.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BodyContractComponent implements OnChanges {
+export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
+
+  private inputDebounce$ = new Subject<{ value: string, is: number }>();
+  private destroy$ = new Subject<void>();
+  ngOnInit(): void {
+    this.inputDebounce$.pipe(
+      debounceTime(300),
+      switchMap(({ value, is }) => {
+        if (value === '') {
+          this.listOut(is);
+          return EMPTY;
+        } else {
+          this.putList(is);
+          return this.#apiServiceItem.httpGetAllItems$(value);
+        }
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe(res => {
+      this.listFilter.set(this.listItem$());
+    });
+  }
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['contractId'].currentValue) {
       this.editBody(this.contractId as ContractId);
@@ -60,7 +81,7 @@ export class BodyContractComponent implements OnChanges {
     formGroup.get('name')?.setValue(novoValor.name);
     formGroup.get('amount')?.setValue(novoValor.amount);
     formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
-    console.log(novoValor.value);
+    //formGroup.get('replacementValue')?.setValue(novoValor.valueReplacement);
 
 
     setTimeout(() => {
@@ -69,6 +90,8 @@ export class BodyContractComponent implements OnChanges {
       reference.innerText = novoValor.reference;
       const img: any = document.getElementById(indice.toString() + 'img');
       img.src = novoValor.imagem;
+      //const suggestiveValue: any = document.getElementById(indice.toString() + 'suggestiveValue');
+      //suggestiveValue.innerText = "Sugestão de valor: " + novoValor.valueReplacement;
     }, 0)
  
   }
@@ -76,14 +99,10 @@ export class BodyContractComponent implements OnChanges {
   ulIdentifier!: string;
 
   filterItem(e: Event, is: number) {
-    const target = e.target as HTMLInputElement;
-    const valueInput = target.value.toUpperCase();
-    if(valueInput === '') {
-      this.listOut(is)
-    } else {
-      this.putList(is);
-    }
-    this.#apiServiceItem.httpGetAllItems$(valueInput).subscribe(res => this.listFilter.set(this.listItem$()));
+    const valueInput = (e.target as HTMLInputElement).value.toUpperCase();
+
+    this.inputDebounce$.next({ value: valueInput, is });
+  
     this.#arrowSelect.arrowSelect(e as KeyboardEvent, this.ulIdentifier);
   }
   
@@ -120,12 +139,13 @@ export class BodyContractComponent implements OnChanges {
     formGroup.get('cod')?.setValue(novoValor.cod);
     formGroup.get('name')?.setValue(novoValor.name);
     //formGroup.get('value')?.setValue(novoValor.value, Validators.requiredTrue);
-
+    formGroup.get('replacementValue')?.setValue(novoValor.replacementValue);
     const reference: any = document.getElementById(indice.toString() + 'reference');
     const img: any = document.getElementById(indice.toString() + 'img');
+    //const suggestiveValue: any = document.getElementById(indice.toString() + 'suggestiveValue');
     reference.innerText = novoValor.reference;
     img.src = novoValor.imagem;
-
+    //suggestiveValue.innerText = "Sugestão de valor: " + novoValor.replacementValue;
   }
 
   //Set value total of item
@@ -152,6 +172,11 @@ export class BodyContractComponent implements OnChanges {
 
   addItens() {
     this.addItemForm.emit();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
