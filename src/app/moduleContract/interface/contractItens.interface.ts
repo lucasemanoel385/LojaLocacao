@@ -8,6 +8,6 @@ export interface ContractItens {
     amount: number,
     value: number,
     valueTotal: number,
-    valueReplacement: number,
+    valueReplacement: string,
     imagem: string,
 }
