@@ -2,7 +2,7 @@
 <app-list-table-layout (outputSearch)="filterContract($event)" routeLink="register" nameCreate="Criar orçamento" placeHolder="Encontrar orçamento">
     <div h8 class="layout_search">
         <label><input #search class="inputGrey" type="text" placeholder="Encontrar contrato por item"></label>
-        <button style="margin-top: 0;" class="btn-update" (click)="filterInput(search.value)"><span>Pesquisar</span></button>
+        <button type="button" style="margin-top: 0;" class="btn-update" (click)="filterInput(search.value)"><span>Pesquisar</span></button>
     </div>
     <content>
         <table class="table" #table>
@@ -21,7 +21,7 @@
             </thead>
         
             @for (contract of getListContract$(); track contract; let i = $index) {
-                <tr #tr>
+                <tr #tr class="tr-list" [style]="contract.situation === 'ORCAMENTO' ? 'border-left: 5px solid #ffa500;' : 'border-left: 5px solid #008000;'">
                     <td style="width: 50px;"><a [routerLink]="['edit', contract.id]">{{ contract.id }}</a></td>
                     <td style="width: 150px;">{{ contract.cpf | cpfCnpj }}</td>
                     <td style="width: 250px; text-align: start;">{{ contract.nameClient }}</td>
@@ -35,9 +35,9 @@
                             <td style="width: 150px;">Reservado</td>
                         }
                     }
-                    <td><button [routerLink]="['edit', contract.id]" class="btn-edit"><span class="material-symbols-sharp">
+                    <td><a [routerLink]="['edit', contract.id]" target="_blank"><button class="btn-edit"><span class="material-symbols-sharp">
                         edit
-                        </span></button></td>
+                        </span></button></a></td>
                     <td><button style="height: 2.5em; width: 3em; margin-top: 0;" class="btn-delete" (click)="modalDelete.showModal(); idContractDelete = contract.id; indexRowTable = i"><span class="material-symbols-sharp">
                         delete
                         </span></button></td>
