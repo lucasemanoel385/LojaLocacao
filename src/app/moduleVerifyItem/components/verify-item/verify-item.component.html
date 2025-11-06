@@ -19,37 +19,43 @@
                 <span class="error_api" >{{getVerifyError()}}</span>
             </div>
         }
-        <table class="table" #table>
 
-            <thead>
-                <tr>
-                    <th>Cód.</th>
-                    <th></th>
-                    <th>Nome Cliente</th>
-                    <th>Referência</th>
-                    <th>Nome do Produto</th>
-                    <th id="date">Data Reserva</th>
-                    <th id="date">Data Retorno</th>
-                    <th>Status</th>
-                    <th>Unidades disponiveis</th>
-                </tr>
-            </thead>
-    
-            @for (item of getListItems$(); track item.cod; let i = $index) {
-                <tr #tr>
-                    <td style="width: 100px; padding: 0;"><a style="text-decoration: underline; cursor: pointer;" [routerLink]="['../item/edit', item.cod]">{{item.cod}}</a></td>
-                    <td style="width: 120px; height: 150px; padding: 0;"><img style="width: 85px; height: 100%; object-fit: contain;" src="{{item.image}}" alt="">
-                    </td>
-                    <td style="width: 200px;"><a style="text-decoration: underline; cursor: pointer;" [routerLink]="['../orcamento/edit', item.contractId]">{{item.nameClient}}</a></td>
-                    <td style="padding: 0;">{{ item.reference }}</td>
-                    <td style="width: 400px; padding: 0;">{{item.name}}</td>
-                    <td id="date">{{ item.dateStart | formatDatePipe }}</td>
-                    <td id="date">{{ item.dateFinal | formatDatePipe }}</td>
-                    <td style="font-weight: 600; color: red;">{{ item.status }}</td>
-                    <td style="padding: 0;">{{item.quantityAvailable}}</td>
-                </tr> 
+        @if (loading()) {
+            <table class="table" #table>
+                <thead>
+                    <tr>
+                        <th>Cód.</th>
+                        <th></th>
+                        <th>Nome Cliente</th>
+                        <th>Referência</th>
+                        <th>Nome do Produto</th>
+                        <th id="date">Data Reserva</th>
+                        <th id="date">Data Retorno</th>
+                        <th>Status</th>
+                        <th>Unidades disponiveis</th>
+                    </tr>
+                </thead>
+
+                
+                    @for (item of getListItems$(); track item.cod; let i = $index) {
+                        <tr #tr>
+                            <td style="width: 100px; padding: 0;"><a style="text-decoration: underline; cursor: pointer;" [routerLink]="['../item/edit', item.cod]">{{item.cod}}</a></td>
+                            <td style="width: 120px; height: 150px; padding: 0;"><img style="width: 85px; height: 100%; object-fit: contain;" src="{{item.url}}" alt="">
+                            </td>
+                            <td style="width: 200px;"><a style="text-decoration: underline; cursor: pointer;" [routerLink]="['../orcamento/edit', item.contractId]">{{item.nameClient}}</a></td>
+                            <td style="padding: 0;">{{ item.reference }}</td>
+                            <td style="width: 400px; padding: 0;">{{item.name}}</td>
+                            <td id="date">{{ item.dateStart | formatDatePipe }}</td>
+                            <td id="date">{{ item.dateFinal | formatDatePipe }}</td>
+                            <td style="font-weight: 600; color: red;">{{ item.status }}</td>
+                            <td style="padding: 0;">{{item.quantityAvailable}}</td>
+                        </tr> 
+                    }
+                </table>
+            }@else {
+                <div class="loading-spinner"></div>
             }
-        </table>
+    
     </section>
     <paginator-list [pageable]="getListItemPage$()"
     (nextPageOutPut)="handlePageEvent($event)"

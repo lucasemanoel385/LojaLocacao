@@ -26,6 +26,8 @@ export class VerifyItemComponent implements OnDestroy {
   public getListItems$ = this.#serviceCheckItem.getItemList;
   public getListItemPage$ = this.#serviceCheckItem.getItemListPage;
 
+  loading = signal(true);
+
   #fb = inject(FormBuilder);
 
   public verifyItem = this.#fb.group({
@@ -35,7 +37,8 @@ export class VerifyItemComponent implements OnDestroy {
   })
 
   searchItem() {
-    this.#serviceCheckItem.httpGetItemsIfAvailable$(0, this.verifyItem.value).subscribe(res => console.log(res));
+    this.loading.set(false);
+    this.#serviceCheckItem.httpGetItemsIfAvailable$(0, this.verifyItem.value).subscribe(res => this.loading.set(true));
   }
 
   submitCheckItem() {

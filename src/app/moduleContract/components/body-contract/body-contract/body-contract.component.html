@@ -22,11 +22,16 @@
                         <label for="{{is}}item">
                             Insira nome do item</label>
                         <ul id="{{is}}list" class="ul-menu">
-                            @for (ite of listFilter(); track ite.cod; let i = $index) {
+                            @if (loading()) {
+                                @for (ite of listFilter(); track ite.cod; let i = $index) {
                                 
-                                <li tabindex="0" (click)="setValueInput(is, ite);" (focus)="setValueInput(is, ite)"><span class="li-items"><img src="{{ite.imagem}}" width="75px">{{ite.reference}} - {{ite.name}}</span></li>
-                                
+                                    <li tabindex="0" (click)="setValueInput(is, ite);" (focus)="setValueInput(is, ite)"><span class="li-items"><img src="{{ite.url}}" width="75px">{{ite.reference}} - {{ite.name}}</span></li>
+                                    
+                                }
+                            } @else {
+                                <div class="loading-spinner"></div>
                             }
+                    
                         </ul>
                     </div>
                     </td>

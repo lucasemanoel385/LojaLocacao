@@ -37,6 +37,7 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe(res => {
       this.listFilter.set(this.listItem$());
+      this.loading.set(true);
     });
   }
   
@@ -57,6 +58,8 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
   public getCreateContractError = this.#apiServiceContract.getContractCreateError;
   public getContractMsgSucess = this.#apiServiceContract.getContractSucess;
   public getContractId = this.#apiServiceContract.getContractId;
+
+  loading = signal(false);
 
   idItem!: string;
   filterWrite!: string;
@@ -89,7 +92,7 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
       const reference: any = document.getElementById(indice.toString() + 'reference');
       reference.innerText = novoValor.reference;
       const img: any = document.getElementById(indice.toString() + 'img');
-      img.src = novoValor.imagem;
+      img.src = novoValor.url;
       //const suggestiveValue: any = document.getElementById(indice.toString() + 'suggestiveValue');
       //suggestiveValue.innerText = "Sugestão de valor: " + novoValor.valueReplacement;
     }, 0)
@@ -99,6 +102,7 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
   ulIdentifier!: string;
 
   filterItem(e: Event, is: number) {
+    this.loading.set(false);
     const valueInput = (e.target as HTMLInputElement).value.toUpperCase();
 
     this.inputDebounce$.next({ value: valueInput, is });
@@ -118,13 +122,14 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
   listFilter = signal<Item[] | null>(null);
 
   listOut(index?: number){
+    
     const t: any = document.getElementById((index as number).toString() + 'list');
     setTimeout(() => {
     
         t.style.display = 'none';
         let list!: Item[];
         this.listFilter.set(list);
-
+        this.loading.set(false);
     }, 160)
   }
 
@@ -134,7 +139,7 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
 
   //Set inputs of item
   setValueInput(indice: number, novoValor: Item) {
-    console.log(novoValor.cod);
+    
     const formGroup = this.getArrayForm.at(indice) as FormGroup;
     formGroup.get('cod')?.setValue(novoValor.cod);
     formGroup.get('name')?.setValue(novoValor.name);
@@ -144,7 +149,8 @@ export class BodyContractComponent implements OnChanges, OnInit, OnDestroy {
     const img: any = document.getElementById(indice.toString() + 'img');
     //const suggestiveValue: any = document.getElementById(indice.toString() + 'suggestiveValue');
     reference.innerText = novoValor.reference;
-    img.src = novoValor.imagem;
+    img.src = novoValor.url;
+    
     //suggestiveValue.innerText = "Sugestão de valor: " + novoValor.replacementValue;
   }
 
