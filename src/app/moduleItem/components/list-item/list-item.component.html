@@ -38,7 +38,7 @@
             <tr #tr>
                 <td style="width: 100px; padding: 0;"><a [routerLink]="['edit', item.cod]">{{item.cod}}</a></td>
                 <td style="width: 120px; height: 150px; padding: 0;"><img
-                        style="width: 85px; height: 100%; object-fit: contain;" src="{{item.imagem}}" alt="">
+                        style="width: 85px; height: 100%; object-fit: contain;" [src]="item.url" alt="">
                 </td>
                 <td>{{ item.reference }}</td>
                 <td style="width: 400px; padding: 0;">{{item.name}}</td>

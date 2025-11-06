@@ -5,8 +5,10 @@ export interface Item {
         cod: number,
         reference: string,
         name: string,
+        url: string,
         replacementValue: string,
-        amount: number,
-        imagem: string,
+        amount?: number,
+        quantity?: number,
         category: Category,
+        image?: string,
 }

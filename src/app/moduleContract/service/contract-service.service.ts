@@ -149,8 +149,8 @@ export class ContractServiceService {
           cod: i.cod,
           reference: i.reference,
           amount: i.amount,
-          imagem: ImgBuffer.prototype.base64ToArrayBuffer(i.imagem),
           name: i.name,
+          url: this.apiUrl() + i.cod.toString(),
           value: i.value,
           valueReplacement: i.valueReplacement,
           valueTotal: i.valueTotal
@@ -246,5 +246,13 @@ export class ContractServiceService {
       this.#setContractDeleteError.set(error.error.message);
       return throwError(() => error);
     } ))
+  }
+
+  private apiUrl(): String {
+    const url = "image/view/";
+    if(!navigator.onLine) {
+      return environment.apiSecond + url;
+    }
+    return environment.api + url;
   }
 }

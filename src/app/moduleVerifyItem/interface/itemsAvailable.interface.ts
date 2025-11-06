@@ -8,5 +8,5 @@ export interface ItemsAvailable{
     dateFinal: Date,
     contractId: number,
     nameClient: string,
-    image: string
+    url: string
 }

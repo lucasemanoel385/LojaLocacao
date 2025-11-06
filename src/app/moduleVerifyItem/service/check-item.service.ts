@@ -77,7 +77,8 @@ export class CheckItemService {
            dateFinal: a.dateFinal,
            contractId: a.contractId,
            nameClient: a.nameClient,
-           image: ImgBuffer.prototype.base64ToArrayBuffer(a.image)}
+           url: this.apiUrl() + a.cod.toString()
+          }
          items.push(item);
          }
        );
@@ -99,4 +100,12 @@ export class CheckItemService {
      })
      );
    }
+
+   private apiUrl(): String {
+    const url = "image/view/";
+    if(!navigator.onLine) {
+      return environment.apiSecond + url;
+    }
+    return environment.api + url;
+  }
 }

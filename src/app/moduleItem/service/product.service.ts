@@ -74,10 +74,10 @@ export class ProductService {
           cod: a.cod,
           reference: a.reference,
           name: a.name,
+          url: this.apiUrl() + a.cod.toString(),
           replacementValue: a.replacementValue,
-          amount: a.amount,
-          category: a.category,
-          imagem: ImgBuffer.prototype.base64ToArrayBuffer(a.imagem)}
+          amount: a.quantity,
+          category: a.category}
         items.push(item);
         }
       );
@@ -116,10 +116,10 @@ export class ProductService {
           cod: a.cod,
           reference: a.reference,
           name: a.name,
+          url: this.apiUrl() + a.cod.toString(),
           replacementValue: a.replacementValue,
-          amount: a.amount,
-          category: a.category,
-          imagem: ImgBuffer.prototype.base64ToArrayBuffer(a.imagem)}
+          amount: a.quantity,
+          category: a.category}
         items.push(item);
         }
       );
@@ -152,10 +152,11 @@ export class ProductService {
         cod: res.cod,
         reference: res.reference,
         name: res.name,
+        url: this.apiUrl() + res.cod.toString(),
         replacementValue: res.replacementValue,
-        amount: res.amount,
-        category: res.category,
-        imagem: ImgBuffer.prototype.base64ToArrayBuffer(res.imagem)}
+        amount: res.quantity,
+        category: res.category
+      }
         this.#setItemId.set(item);
             }),
     catchError( (error: HttpErrorResponse) => {
@@ -210,5 +211,13 @@ export class ProductService {
         return throwError(() => error);
       })
     )
+  }
+
+  private apiUrl(): String {
+    const url = "image/view/"
+    if(!navigator.onLine) {
+      return environment.apiSecond + url;
+    }
+    return environment.api + url;
   }
 }

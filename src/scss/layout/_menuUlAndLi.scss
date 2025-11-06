@@ -29,7 +29,8 @@ li{
 
 .ul-menu {
     display: none;
-    overflow-y: auto; 
+    overflow-y: auto;
+    height: 180px;
     max-height: 180px; 
     word-break: break-word; 
     z-index: 10;

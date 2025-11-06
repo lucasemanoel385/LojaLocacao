@@ -9,10 +9,6 @@ import { ProductService } from '../../service/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { PagiantorList } from '../../../componentsTemplate/paginator/paginator-list/paginator-list.component';
-import { ListItem } from '../../interface/ListItem';
-
-
-
 
 @Component({
   selector: 'app-list-item',

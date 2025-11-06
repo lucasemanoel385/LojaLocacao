@@ -134,10 +134,10 @@ export class ItemComponent implements OnChanges, OnInit, OnDestroy {
       reference: data.reference,
       name: data.name,
       replacementValue: data.replacementValue.toString().replace('.',','),
-      amount: data.amount.toString(),
+      amount: (data.amount as number).toString(),
       category: data.category.name,
     })
-    this.spanImg.nativeElement.innerHTML = `<img height="100%" width="100%" src='${data.imagem}' alt="Imagem do produto" style="object-fit:contain;">`;
+    this.spanImg.nativeElement.innerHTML = `<img height="100%" width="100%" src='${data.url}' alt="Imagem do produto" style="object-fit:contain;">`;
   }
 
   #fb = inject(FormBuilder);
